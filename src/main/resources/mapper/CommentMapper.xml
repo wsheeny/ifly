@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wcy.rhapsody.admin.mapper.CommentMapper">
+    <select id="selectCommentsByTopicId" resultType="com.wcy.rhapsody.admin.modules.vo.CommentVO">
+        SELECT c.*,
+               u.username,
+               u.alias,
+               u.avatar , 0 as layer
+        FROM comment c
+
+                 LEFT JOIN user u
+                           ON c.user_id = u.id
+        where c.topic_id = #{topicId}
+        order by c.create_time asc;
+    </select>
+</mapper>
