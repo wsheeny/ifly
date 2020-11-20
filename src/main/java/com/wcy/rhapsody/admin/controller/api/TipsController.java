@@ -2,7 +2,7 @@ package com.wcy.rhapsody.admin.controller.api;
 
 import com.wcy.rhapsody.admin.controller.BaseController;
 import com.wcy.rhapsody.admin.core.R;
-import com.wcy.rhapsody.admin.modules.entity.Tips;
+import com.wcy.rhapsody.admin.modules.entity.Tip;
 import com.wcy.rhapsody.admin.service.TipService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -33,7 +33,7 @@ public class TipsController extends BaseController {
     @ApiOperation(value = "获取每日赠言", notes = "Type默认为1，一般情况使用默认值", httpMethod = "GET")
     @GetMapping("/today/tip")
     public R getRandomTip(@ApiParam("type类型，默认使用1") @RequestParam(value = "type", defaultValue = "1") Integer type) {
-        Tips tips = tipService.getRandomTip(type);
-        return R.ok().data(tips);
+        Tip tip = tipService.getRandomTip(type);
+        return R.ok().data(tip);
     }
 }

@@ -102,6 +102,6 @@ class Topic implements Serializable {
     /**
      * 修改时间
      */
-    @TableField(value = "modify_time", fill = FieldFill.INSERT_UPDATE)
+    @TableField(value = "modify_time", fill = FieldFill.UPDATE)
     private Date modifyTime;
 }

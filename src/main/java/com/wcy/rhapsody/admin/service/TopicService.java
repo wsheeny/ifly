@@ -50,8 +50,9 @@ public interface TopicService extends IService<Topic> {
      * 获取随机推荐10篇
      *
      * @return
+     * @param id
      */
-    List<Topic> getRecommend();
+    List<Topic> getRecommend(String id);
 
     /**
      * 发布

@@ -1,16 +1,15 @@
 package com.wcy.rhapsody.admin.controller.api;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.vdurmont.emoji.EmojiParser;
 import com.wcy.rhapsody.admin.controller.BaseController;
 import com.wcy.rhapsody.admin.core.R;
 import com.wcy.rhapsody.admin.modules.dto.CreateTopicDTO;
-import com.wcy.rhapsody.admin.modules.entity.Tag;
-import com.wcy.rhapsody.admin.modules.entity.Topic;
-import com.wcy.rhapsody.admin.modules.entity.TopicTag;
-import com.wcy.rhapsody.admin.modules.entity.User;
+import com.wcy.rhapsody.admin.modules.entity.*;
 import com.wcy.rhapsody.admin.modules.vo.CommentVO;
+import com.wcy.rhapsody.admin.modules.vo.ProfileVO;
 import com.wcy.rhapsody.admin.service.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -18,6 +17,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,7 +28,7 @@ import java.util.*;
  *
  * @author Yeeep 2020/11/7
  */
-@Api(tags = "话题控制器")
+@Api(tags = "话题处理器")
 @RestController
 public class TopicController extends BaseController {
 
@@ -48,6 +48,10 @@ public class TopicController extends BaseController {
     private CommentService commentService;
 
 
+    @Autowired
+    private FollowService followService;
+
+
     /**
      * 发布
      * <p>
@@ -59,9 +63,10 @@ public class TopicController extends BaseController {
     @ApiOperation(value = "发布话题")
     @PostMapping("/api/topic/create")
     public R create(@RequestBody CreateTopicDTO dto) {
-        User principal = getPrincipal();
-        Assert.isTrue(principal.getActive(), "你的帐号还没有激活，请去个人设置页面激活帐号");
-        Topic topic = topicService.create(dto, principal);
+        User profile = (User) getSubject().getPrincipal();
+        Assert.notNull(profile, "未登录");
+        Assert.isTrue(profile.getActive(), "你的帐号还没有激活，请去个人设置页面激活帐号");
+        Topic topic = topicService.create(dto, profile);
         return R.ok().data(topic);
     }
 
@@ -79,10 +84,16 @@ public class TopicController extends BaseController {
         Assert.hasText(id, "参数补全，请补全后再查");
         Map<String, Object> map = new HashMap<>(16);
         Topic topic = topicService.getById(id);
-        // 查询话题详情
         Assert.notNull(topic, "当前话题不存在,或已被作者删除");
-        User user = userService.getById(topic.getUserId());
-        // 查询话题关联的标签
+
+        // 查询话题详情
+        topic.setView(topic.getView() + 1);
+        topicService.updateById(topic);
+        // emoji转码
+        topic.setContent(EmojiParser.parseToUnicode(topic.getContent()));
+        map.put("topic", topic);
+
+        // 标签
         QueryWrapper<TopicTag> wrapper = new QueryWrapper<>();
         wrapper.lambda().eq(TopicTag::getTopicId, topic.getId());
         Set<String> set = new HashSet<>();
@@ -90,23 +101,29 @@ public class TopicController extends BaseController {
             set.add(articleTag.getTagId());
         }
         List<Tag> tags = tagService.listByIds(set);
-        // TODO: 2020/10/29 根据访问IP过滤,话题浏览量+1
-
-        topic.setView(topic.getView() + 1);
-        topicService.updateById(topic);
-        // emoji转码
-        topic.setContent(EmojiParser.parseToUnicode(topic.getContent()));
-        // 当前用户的其他主题
-        List<Topic> userOtherArticles = topicService.selectAuthorOtherTopic(topic.getUserId(), topic.getId());
+        map.put("tags", tags);
 
         // 评论
         List<CommentVO> commentsByTopicId = commentService.getCommentsByTopicId(id);
-
-        map.put("topic", topic);
-        map.put("tags", tags);
-        map.put("otherTopics", userOtherArticles);
-        map.put("user", user);
         map.put("comments", commentsByTopicId);
+
+        // 作者
+        ProfileVO user = userService.getUserProfile(topic.getUserId());
+        map.put("user", user);
+
+        // 是否关注
+        map.put("isFollow", false);
+
+        User user1 = (User) getSubject().getPrincipal();
+        if (!StringUtils.isEmpty(user1)) {
+            Follow one = followService.getOne(new LambdaQueryWrapper<Follow>()
+                    .eq(Follow::getParentId, topic.getUserId())
+                    .eq(Follow::getFollowerId, user1.getId()));
+            if (!StringUtils.isEmpty(one)) {
+                map.put("isFollow", true);
+            }
+        }
+
         return R.ok().data(map);
     }
 
@@ -149,14 +166,14 @@ public class TopicController extends BaseController {
     }
 
     /**
-     * 获取随机推荐10篇
+     * 详情页推荐
      *
      * @return
      */
-    @ApiOperation(value = "获取随机10篇推荐话题")
+    @ApiOperation(value = "获取详情页推荐")
     @GetMapping("/topics/recommend")
-    public R getRecommend() {
-        List<Topic> topics = topicService.getRecommend();
+    public R getRecommend(@RequestParam("topicId") String id) {
+        List<Topic> topics = topicService.getRecommend(id);
         return R.ok().data(topics);
     }
 

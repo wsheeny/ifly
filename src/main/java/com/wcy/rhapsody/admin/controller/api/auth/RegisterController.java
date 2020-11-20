@@ -46,5 +46,4 @@ public class RegisterController extends BaseController {
         }
         return R.error().message("注册失败");
     }
-
 }

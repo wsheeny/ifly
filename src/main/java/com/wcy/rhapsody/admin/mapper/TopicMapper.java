@@ -29,12 +29,13 @@ public interface TopicMapper extends BaseMapper<Topic> {
     Page<TopicVO> selectListAndPage(@Param("page") Page<TopicVO> page, @Param("tab") String tab);
 
     /**
-     * 获取随机推荐10篇
+     * 获取详情页推荐
      *
+     * @param id
      * @return
      */
-    @Select("select * from topic t order by rand(),t.view limit 10")
-    List<Topic> selectRecommend();
+    @Select("select * from topic t where t.id != #{id} order by rand(),t.view limit 10")
+    List<Topic> selectRecommend(@Param("id") String id);
 
     /**
      * 查询指定类目

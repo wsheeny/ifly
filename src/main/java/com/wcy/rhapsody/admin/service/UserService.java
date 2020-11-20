@@ -3,6 +3,7 @@ package com.wcy.rhapsody.admin.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.wcy.rhapsody.admin.modules.dto.UserRegisterDTO;
 import com.wcy.rhapsody.admin.modules.entity.User;
+import com.wcy.rhapsody.admin.modules.vo.ProfileVO;
 
 /**
  * 用户
@@ -22,8 +23,16 @@ public interface UserService extends IService<User> {
     /**
      * 创建用户
      *
-     * @return
      * @param dto
+     * @return
      */
     int createUser(UserRegisterDTO dto);
+
+    /**
+     * 获取用户信息
+     *
+     * @param id 用户ID
+     * @return
+     */
+    ProfileVO getUserProfile(String id);
 }

@@ -31,6 +31,6 @@ public class FlywayConfig {
                 .encoding("UTF-8")
                 .load();
         flyway.migrate();
-        logger.info("Flyway数据版本更新成功");
+        logger.info("Flyway数据库版本同步迁移成功");
     }
 }

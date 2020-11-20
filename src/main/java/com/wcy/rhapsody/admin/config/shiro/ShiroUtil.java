@@ -1,7 +1,7 @@
 package com.wcy.rhapsody.admin.config.shiro;
 
-import com.wcy.rhapsody.admin.modules.entity.User;
 import org.apache.shiro.SecurityUtils;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 /**
@@ -9,6 +9,7 @@ import org.springframework.util.StringUtils;
  *
  * @author Yeeep
  */
+@Component
 public class ShiroUtil {
 
     /**
@@ -18,15 +19,6 @@ public class ShiroUtil {
      */
     public boolean isAuthenticated() {
         return SecurityUtils.getSubject().isAuthenticated();
-    }
-
-    /**
-     * 获取当前登录用户
-     *
-     * @return
-     */
-    public User getPrincipal() {
-        return (User) SecurityUtils.getSubject().getPrincipal();
     }
 
     /**

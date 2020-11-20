@@ -18,6 +18,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * 标签 控制器
  *
@@ -61,13 +64,23 @@ public class TagController extends BaseController {
             @PathVariable("name") String tagName,
             @ApiParam(name = "page", value = "页码,默认1", required = true) @RequestParam(value = "page", defaultValue = "1") Integer page,
             @ApiParam(name = "size", value = "每页数据量。默认10", required = true) @RequestParam(value = "size", defaultValue = "10") Integer size) {
+
+        Map<String, Object> map = new HashMap<>(16);
+
         LambdaQueryWrapper<Tag> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(Tag::getName, tagName);
         Tag one = tagService.getOne(wrapper);
         Assert.notNull(one, "话题不存在，或已被管理员删除");
-        Page<Topic> topicPage = tagService.selectTopicsByTagId(new Page<>(page, size), one.getId());
+        Page<Topic> topics = tagService.selectTopicsByTagId(new Page<>(page, size), one.getId());
+        // 其他热门标签
+        Page<Tag> hotTags = tagService.page(new Page<>(1, 10),
+                new LambdaQueryWrapper<Tag>()
+                        .notIn(Tag::getName, tagName)
+                        .orderByDesc(Tag::getTopicCount));
 
+        map.put("topics", topics);
+        map.put("hotTags", hotTags);
 
-        return R.ok().data(topicPage);
+        return R.ok().data(map);
     }
 }

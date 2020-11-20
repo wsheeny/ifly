@@ -21,6 +21,7 @@
 
         <mybatis-plus.version>3.4.0</mybatis-plus.version>
         <shiro-spring.version>1.4.0</shiro-spring.version>
+        <jwt.version>0.9.1</jwt.version>
         <JustAuth.version>1.15.7</JustAuth.version>
         <elasticsearch.version>6.5.3</elasticsearch.version>
         <javax.mail.version>1.5.0-b01</javax.mail.version>
@@ -54,7 +55,6 @@
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-core</artifactId>
         </dependency>
-
         <!--redis-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -72,6 +72,14 @@
             <artifactId>shiro-spring</artifactId>
             <version>${shiro-spring.version}</version>
         </dependency>
+
+        <!--JWT(Json Web Token)登录支持-->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>${jwt.version}</version>
+        </dependency>
+
 
         <!--swagger-->
         <dependency>

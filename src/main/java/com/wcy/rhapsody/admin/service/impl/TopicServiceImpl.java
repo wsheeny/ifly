@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.wcy.rhapsody.admin.config.redis.RedisService;
 import com.wcy.rhapsody.admin.mapper.TagMapper;
 import com.wcy.rhapsody.admin.mapper.TopicMapper;
 import com.wcy.rhapsody.admin.modules.dto.CreateTopicDTO;
@@ -19,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,6 +31,9 @@ import java.util.stream.Collectors;
  */
 @Service
 public class TopicServiceImpl extends ServiceImpl<TopicMapper, Topic> implements TopicService {
+
+    @Autowired
+    private RedisService redisService;
 
 
     @Resource
@@ -41,7 +46,6 @@ public class TopicServiceImpl extends ServiceImpl<TopicMapper, Topic> implements
 
     @Autowired
     private TopicTagService topicTagService;
-
 
     @Override
     public Page<TopicVO> getTopicListAndPage(Page<TopicVO> page, String tab) {
@@ -62,25 +66,35 @@ public class TopicServiceImpl extends ServiceImpl<TopicMapper, Topic> implements
 
     @Override
     public List<Topic> selectAuthorOtherTopic(String userId, String topicId) {
-        QueryWrapper<Topic> wrapper = new QueryWrapper<>();
-        wrapper.lambda().eq(Topic::getUserId, userId).orderByDesc(Topic::getCreateTime);
-        if (topicId != null) {
-            wrapper.lambda().ne(Topic::getId, topicId);
+        List<Topic> topics = (List<Topic>) redisService.get("otherTopics");
+
+        if (StringUtils.isEmpty(topics)) {
+            QueryWrapper<Topic> wrapper = new QueryWrapper<>();
+            wrapper.lambda().eq(Topic::getUserId, userId).orderByDesc(Topic::getCreateTime);
+            if (topicId != null) {
+                wrapper.lambda().ne(Topic::getId, topicId);
+            }
+            wrapper.last("limit " + 10);
+            topics = this.baseMapper.selectList(wrapper);
+            // 缓存
+            redisService.set("otherTopics", topics, 60 * 60);
         }
-        wrapper.last("limit " + 10);
-        return this.baseMapper.selectList(wrapper);
+        return topics;
     }
 
     @Override
     public Page<Topic> selectTopicsByUserId(String userId, Page<Topic> page) {
         QueryWrapper<Topic> wrapper = new QueryWrapper<>();
         wrapper.lambda().eq(Topic::getUserId, userId);
-        return this.baseMapper.selectPage(page, wrapper);
+        Page<Topic> topicPage = this.baseMapper.selectPage(page, wrapper);
+
+
+        return topicPage;
     }
 
     @Override
-    public List<Topic> getRecommend() {
-        return this.baseMapper.selectRecommend();
+    public List<Topic> getRecommend(String id) {
+        return this.baseMapper.selectRecommend(id);
     }
 
     @Override
@@ -92,6 +106,7 @@ public class TopicServiceImpl extends ServiceImpl<TopicMapper, Topic> implements
                 .title(dto.getTitle())
                 .content(dto.getContent())
                 .categoryId(dto.getCategoryId())
+                .createTime(new Date())
                 .build();
         this.baseMapper.insert(topic);
 
@@ -106,11 +121,13 @@ public class TopicServiceImpl extends ServiceImpl<TopicMapper, Topic> implements
         // TODO: 2020/11/14 ES索引话题
         // indexedService.indexTopic(String.valueOf(topic.getId()), topic.getTitle(), topic.getContent());
 
+        redisService.del("getTopicListAndPage");
+
         return topic;
     }
 
     @Override
-    public IPage<TopicVO> selectTopicsByCategory(Category category, Page<TopicVO> topicVOPage) {
-        return this.baseMapper.selectTopicsByCategory(category.getId(), topicVOPage);
+    public IPage<TopicVO> selectTopicsByCategory(Category category, Page<TopicVO> page) {
+        return this.baseMapper.selectTopicsByCategory(category.getId(), page);
     }
 }

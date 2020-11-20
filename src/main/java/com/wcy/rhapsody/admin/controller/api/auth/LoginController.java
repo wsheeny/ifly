@@ -1,5 +1,6 @@
 package com.wcy.rhapsody.admin.controller.api.auth;
 
+import cn.hutool.core.util.IdUtil;
 import com.wcy.rhapsody.admin.controller.BaseController;
 import com.wcy.rhapsody.admin.core.R;
 import com.wcy.rhapsody.admin.modules.dto.UserLoginDTO;
@@ -19,6 +20,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.UUID;
 
 /**
  * 登录控制器
@@ -52,12 +55,16 @@ public class LoginController extends BaseController {
         try {
             Subject subject = getSubject();
             Boolean rememberMe = loginDTO.getRememberMe();
-            UsernamePasswordToken token = new UsernamePasswordToken(username, password, rememberMe);
-            subject.login(token);
+            UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(username, password, rememberMe);
+            subject.login(usernamePasswordToken);
 
             User user = (User) getSubject().getPrincipal();
+            String token = IdUtil.fastSimpleUUID();
+            user.setToken(token);
+            userService.updateById(user);
 
-            return R.ok().data(user.getToken());
+
+            return R.ok().data(token);
         } catch (UnknownAccountException | IncorrectCredentialsException e) {
             log.error("账号密码不匹配，请重新登录");
         }

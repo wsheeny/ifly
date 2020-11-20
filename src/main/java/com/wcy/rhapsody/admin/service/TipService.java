@@ -1,19 +1,19 @@
 package com.wcy.rhapsody.admin.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.wcy.rhapsody.admin.modules.entity.Tips;
+import com.wcy.rhapsody.admin.modules.entity.Tip;
 
 /**
  * Tip
  *
  * @author Yeeep 2020/11/7
  */
-public interface TipService extends IService<Tips> {
+public interface TipService extends IService<Tip> {
     /**
      * 获取每日赠言
      *
      * @param type 类型
-     * @return {@link Tips}
+     * @return {@link Tip}
      */
-    Tips getRandomTip(Integer type);
+    Tip getRandomTip(Integer type);
 }

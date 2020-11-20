@@ -42,7 +42,7 @@ public class CommentController extends BaseController {
     public R create(@RequestBody CommentDTO dto) {
         Assert.notNull(dto, "参数不正确");
         // 登录者
-        User user = getPrincipal();
+        User user = (User) getSubject().getPrincipal();
         Assert.isTrue(user.getActive(), "你的帐号还没有激活，请去个人设置页面激活帐号");
 
         Comment comment = commentService.insert(dto, user);

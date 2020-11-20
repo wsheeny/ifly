@@ -1,1 +1,0 @@
-(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d20faac"],{b536:function(e,n,t){"use strict";t.r(n);var a=function(){var e=this,n=e.$createElement,t=e._self._c||n;return t("div",[e._v(" 酷站 "+e._s(e.$route.fullPath)+" ")])},s=[],u={name:"sites"},c=u,l=t("2877"),r=Object(l["a"])(c,a,s,!1,null,"1686ab4d",null);n["default"]=r.exports}}]);

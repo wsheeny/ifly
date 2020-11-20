@@ -1,6 +1,5 @@
 package com.wcy.rhapsody.admin.controller;
 
-import com.wcy.rhapsody.admin.config.shiro.ShiroUtil;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 
@@ -9,7 +8,7 @@ import org.apache.shiro.subject.Subject;
  *
  * @author Yeeep 2020/11/7
  */
-public class BaseController extends ShiroUtil {
+public class BaseController {
 
     /**
      * 获取shiro subject对象
@@ -19,4 +18,6 @@ public class BaseController extends ShiroUtil {
     public Subject getSubject() {
         return SecurityUtils.getSubject();
     }
+
+
 }

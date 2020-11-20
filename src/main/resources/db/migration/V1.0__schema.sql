@@ -258,10 +258,10 @@ CREATE TABLE `tag`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '标签表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Table structure for tips
+-- Table structure for tip
 -- ----------------------------
-DROP TABLE IF EXISTS `tips`;
-CREATE TABLE `tips`  (
+DROP TABLE IF EXISTS `tip`;
+CREATE TABLE `tip`  (
                          `id` int UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键',
                          `content` varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '内容',
                          `author` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '作者',
