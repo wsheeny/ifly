@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 /**
  * Vue History模式配置
  *
- * @author Yeeep 2020/11/7
+ * @author Yeeep
  */
 @Component
 public class VueErrorConfig implements ErrorPageRegistrar {

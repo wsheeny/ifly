@@ -30,7 +30,7 @@ public class R implements Serializable {
     private Object data;
 
     /**
-     * 成功静态方法
+     * 成功类方法
      */
     public static R ok() {
         R r = new R();
@@ -41,7 +41,7 @@ public class R implements Serializable {
     }
 
     /**
-     * 失败静态方法
+     * 失败类方法
      */
     public static R error() {
         R r = new R();

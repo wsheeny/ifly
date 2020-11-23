@@ -1,27 +1,27 @@
 package com.wcy.rhapsody.admin.controller.api.auth;
 
-import cn.hutool.core.util.IdUtil;
+import cn.hutool.crypto.digest.BCrypt;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.wcy.rhapsody.admin.config.jwt.JwtTokenUtil;
 import com.wcy.rhapsody.admin.controller.BaseController;
 import com.wcy.rhapsody.admin.core.R;
-import com.wcy.rhapsody.admin.modules.dto.UserLoginDTO;
-import com.wcy.rhapsody.admin.modules.entity.User;
-import com.wcy.rhapsody.admin.service.UserService;
+import com.wcy.rhapsody.admin.modules.dto.LoginDTO;
+import com.wcy.rhapsody.admin.modules.entity.web.User;
+import com.wcy.rhapsody.admin.service.api.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.shiro.authc.IncorrectCredentialsException;
-import org.apache.shiro.authc.UnknownAccountException;
-import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.UUID;
+import javax.validation.Valid;
+import java.util.Objects;
 
 /**
  * 登录控制器
@@ -31,44 +31,43 @@ import java.util.UUID;
 @Slf4j
 @Api(tags = "登录控制器")
 @RestController
-@RequestMapping("/auth")
 public class LoginController extends BaseController {
 
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
+
     /**
      * 前台登录
      *
-     * @param loginDTO 登录请求对象
+     * @param dto 登录请求对象
      * @return
      */
     @ApiOperation(value = "前台登录", notes = "前台用户登录接口", httpMethod = "POST")
     @ApiImplicitParam(value = "登录信息")
     @PostMapping("/login")
-    public R login(@RequestBody UserLoginDTO loginDTO) {
-        Assert.notNull(loginDTO, "参数补全，请补全后再次登录");
-        String username = loginDTO.getUsername();
-        Assert.hasText(username, "请输入您的登录账号");
-        String password = loginDTO.getPassword();
-        Assert.hasText(password, "请输入您的登录密码");
-        try {
-            Subject subject = getSubject();
-            Boolean rememberMe = loginDTO.getRememberMe();
-            UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(username, password, rememberMe);
-            subject.login(usernamePasswordToken);
-
-            User user = (User) getSubject().getPrincipal();
-            String token = IdUtil.fastSimpleUUID();
-            user.setToken(token);
-            userService.updateById(user);
-
-
-            return R.ok().data(token);
-        } catch (UnknownAccountException | IncorrectCredentialsException e) {
-            log.error("账号密码不匹配，请重新登录");
+    public R login(@Valid @RequestBody LoginDTO dto, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return R.error().message(Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
         }
-        return R.error().code(401).message("账号密码不匹配，请校验后再次登录");
+        String username = dto.getUsername();
+        String password = dto.getPassword();
+        // 验证数据库用户
+        User dbUser = userService.getOne(
+                new LambdaQueryWrapper<User>()
+                        .eq(User::getUsername, username));
+        Assert.notNull(dbUser, "用户名密码错误");
+        // 验证密码
+        boolean checkpw = BCrypt.checkpw(password, dbUser.getPassword());
+        if (checkpw) {
+            String token = jwtTokenUtil.generateToken(dbUser);
+            dbUser.setToken(token);
+            userService.updateById(dbUser);
+            return R.ok().data(token);
+        }
+        return R.error().message("用户名密码错误");
     }
 
 }

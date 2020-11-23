@@ -19,7 +19,7 @@ public class MyException extends RuntimeException {
     private String message;
 
     public MyException(String message) {
-        this.code = 500;
+        this.code = 10000;
         this.message = message;
     }
 

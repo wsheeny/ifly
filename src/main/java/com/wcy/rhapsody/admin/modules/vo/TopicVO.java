@@ -1,6 +1,6 @@
 package com.wcy.rhapsody.admin.modules.vo;
 
-import com.wcy.rhapsody.admin.modules.entity.Tag;
+import com.wcy.rhapsody.admin.modules.entity.web.Tag;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

@@ -3,9 +3,10 @@ package com.wcy.rhapsody.admin.controller.api;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.wcy.rhapsody.admin.controller.BaseController;
 import com.wcy.rhapsody.admin.core.R;
-import com.wcy.rhapsody.admin.modules.entity.User;
+import com.wcy.rhapsody.admin.modules.entity.web.User;
 import com.wcy.rhapsody.admin.modules.vo.ProfileVO;
-import com.wcy.rhapsody.admin.service.UserService;
+import com.wcy.rhapsody.admin.service.api.TopicService;
+import com.wcy.rhapsody.admin.service.api.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -13,7 +14,6 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
-import sun.plugin.util.UserProfile;
 
 /**
  * 账户控制器
@@ -27,6 +27,9 @@ public class UserController extends BaseController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private TopicService topicService;
 
     /**
      * 用户主页：根据用户名查询
@@ -78,6 +81,5 @@ public class UserController extends BaseController {
 
         return R.ok().data(profile);
     }
-
 
 }

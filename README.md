@@ -6,10 +6,6 @@
 ![Github](https://img.shields.io/github/release/jgthms/bulma?style=flat-square&logo=Bulma)
 ![license](https://img.shields.io/github/license/1020317774/rhapsody-admin?style=flat-square)
 
-> NOTE:
->
-> 1. 目前 80%
-> 2. 微服务版本已在规划中
 
 ## 技术栈
 
@@ -38,7 +34,7 @@ git clone https://github.com/1020317774/rhapsody-admin.git
 
 - 启动`BootApplication`
 
-- 访问[`http://127.0.0.1:9999/`](http://127.0.0.1:9999/)
+- 访问[`http://127.0.0.1:9999`](http://127.0.0.1:9999)
 
 ## 版本预览
 

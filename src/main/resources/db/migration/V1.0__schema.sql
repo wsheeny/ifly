@@ -11,7 +11,7 @@
  Target Server Version : 80022
  File Encoding         : 65001
 
- Date: 06/11/2020 23:29:32
+ Date: 23/11/2020 23:21:08
 */
 
 SET NAMES utf8mb4;
@@ -48,37 +48,32 @@ CREATE TABLE `ad`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '广告表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Table structure for article
+-- Table structure for admin_user
 -- ----------------------------
-DROP TABLE IF EXISTS `article`;
-CREATE TABLE `article`  (
-                            `id` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键',
-                            `title` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '标题',
-                            `content` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT 'markdown内容',
-                            `user_id` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '作者ID',
-                            `comments` int NOT NULL DEFAULT 0 COMMENT '评论统计',
-                            `collects` int NOT NULL DEFAULT 0 COMMENT '收藏统计',
-                            `view` int NOT NULL DEFAULT 0 COMMENT '浏览统计',
-                            `top` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否置顶',
-                            `good` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否加精',
-                            `up_ids` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '点赞用户集合',
-                            `create_time` datetime(0) NOT NULL COMMENT '发布时间',
-                            `modify_time` datetime(0) NULL DEFAULT NULL COMMENT '修改时间',
-                            INDEX `user_id`(`user_id`) USING BTREE,
-                            INDEX `topic_in_time`(`create_time`) USING BTREE,
-                            INDEX `title`(`title`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '话题表' ROW_FORMAT = DYNAMIC;
+DROP TABLE IF EXISTS `admin_user`;
+CREATE TABLE `admin_user`  (
+                               `id` int NOT NULL AUTO_INCREMENT COMMENT '主键',
+                               `username` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '用户名',
+                               `password` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '密码',
+                               `create_time` datetime(0) NOT NULL COMMENT '创建时间',
+                               `role_id` int NOT NULL COMMENT '角色',
+                               PRIMARY KEY (`id`) USING BTREE,
+                               UNIQUE INDEX `username`(`username`) USING BTREE,
+                               INDEX `role_id`(`role_id`) USING BTREE,
+                               CONSTRAINT `admin_user_ibfk_1` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '后台系统用户' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Table structure for article_tag
+-- Table structure for category
 -- ----------------------------
-DROP TABLE IF EXISTS `article_tag`;
-CREATE TABLE `article_tag`  (
-                                `tag_id` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-                                `topic_id` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-                                INDEX `tag_id`(`tag_id`) USING BTREE,
-                                INDEX `topic_id`(`topic_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '话题-标签 中间表' ROW_FORMAT = DYNAMIC;
+DROP TABLE IF EXISTS `category`;
+CREATE TABLE `category`  (
+                             `id` int NOT NULL AUTO_INCREMENT COMMENT '主键',
+                             `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '分类名',
+                             `icon` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '配图',
+                             `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '描述',
+                             PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '分类' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for collect
@@ -111,6 +106,65 @@ CREATE TABLE `comment`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '评论' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
+-- Table structure for daily
+-- ----------------------------
+DROP TABLE IF EXISTS `daily`;
+CREATE TABLE `daily`  (
+                          `id` int NOT NULL AUTO_INCREMENT COMMENT '主键',
+                          `img` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '配图',
+                          `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '标题',
+                          `location` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '位置',
+                          `create_time` datetime(0) NULL DEFAULT NULL COMMENT '发布时间',
+                          `like` int NULL DEFAULT 0 COMMENT '点赞数',
+                          PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '日常记录' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for event
+-- ----------------------------
+DROP TABLE IF EXISTS `event`;
+CREATE TABLE `event`  (
+                          `id` int NOT NULL AUTO_INCREMENT COMMENT '主键',
+                          `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '活动标题',
+                          `thumbnail` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '活动banner',
+                          `time` datetime(0) NULL DEFAULT NULL COMMENT '活动时间',
+                          `location` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '活动位置',
+                          `status` tinyint(1) NULL DEFAULT 0 COMMENT '活动是否结束，1：未结束，0：已结束',
+                          `link` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '活动跳转链接',
+                          PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '活动' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for flyway_schema_history
+-- ----------------------------
+DROP TABLE IF EXISTS `flyway_schema_history`;
+CREATE TABLE `flyway_schema_history`  (
+                                          `installed_rank` int NOT NULL,
+                                          `version` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+                                          `description` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+                                          `type` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+                                          `script` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+                                          `checksum` int NULL DEFAULT NULL,
+                                          `installed_by` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+                                          `installed_on` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
+                                          `execution_time` int NOT NULL,
+                                          `success` tinyint(1) NOT NULL,
+                                          PRIMARY KEY (`installed_rank`) USING BTREE,
+                                          INDEX `flyway_schema_history_s_idx`(`success`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for follow
+-- ----------------------------
+DROP TABLE IF EXISTS `follow`;
+CREATE TABLE `follow`  (
+                           `id` int NOT NULL AUTO_INCREMENT COMMENT '主键',
+                           `parent_id` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '被关注人ID',
+                           `follower_id` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '关注人ID',
+                           PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 51 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '关注列表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
 -- Table structure for friend_link
 -- ----------------------------
 DROP TABLE IF EXISTS `friend_link`;
@@ -129,10 +183,12 @@ CREATE TABLE `friend_link`  (
 DROP TABLE IF EXISTS `notice`;
 CREATE TABLE `notice`  (
                            `id` int NOT NULL AUTO_INCREMENT COMMENT '主键',
-                           `content` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '内容',
-                           `show` bit(1) NULL DEFAULT NULL COMMENT '是否展示，1-是，0-否',
-                           PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '通知，须知表' ROW_FORMAT = DYNAMIC;
+                           `content` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '公告',
+                           `create_time` datetime(0) NULL DEFAULT NULL COMMENT '公告时间',
+                           `show` tinyint(1) NULL DEFAULT NULL COMMENT '1：展示中，0：过期',
+                           PRIMARY KEY (`id`) USING BTREE,
+                           UNIQUE INDEX `show`(`show`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '全站公告' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for notification
@@ -172,41 +228,44 @@ CREATE TABLE `oauth_user`  (
                                `expires_in` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
                                PRIMARY KEY (`id`) USING BTREE,
                                INDEX `user_id`(`user_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '认证用户' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '认证用户' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for permission
 -- ----------------------------
 DROP TABLE IF EXISTS `permission`;
 CREATE TABLE `permission`  (
-                               `id` int NOT NULL AUTO_INCREMENT,
-                               `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '',
-                               `value` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '',
-                               `pid` int NOT NULL DEFAULT 0,
+                               `id` int NOT NULL AUTO_INCREMENT COMMENT '主键',
+                               `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '权限说明',
+                               `remark` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '权限名',
+                               `pid` int NOT NULL DEFAULT 0 COMMENT '权限父级ID',
                                PRIMARY KEY (`id`) USING BTREE,
-                               UNIQUE INDEX `name`(`name`) USING BTREE,
-                               UNIQUE INDEX `value`(`value`) USING BTREE,
+                               UNIQUE INDEX `name`(`remark`) USING BTREE,
+                               UNIQUE INDEX `value`(`name`) USING BTREE,
                                INDEX `permission_pid`(`pid`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 56 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '权限表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 55 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '权限表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for role
 -- ----------------------------
 DROP TABLE IF EXISTS `role`;
 CREATE TABLE `role`  (
-                         `id` int NOT NULL AUTO_INCREMENT,
-                         `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '',
+                         `id` int NOT NULL AUTO_INCREMENT COMMENT '主键',
+                         `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '角色名',
+                         `remark` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '说明',
                          PRIMARY KEY (`id`) USING BTREE,
                          UNIQUE INDEX `name`(`name`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 10001 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for role_permission
 -- ----------------------------
 DROP TABLE IF EXISTS `role_permission`;
 CREATE TABLE `role_permission`  (
-                                    `role_id` int NOT NULL,
-                                    `permission_id` int NOT NULL,
+                                    `id` int NOT NULL AUTO_INCREMENT COMMENT '主键',
+                                    `role_id` int NOT NULL COMMENT '角色ID',
+                                    `permission_id` int NOT NULL COMMENT '权限ID',
+                                    PRIMARY KEY (`id`) USING BTREE,
                                     INDEX `role_id`(`role_id`) USING BTREE,
                                     INDEX `permission_id`(`permission_id`) USING BTREE,
                                     CONSTRAINT `role_permission_ibfk_1` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
@@ -239,22 +298,18 @@ CREATE TABLE `system_config`  (
                                   `reboot` int NOT NULL DEFAULT 0,
                                   PRIMARY KEY (`id`) USING BTREE,
                                   INDEX `system_config_key`(`key`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 73 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统配置' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 72 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统配置' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for tag
 -- ----------------------------
 DROP TABLE IF EXISTS `tag`;
 CREATE TABLE `tag`  (
-                        `id` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-                        `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '',
-                        `remark` varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-                        `icon` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-                        `topic_count` int NOT NULL DEFAULT 0,
-                        `create_time` datetime(0) NOT NULL,
+                        `id` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '标签ID',
+                        `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '标签',
+                        `topic_count` int NOT NULL DEFAULT 0 COMMENT '关联话题',
                         PRIMARY KEY (`id`) USING BTREE,
-                        UNIQUE INDEX `name`(`name`) USING BTREE,
-                        INDEX `tag_in_time`(`create_time`) USING BTREE
+                        UNIQUE INDEX `name`(`name`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '标签表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -262,12 +317,48 @@ CREATE TABLE `tag`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `tip`;
 CREATE TABLE `tip`  (
-                         `id` int UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键',
-                         `content` varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '内容',
-                         `author` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '作者',
-                         `type` tinyint NOT NULL COMMENT '1：使用，0：过期',
-                         PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 24863 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '每日赠言' ROW_FORMAT = DYNAMIC;
+                        `id` int UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键',
+                        `content` varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '内容',
+                        `author` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '作者',
+                        `type` tinyint NOT NULL COMMENT '1：使用，0：过期',
+                        PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 24864 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '每日赠言' ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Table structure for topic
+-- ----------------------------
+DROP TABLE IF EXISTS `topic`;
+CREATE TABLE `topic`  (
+                          `id` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键',
+                          `title` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '标题',
+                          `content` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT 'markdown内容',
+                          `user_id` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '作者ID',
+                          `comments` int NOT NULL DEFAULT 0 COMMENT '评论统计',
+                          `collects` int NOT NULL DEFAULT 0 COMMENT '收藏统计',
+                          `view` int NOT NULL DEFAULT 0 COMMENT '浏览统计',
+                          `up_ids` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '点赞用户集合',
+                          `top` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否置顶，1-是，0-否',
+                          `essence` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否加精，1-是，0-否',
+                          `category_id` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '所属分类',
+                          `create_time` datetime(0) NOT NULL COMMENT '发布时间',
+                          `modify_time` datetime(0) NULL DEFAULT NULL COMMENT '修改时间',
+                          INDEX `user_id`(`user_id`) USING BTREE,
+                          INDEX `topic_in_time`(`create_time`) USING BTREE,
+                          INDEX `title`(`title`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '话题表' ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Table structure for topic_tag
+-- ----------------------------
+DROP TABLE IF EXISTS `topic_tag`;
+CREATE TABLE `topic_tag`  (
+                              `id` int NOT NULL AUTO_INCREMENT COMMENT '主键',
+                              `tag_id` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '标签ID',
+                              `topic_id` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '话题ID',
+                              PRIMARY KEY (`id`) USING BTREE,
+                              INDEX `tag_id`(`tag_id`) USING BTREE,
+                              INDEX `topic_id`(`topic_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '话题-标签 中间表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for user
@@ -275,9 +366,9 @@ CREATE TABLE `tip`  (
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user`  (
                          `id` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '用户ID',
-                         `username` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '用户名',
+                         `username` varchar(15) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '用户名',
                          `alias` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '用户昵称',
-                         `password` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '密码',
+                         `password` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '密码',
                          `avatar` varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '头像',
                          `email` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '邮箱',
                          `mobile` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '手机',
@@ -293,10 +384,10 @@ CREATE TABLE `user`  (
                          `modify_time` datetime(0) NULL DEFAULT NULL COMMENT '修改时间',
                          `role_id` int NULL DEFAULT NULL COMMENT '角色ID',
                          PRIMARY KEY (`id`) USING BTREE,
-                         UNIQUE INDEX `username`(`username`) USING BTREE,
-                         UNIQUE INDEX `token`(`token`) USING BTREE,
+                         UNIQUE INDEX `user_name`(`username`) USING BTREE,
+                         UNIQUE INDEX `user_token`(`token`) USING BTREE,
                          INDEX `user_email`(`email`) USING BTREE,
-                         INDEX `user_in_time`(`create_time`) USING BTREE
+                         INDEX `user_create_time`(`create_time`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户表' ROW_FORMAT = DYNAMIC;
 
 SET FOREIGN_KEY_CHECKS = 1;

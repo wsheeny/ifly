@@ -3,15 +3,20 @@ package com.wcy.rhapsody.admin.controller.api.auth;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.wcy.rhapsody.admin.controller.BaseController;
 import com.wcy.rhapsody.admin.core.R;
-import com.wcy.rhapsody.admin.modules.dto.UserRegisterDTO;
-import com.wcy.rhapsody.admin.modules.entity.User;
-import com.wcy.rhapsody.admin.service.UserService;
+import com.wcy.rhapsody.admin.modules.dto.RegisterDTO;
+import com.wcy.rhapsody.admin.modules.entity.web.User;
+import com.wcy.rhapsody.admin.service.api.UserService;
 import io.swagger.annotations.Api;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.annotation.Resource;
+import javax.validation.Valid;
+import java.util.Objects;
 
 /**
  * 用户注册
@@ -22,17 +27,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class RegisterController extends BaseController {
 
-    @Autowired
+    @Resource
     private UserService userService;
 
     /**
      * 用户注册
-     *
-     * @param dto
-     * @return
      */
-    @PostMapping("/auth/register")
-    public R register(@RequestBody UserRegisterDTO dto) {
+    @PostMapping("/register")
+    public R register(@RequestBody @Valid RegisterDTO dto, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return R.error().message(Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
+        }
+
         User one = userService.getOne(new LambdaQueryWrapper<User>().eq(User::getUsername, dto.getName()));
         Assert.isNull(one, "账号已存在，请更换");
 

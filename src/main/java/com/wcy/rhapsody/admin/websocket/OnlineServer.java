@@ -21,7 +21,6 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 @Slf4j
 @Component
-// @ServerEndpoint(value = "/websocket/online/{token}", encoders = ServerEncoder.class)
 @ServerEndpoint(value = "/websocket/online", encoders = ServerEncoder.class)
 public class OnlineServer {
 
@@ -63,7 +62,7 @@ public class OnlineServer {
             ONLINE_COUNT.incrementAndGet();
         }
 
-        log.info("{}上线，当前在线人数为：{}", token, ONLINE_COUNT.get());
+        // log.info("{}上线，当前在线人数为：{}", token, ONLINE_COUNT.get());
         sendAll(R.ok().message(MessageFormat.format("连接成功，当前在线人数:{0}", ONLINE_COUNT.get())).data(ONLINE_COUNT.get()));
     }
 
@@ -77,7 +76,7 @@ public class OnlineServer {
             WEB_SOCKET_MAP.remove(token);
             //在线数减1
             ONLINE_COUNT.decrementAndGet();
-            log.info("{}离线，当前在线人数为：{}", token, ONLINE_COUNT.get());
+            // log.info("{}离线，当前在线人数为：{}", token, ONLINE_COUNT.get());
         }
     }
 

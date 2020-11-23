@@ -4,6 +4,7 @@ import com.wcy.rhapsody.admin.config.shiro.realm.MyCredentialsMatcher;
 import com.wcy.rhapsody.admin.config.shiro.realm.MyShiroRealm;
 import org.apache.shiro.codec.Base64;
 import org.apache.shiro.mgt.SecurityManager;
+import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
@@ -31,10 +32,21 @@ import java.util.Map;
 public class ShiroConfig {
     private final Logger log = LoggerFactory.getLogger(ShiroConfig.class);
 
+    @Bean(name = "LifecycleBeanPostProcessor")
+    public LifecycleBeanPostProcessor getLifecycleBeanPostProcessor() {
+        return new LifecycleBeanPostProcessor();
+    }
+
     /**
      * 1.ShiroFilterFactoryBean
      * <p>
-     * Filter工厂，设置对应的过滤条件和跳转条件
+     * Shiro内置过滤器，可以实现拦截器相关的拦截器
+     * 常用的过滤器：
+     * anon：无需认证（登录）可以访问
+     * authc：必须认证才可以访问
+     * user：如果使用rememberMe的功能可以直接访问
+     * perms：该资源必须得到资源权限才可以访问
+     * role：该资源必须得到角色权限才可以访问
      */
     @Bean
     public ShiroFilterFactoryBean shiroFilter() {
@@ -68,6 +80,7 @@ public class ShiroConfig {
         map.put("/admin/tag/**", "user");
         map.put("/admin/topics/**", "user");
         map.put("/admin/user/**", "user");
+
 
         // 如果不设置默认会自动寻找Web工程根目录下的"/login.jsp"页面
         shiroFilterFactoryBean.setLoginUrl("/admin/login");

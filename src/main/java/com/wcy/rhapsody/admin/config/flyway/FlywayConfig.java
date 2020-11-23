@@ -26,7 +26,7 @@ public class FlywayConfig {
     public void migrate() {
         Flyway flyway = Flyway.configure()
                 .dataSource(dataSource)
-                .locations("classpath:db/migration", "filesystem:db/migration")
+                .locations("classpath:db/migration")
                 .baselineOnMigrate(true)
                 .encoding("UTF-8")
                 .load();

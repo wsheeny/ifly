@@ -7,10 +7,10 @@ import com.vdurmont.emoji.EmojiParser;
 import com.wcy.rhapsody.admin.controller.BaseController;
 import com.wcy.rhapsody.admin.core.R;
 import com.wcy.rhapsody.admin.modules.dto.CreateTopicDTO;
-import com.wcy.rhapsody.admin.modules.entity.*;
+import com.wcy.rhapsody.admin.modules.entity.web.*;
 import com.wcy.rhapsody.admin.modules.vo.CommentVO;
 import com.wcy.rhapsody.admin.modules.vo.ProfileVO;
-import com.wcy.rhapsody.admin.service.*;
+import com.wcy.rhapsody.admin.service.api.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -61,7 +61,7 @@ public class TopicController extends BaseController {
      * @return
      */
     @ApiOperation(value = "发布话题")
-    @PostMapping("/api/topic/create")
+    @PostMapping("/topic/create")
     public R create(@RequestBody CreateTopicDTO dto) {
         User profile = (User) getSubject().getPrincipal();
         Assert.notNull(profile, "未登录");
@@ -69,7 +69,6 @@ public class TopicController extends BaseController {
         Topic topic = topicService.create(dto, profile);
         return R.ok().data(topic);
     }
-
 
     /**
      * 浏览指定话题
@@ -79,7 +78,7 @@ public class TopicController extends BaseController {
      */
     @ApiOperation(value = "获取指定话题,议题", notes = "输入话题ID获取")
     @ApiImplicitParam(paramType = "path", required = true, value = "话题ID", name = "id")
-    @GetMapping("/api/topic/{id}")
+    @GetMapping("/topic/{id}")
     public R view(@PathVariable("id") String id, HttpServletRequest request) {
         Assert.hasText(id, "参数补全，请补全后再查");
         Map<String, Object> map = new HashMap<>(16);
@@ -144,27 +143,6 @@ public class TopicController extends BaseController {
         return R.ok().data(topic);
     }
 
-
-    /**
-     * 获取用户发布的主题
-     *
-     * @param userId
-     * @param page
-     * @param size
-     * @return
-     */
-    @ApiOperation(value = "获取用户发布的主题")
-    @ApiImplicitParam(name = "id", value = "用户ID", required = true, paramType = "path")
-    @GetMapping("/topics/user/{id}")
-    public R getTopicsByUserId(@PathVariable("id") String userId,
-                               @ApiParam(name = "page", value = "页码，默认1") @RequestParam("page") Integer page,
-                               @ApiParam(name = "size", value = "每页查询数量，默认10条一页") @RequestParam("size") Integer size) {
-
-        // 用户发布的主题
-        Page<Topic> topicPage = topicService.selectTopicsByUserId(userId, new Page<Topic>(page, size));
-        return R.ok().data(topicPage);
-    }
-
     /**
      * 详情页推荐
      *
@@ -177,4 +155,21 @@ public class TopicController extends BaseController {
         return R.ok().data(topics);
     }
 
+    /**
+     * 获取指定用户的话题
+     *
+     * @param userId
+     * @param pageNo
+     * @param size
+     * @return
+     */
+    @GetMapping("/topics")
+    @ApiOperation(value = "获取用户话题", notes = "")
+    public R userTopics(@ApiParam(value = "userId", name = "用户ID") @RequestParam("userId") String userId,
+                        @ApiParam(value = "pageNo", name = "页码") @RequestParam(value = "pageNo", defaultValue = "1") Integer pageNo,
+                        @RequestParam(value = "size", defaultValue = "10") Integer size) {
+        Page<Topic> page = topicService.page(new Page<>(pageNo, size),
+                new LambdaQueryWrapper<Topic>().eq(Topic::getUserId, userId));
+        return R.ok().data(page);
+    }
 }

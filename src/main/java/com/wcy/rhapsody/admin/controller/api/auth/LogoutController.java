@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Api(tags = "注销控制器")
 @RestController
-@RequestMapping("/auth")
 public class LogoutController extends BaseController {
 
     /**

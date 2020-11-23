@@ -17,27 +17,27 @@ public class GlobalExceptionHandler {
     private final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     /**
-     * 错误页面统一处理
+     * 错误页面统一处理,如断言
      *
      * @param e 异常
      * @return {@link R}
      */
+    @ExceptionHandler(Exception.class)
     @ResponseBody
-    @ExceptionHandler(value = Exception.class)
-    public R defaultErrorHandler(Exception e) {
+    public R error(Exception e) {
         logger.error("异常信息：" + ExceptionUtil.getMessage(e));
         return R.error().message(e.getMessage());
     }
 
     /**
-     * 自定义异常
+     * 处理自定义异常
      *
      * @param e 异常
      * @return {@link R}
      */
     @ResponseBody
     @ExceptionHandler(value = MyException.class)
-    public R error(MyException e) {
+    public R myError(MyException e) {
         logger.error("异常信息：" + ExceptionUtil.getMessage(e));
         return R.error().code(e.getCode()).message(e.getMessage());
     }

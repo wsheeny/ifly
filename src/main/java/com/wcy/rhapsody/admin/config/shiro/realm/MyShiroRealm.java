@@ -1,11 +1,11 @@
 package com.wcy.rhapsody.admin.config.shiro.realm;
 
-import com.wcy.rhapsody.admin.modules.entity.Permission;
-import com.wcy.rhapsody.admin.modules.entity.Role;
-import com.wcy.rhapsody.admin.modules.entity.User;
-import com.wcy.rhapsody.admin.service.PermissionService;
-import com.wcy.rhapsody.admin.service.RoleService;
-import com.wcy.rhapsody.admin.service.UserService;
+import com.wcy.rhapsody.admin.modules.entity.web.Permission;
+import com.wcy.rhapsody.admin.modules.entity.web.Role;
+import com.wcy.rhapsody.admin.modules.entity.web.User;
+import com.wcy.rhapsody.admin.service.api.PermissionService;
+import com.wcy.rhapsody.admin.service.api.RoleService;
+import com.wcy.rhapsody.admin.service.api.UserService;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
@@ -53,7 +53,7 @@ public class MyShiroRealm extends AuthorizingRealm {
         // 查询权限
         List<Permission> permissions = permissionService.selectPermissionsByRoleId(adminUser.getRoleId());
         // 将权限具体值取出来组装成一个权限String的集合
-        List<String> permissionValues = permissions.stream().map(Permission::getValue).collect(Collectors.toList());
+        List<String> permissionValues = permissions.stream().map(Permission::getName).collect(Collectors.toList());
         // 将权限的String集合添加进AuthorizationInfo里，后面请求鉴权有用
         simpleAuthorizationInfo.addStringPermissions(permissionValues);
         return simpleAuthorizationInfo;
