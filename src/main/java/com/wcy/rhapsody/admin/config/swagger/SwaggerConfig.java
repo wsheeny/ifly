@@ -3,6 +3,8 @@ package com.wcy.rhapsody.admin.config.swagger;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
+import springfox.documentation.builders.PathSelectors;
+import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
@@ -11,6 +13,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
  * Swagger2
+ * <p>
  * 访问地址：http://ip:port/swagger-ui.html
  *
  * @author Yeeep
@@ -21,25 +24,25 @@ public class SwaggerConfig {
     @Bean
     public Docket webApiConfig() {
         return new Docket(DocumentationType.SWAGGER_2)
-                .groupName("API接口")
-                .apiInfo(ApiInfo())
+                .apiInfo(apiInfo())
                 .select()
-                // /*admin不显示*/
+                //为当前包下controller生成API文档
+                .apis(RequestHandlerSelectors.basePackage("com.wcy.rhapsody.admin.controller"))
+                // 排除
                 // .paths(Predicates.not(PathSelectors.regex("/admin/.*")))
-                // /*error不显示*/
-                // .paths(Predicates.not(PathSelectors.regex("/error.*")))
+                .paths(PathSelectors.any())
                 .build();
     }
 
     /**
      * 该套 API 说明，包含作者、简介、版本、host、服务URL
      */
-    private ApiInfo ApiInfo() {
+    private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("API文档")
-                .description("本文档描述了后台系统接口定义")
+                .title("SwaggerUI演示")
+                .description("admin-api")
                 .version("V0.0.1")
-                .contact(new Contact("北辰", "http://www.rhapsody.com", "1020317774@qq.com"))
+                .contact(new Contact("王一宸", "http://www.rhapsody.com", "1020317774@qq.com"))
                 .build();
     }
 }

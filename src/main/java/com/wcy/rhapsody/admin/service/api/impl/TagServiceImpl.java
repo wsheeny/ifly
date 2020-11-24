@@ -9,9 +9,9 @@ import com.wcy.rhapsody.admin.modules.entity.web.Topic;
 import com.wcy.rhapsody.admin.service.api.TagService;
 import com.wcy.rhapsody.admin.service.api.TopicService;
 import com.wcy.rhapsody.admin.service.api.TopicTagService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -24,10 +24,10 @@ import java.util.Set;
 @Service
 public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagService {
 
-    @Autowired
+    @Resource
     private TopicTagService topicTagService;
 
-    @Autowired
+    @Resource
     private TopicService topicService;
 
     @Override

@@ -13,5 +13,4 @@ import org.mapstruct.Mapper;
 public interface CategoryMapper extends BaseMapper<Category> {
 
 
-
 }

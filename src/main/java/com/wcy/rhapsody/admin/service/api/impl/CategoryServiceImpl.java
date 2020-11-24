@@ -8,8 +8,9 @@ import com.wcy.rhapsody.admin.modules.entity.web.Category;
 import com.wcy.rhapsody.admin.modules.vo.TopicVO;
 import com.wcy.rhapsody.admin.service.api.CategoryService;
 import com.wcy.rhapsody.admin.service.api.TopicService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
 
 /**
  * 分类接口实现类
@@ -19,7 +20,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> implements CategoryService {
 
-    @Autowired
+    @Resource
     private TopicService topicService;
 
     @Override

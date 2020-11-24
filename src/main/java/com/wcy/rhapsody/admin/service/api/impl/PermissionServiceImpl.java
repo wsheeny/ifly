@@ -7,9 +7,9 @@ import com.wcy.rhapsody.admin.modules.entity.web.Permission;
 import com.wcy.rhapsody.admin.modules.entity.web.RolePermission;
 import com.wcy.rhapsody.admin.service.api.PermissionService;
 import com.wcy.rhapsody.admin.service.api.RolePermissionService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 @Service
 public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permission> implements PermissionService {
 
-    @Autowired
+    @Resource
     private RolePermissionService rolePermissionService;
 
     @Override

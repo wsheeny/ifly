@@ -1,19 +1,21 @@
-package com.wcy.rhapsody.admin.controller.api;
+package com.wcy.rhapsody.admin.controller.api.user;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.wcy.rhapsody.admin.config.jwt.JwtTokenUtil;
 import com.wcy.rhapsody.admin.controller.BaseController;
 import com.wcy.rhapsody.admin.core.R;
 import com.wcy.rhapsody.admin.modules.entity.web.User;
 import com.wcy.rhapsody.admin.modules.vo.ProfileVO;
-import com.wcy.rhapsody.admin.service.api.TopicService;
 import com.wcy.rhapsody.admin.service.api.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import javax.annotation.Resource;
 
 /**
  * 账户控制器
@@ -25,11 +27,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/user")
 public class UserController extends BaseController {
 
-    @Autowired
+    @Resource
     private UserService userService;
 
-    @Autowired
-    private TopicService topicService;
+    @Resource
+    private JwtTokenUtil jwtTokenUtil;
 
     /**
      * 用户主页：根据用户名查询
@@ -42,30 +44,10 @@ public class UserController extends BaseController {
     @GetMapping("/{username}")
     public R getUserByName(@PathVariable("username") String username) {
         Assert.hasText(username, "参数补全，请补全后再查");
-        LambdaQueryWrapper<User> lambdaQueryWrapper = new LambdaQueryWrapper<User>().eq(User::getUsername, username);
-        User user = userService.getOne(lambdaQueryWrapper);
+        User user = userService.selectByUsername(username);
         Assert.notNull(user, "用户不存在");
         return R.ok().data(user);
     }
-
-    /**
-     * 登录后跳转首页获取用户信息
-     *
-     * @param token
-     * @return
-     */
-    @ApiOperation(value = "登录后，获取用户信息", notes = "登录成功，请求用户信息，需要携带token", httpMethod = "POST")
-    @PostMapping("/info")
-    public R getUserInfoByToken(@ApiParam(name = "token", value = "用户登录Token", required = true)
-                                @RequestParam String token) {
-        Assert.notNull(token, "请检查参数是否正确");
-        LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(User::getToken, token);
-        User one = userService.getOne(wrapper);
-        Assert.notNull(one, "用户不存在");
-        return R.ok().data(one);
-    }
-
 
     /**
      * 获取用户信息

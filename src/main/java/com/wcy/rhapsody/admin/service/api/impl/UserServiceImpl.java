@@ -18,12 +18,11 @@ import com.wcy.rhapsody.admin.service.api.FollowService;
 import com.wcy.rhapsody.admin.service.api.TopicService;
 import com.wcy.rhapsody.admin.service.api.UserService;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
+import javax.annotation.Resource;
 
 /**
  * 用户 实现类
@@ -34,16 +33,16 @@ import java.util.Date;
 @Transactional(rollbackFor = Exception.class)
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 
-    @Autowired
+    @Resource
     private RedisService redisService;
 
-    @Autowired
+    @Resource
     private FollowService followService;
 
-    @Autowired
+    @Resource
     private TopicService topicService;
 
-    @Autowired
+    @Resource
     private CommentService commentService;
 
 
@@ -69,9 +68,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                 .setEmail(dto.getEmail())
                 .setAvatar(avatar)
                 .setActive(false)
-                .setBio("")
-                .setSignature(signature)
-                .setCreateTime(new Date());
+                .setBio("自由职业者")
+                .setSignature(signature);
         int insert = this.baseMapper.insert(user);
         String activeUrl = URLUtil.normalize("127.0.0.1:9999/user?active=123412");
         // 发送激活邮件

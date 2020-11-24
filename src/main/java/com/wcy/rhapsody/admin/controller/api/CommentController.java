@@ -13,10 +13,10 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -28,7 +28,7 @@ import java.util.List;
 @RestController
 public class CommentController extends BaseController {
 
-    @Autowired
+    @Resource
     private CommentService commentService;
 
 
@@ -38,7 +38,7 @@ public class CommentController extends BaseController {
      * @param dto
      * @return
      */
-    @PostMapping("/api/comment")
+    @PostMapping("/comment")
     public R create(@RequestBody CommentDTO dto) {
         Assert.notNull(dto, "参数不正确");
         // 登录者
@@ -58,7 +58,7 @@ public class CommentController extends BaseController {
      * @return
      */
     @ApiOperation(value = "获取主题的评论", notes = "根据主题ID获取")
-    @GetMapping("/api/comments")
+    @GetMapping("/comments")
     public R getCommentsByTopicId(
             @ApiParam(name = "topicId", value = "主题ID", required = true) @RequestParam("topicId") String topicId) {
         Assert.hasText(topicId, "参数不能为空");

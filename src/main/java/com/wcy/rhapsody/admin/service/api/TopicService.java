@@ -10,6 +10,7 @@ import com.wcy.rhapsody.admin.modules.entity.web.User;
 import com.wcy.rhapsody.admin.modules.vo.TopicVO;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 议题接口
@@ -25,8 +26,16 @@ public interface TopicService extends IService<Topic> {
      * @param tab
      * @return
      */
-    Page<TopicVO> getTopicListAndPage(Page<TopicVO> page, String tab);
+    Page<TopicVO> getList(Page<TopicVO> page, String tab);
 
+
+    /**
+     * 查看话题详情
+     *
+     * @param id
+     * @return
+     */
+    Map<String, Object> viewTopic(String id);
 
     /**
      * 查询当前作者其他话题 ，10篇
@@ -49,8 +58,8 @@ public interface TopicService extends IService<Topic> {
     /**
      * 获取随机推荐10篇
      *
-     * @return
      * @param id
+     * @return
      */
     List<Topic> getRecommend(String id);
 
@@ -71,4 +80,5 @@ public interface TopicService extends IService<Topic> {
      * @return
      */
     IPage<TopicVO> selectTopicsByCategory(Category category, Page<TopicVO> topicVOPage);
+
 }

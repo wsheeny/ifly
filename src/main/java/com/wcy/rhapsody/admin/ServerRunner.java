@@ -18,8 +18,5 @@ public class ServerRunner implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         // 打开浏览器
-
-
-        log.info("API文档：http://127.0.0.1:9999/swagger-ui.html#/⚡");
     }
 }

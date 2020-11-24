@@ -1,27 +1,25 @@
 package com.wcy.rhapsody.admin.controller.api;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.vdurmont.emoji.EmojiParser;
 import com.wcy.rhapsody.admin.controller.BaseController;
 import com.wcy.rhapsody.admin.core.R;
 import com.wcy.rhapsody.admin.modules.dto.CreateTopicDTO;
-import com.wcy.rhapsody.admin.modules.entity.web.*;
-import com.wcy.rhapsody.admin.modules.vo.CommentVO;
-import com.wcy.rhapsody.admin.modules.vo.ProfileVO;
-import com.wcy.rhapsody.admin.service.api.*;
+import com.wcy.rhapsody.admin.modules.entity.web.Topic;
+import com.wcy.rhapsody.admin.modules.entity.web.User;
+import com.wcy.rhapsody.admin.modules.vo.TopicVO;
+import com.wcy.rhapsody.admin.service.api.TopicService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 议题，话题控制器
@@ -30,38 +28,43 @@ import java.util.*;
  */
 @Api(tags = "话题处理器")
 @RestController
+@RequestMapping("/topic")
 public class TopicController extends BaseController {
 
-    @Autowired
+    @Resource
     private TopicService topicService;
 
-    @Autowired
-    private UserService userService;
+    /**
+     * 首页获取话题列表
+     */
+    @ApiOperation(value = "获取话题列表", notes = "分页查询，默认每页10条数据")
+    @GetMapping("/all")
+    public R getTopicList(
+            @ApiParam("页码，默认值1") @RequestParam(value = "pageNo", defaultValue = "1") Integer pageNo,
+            @ApiParam("每页展示数据量，默认10") @RequestParam(value = "size", defaultValue = "10") Integer size,
+            @ApiParam("类别，如latest(最新)，hot(热门)，essence(加精)，top(置顶)， 默认查询latest")
+            @RequestParam(value = "tab", defaultValue = "latest") String tab) {
+        Page<TopicVO> voPage = topicService.getList(new Page<>(pageNo, size), tab);
+        return R.ok().data(voPage).message("首页话题列表接口调用成功");
+    }
 
-    @Autowired
-    private TopicTagService topicTagService;
-
-    @Autowired
-    private TagService tagService;
-
-    @Autowired
-    private CommentService commentService;
-
-
-    @Autowired
-    private FollowService followService;
+    /**
+     * 浏览指定话题
+     */
+    @GetMapping("/{id}")
+    @ApiOperation(value = "获取指定话题,议题", notes = "输入话题ID获取")
+    @ApiImplicitParam(required = true, value = "话题ID", name = "id", paramType = "path")
+    public R view(@PathVariable("id") String id, HttpServletRequest request) {
+        Map<String, Object> map = topicService.viewTopic(id);
+        return R.ok().data(map);
+    }
 
 
     /**
      * 发布
-     * <p>
-     * 话题标题，内容，标签 ，分类
-     *
-     * @param dto
-     * @return
      */
     @ApiOperation(value = "发布话题")
-    @PostMapping("/topic/create")
+    @PostMapping("/post")
     public R create(@RequestBody CreateTopicDTO dto) {
         User profile = (User) getSubject().getPrincipal();
         Assert.notNull(profile, "未登录");
@@ -70,69 +73,11 @@ public class TopicController extends BaseController {
         return R.ok().data(topic);
     }
 
-    /**
-     * 浏览指定话题
-     *
-     * @param id 话题ID
-     * @return
-     */
-    @ApiOperation(value = "获取指定话题,议题", notes = "输入话题ID获取")
-    @ApiImplicitParam(paramType = "path", required = true, value = "话题ID", name = "id")
-    @GetMapping("/topic/{id}")
-    public R view(@PathVariable("id") String id, HttpServletRequest request) {
-        Assert.hasText(id, "参数补全，请补全后再查");
-        Map<String, Object> map = new HashMap<>(16);
-        Topic topic = topicService.getById(id);
-        Assert.notNull(topic, "当前话题不存在,或已被作者删除");
-
-        // 查询话题详情
-        topic.setView(topic.getView() + 1);
-        topicService.updateById(topic);
-        // emoji转码
-        topic.setContent(EmojiParser.parseToUnicode(topic.getContent()));
-        map.put("topic", topic);
-
-        // 标签
-        QueryWrapper<TopicTag> wrapper = new QueryWrapper<>();
-        wrapper.lambda().eq(TopicTag::getTopicId, topic.getId());
-        Set<String> set = new HashSet<>();
-        for (TopicTag articleTag : topicTagService.list(wrapper)) {
-            set.add(articleTag.getTagId());
-        }
-        List<Tag> tags = tagService.listByIds(set);
-        map.put("tags", tags);
-
-        // 评论
-        List<CommentVO> commentsByTopicId = commentService.getCommentsByTopicId(id);
-        map.put("comments", commentsByTopicId);
-
-        // 作者
-        ProfileVO user = userService.getUserProfile(topic.getUserId());
-        map.put("user", user);
-
-        // 是否关注
-        map.put("isFollow", false);
-
-        User user1 = (User) getSubject().getPrincipal();
-        if (!StringUtils.isEmpty(user1)) {
-            Follow one = followService.getOne(new LambdaQueryWrapper<Follow>()
-                    .eq(Follow::getParentId, topic.getUserId())
-                    .eq(Follow::getFollowerId, user1.getId()));
-            if (!StringUtils.isEmpty(one)) {
-                map.put("isFollow", true);
-            }
-        }
-
-        return R.ok().data(map);
-    }
 
     /**
      * 修改主题
-     *
-     * @param topic
-     * @return
      */
-    @PostMapping("/topic/update")
+    @PostMapping("/update")
     public R update(@RequestBody Topic topic) {
         Assert.notNull(topic, "请检查参数是否正确");
         Topic byId = topicService.getById(topic.getId());
@@ -145,31 +90,25 @@ public class TopicController extends BaseController {
 
     /**
      * 详情页推荐
-     *
-     * @return
      */
     @ApiOperation(value = "获取详情页推荐")
-    @GetMapping("/topics/recommend")
+    @GetMapping("/recommend")
     public R getRecommend(@RequestParam("topicId") String id) {
         List<Topic> topics = topicService.getRecommend(id);
         return R.ok().data(topics);
     }
 
-    /**
-     * 获取指定用户的话题
-     *
-     * @param userId
-     * @param pageNo
-     * @param size
-     * @return
-     */
-    @GetMapping("/topics")
-    @ApiOperation(value = "获取用户话题", notes = "")
-    public R userTopics(@ApiParam(value = "userId", name = "用户ID") @RequestParam("userId") String userId,
-                        @ApiParam(value = "pageNo", name = "页码") @RequestParam(value = "pageNo", defaultValue = "1") Integer pageNo,
-                        @RequestParam(value = "size", defaultValue = "10") Integer size) {
-        Page<Topic> page = topicService.page(new Page<>(pageNo, size),
-                new LambdaQueryWrapper<Topic>().eq(Topic::getUserId, userId));
-        return R.ok().data(page);
-    }
+    // /**
+    //  * 获取指定用户的话题
+    //  */
+    // @GetMapping("/topics")
+    // @ApiOperation(value = "获取用户话题", notes = "")
+    // public R userTopics(@ApiParam(value = "userId", name = "用户ID") @RequestParam("userId") String userId,
+    //                     @ApiParam(value = "pageNo", name = "页码") @RequestParam(value = "pageNo", defaultValue = "1") Integer pageNo,
+    //                     @RequestParam(value = "size", defaultValue = "10") Integer size) {
+    //     Page<Topic> page = topicService.page(new Page<>(pageNo, size),
+    //             new LambdaQueryWrapper<Topic>().eq(Topic::getUserId, userId));
+    //     return R.ok().data(page);
+    // }
+
 }

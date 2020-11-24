@@ -3,6 +3,7 @@ package com.wcy.rhapsody.admin.controller.api;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.wcy.rhapsody.admin.controller.BaseController;
 import com.wcy.rhapsody.admin.core.R;
+import com.wcy.rhapsody.admin.exception.MyException;
 import com.wcy.rhapsody.admin.modules.entity.web.Follow;
 import com.wcy.rhapsody.admin.modules.entity.web.User;
 import com.wcy.rhapsody.admin.service.api.FollowService;
@@ -10,12 +11,14 @@ import com.wcy.rhapsody.admin.service.api.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -27,10 +30,10 @@ import java.util.List;
 @Api(tags = "关注处理器")
 public class FollowController extends BaseController {
 
-    @Autowired
+    @Resource
     private FollowService followService;
 
-    @Autowired
+    @Resource
     private UserService userService;
 
 
@@ -41,9 +44,15 @@ public class FollowController extends BaseController {
      * @return
      */
     @GetMapping("/follow/{userId}")
-    public R handleFollow(@PathVariable("userId") String parentId) {
-        User user = (User) getSubject().getPrincipal();
-        Assert.notNull(user, "登录后操作");
+    public R handleFollow(@PathVariable("userId") String parentId, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+
+        Boolean isLogin = (Boolean) session.getAttribute("isLogin");
+
+        if (!isLogin) {
+            throw new MyException("未登录");
+        }
+        User user = (User) session.getAttribute("user");
         Assert.isTrue(!parentId.equals(user.getId()), "您脸皮太厚了，自己怎么可以关注自己呢(⊙o⊙)…");
         Follow one = followService.getOne(
                 new LambdaQueryWrapper<Follow>().eq(Follow::getParentId, parentId).eq(Follow::getFollowerId, user.getId()));
@@ -63,9 +72,12 @@ public class FollowController extends BaseController {
      * @return
      */
     @GetMapping("/unfollow/{userId}")
-    public R handleUnFollow(@PathVariable("userId") String parentId) {
+    public R handleUnFollow(@PathVariable("userId") String parentId, HttpServletRequest request) {
+        Object isLogin = request.getSession().getAttribute("isLogin");
+        System.out.println(isLogin);
         User user = (User) getSubject().getPrincipal();
         Assert.notNull(user, "登录后操作");
+
         Follow one = followService.getOne(
                 new LambdaQueryWrapper<Follow>().eq(Follow::getParentId, parentId).eq(Follow::getFollowerId, user.getId()));
         Assert.notNull(one, "当前未关注此用户");
@@ -79,7 +91,6 @@ public class FollowController extends BaseController {
     /**
      * 我的粉丝列表
      *
-     * @param id 被关注人ID
      * @return
      */
     @GetMapping("/{username}/follower")
@@ -98,7 +109,6 @@ public class FollowController extends BaseController {
     /**
      * 我的关注列表
      *
-     * @param id
      * @return
      */
     @GetMapping("/{username}/follow")

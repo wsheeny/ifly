@@ -5,9 +5,10 @@ import com.wcy.rhapsody.admin.config.redis.RedisService;
 import com.wcy.rhapsody.admin.mapper.api.TipMapper;
 import com.wcy.rhapsody.admin.modules.entity.web.Tip;
 import com.wcy.rhapsody.admin.service.api.TipService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+
+import javax.annotation.Resource;
 
 /**
  * Tip实现类
@@ -17,7 +18,7 @@ import org.springframework.util.StringUtils;
 @Service
 public class TipServiceImpl extends ServiceImpl<TipMapper, Tip> implements TipService {
 
-    @Autowired
+    @Resource
     private RedisService redisService;
 
     /**

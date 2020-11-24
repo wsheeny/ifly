@@ -6,10 +6,11 @@ import com.wcy.rhapsody.admin.core.R;
 import com.wcy.rhapsody.admin.modules.entity.web.Notice;
 import com.wcy.rhapsody.admin.service.api.NoticeService;
 import io.swagger.annotations.Api;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.annotation.Resource;
 
 /**
  * 公告
@@ -18,10 +19,10 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Api(tags = "全站公告处理器")
 @RestController
-@RequestMapping("/api/notice")
+@RequestMapping("/notice")
 public class NoticeController extends BaseController {
 
-    @Autowired
+    @Resource
     private NoticeService noticeService;
 
     @GetMapping("/show")

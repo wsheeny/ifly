@@ -6,7 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 /**
- * 自定义接口异常
+ * 自定义接口异常，重写code，message
  *
  * @author Yeeep
  */

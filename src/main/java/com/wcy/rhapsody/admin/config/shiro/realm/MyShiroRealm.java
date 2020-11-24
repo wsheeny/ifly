@@ -1,7 +1,5 @@
 package com.wcy.rhapsody.admin.config.shiro.realm;
 
-import com.wcy.rhapsody.admin.modules.entity.web.Permission;
-import com.wcy.rhapsody.admin.modules.entity.web.Role;
 import com.wcy.rhapsody.admin.modules.entity.web.User;
 import com.wcy.rhapsody.admin.service.api.PermissionService;
 import com.wcy.rhapsody.admin.service.api.RoleService;
@@ -13,10 +11,8 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import javax.annotation.Resource;
 
 /**
  * shiro权限，认证
@@ -26,13 +22,13 @@ import java.util.stream.Collectors;
 public class MyShiroRealm extends AuthorizingRealm {
     private final Logger log = LoggerFactory.getLogger(MyShiroRealm.class);
 
-    @Autowired
+    @Resource
     private UserService userService;
 
-    @Autowired
+    @Resource
     private RoleService roleService;
 
-    @Autowired
+    @Resource
     private PermissionService permissionService;
 
     /**
@@ -40,22 +36,24 @@ public class MyShiroRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-        User user = (User) principals.getPrimaryPrincipal();
-        log.info("系统正在为用户{}进行授权...", user.getUsername());
-        //访问@RequirePermission注解的url时触发
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
-        User adminUser = userService.selectByUsername(user.getUsername());
-        //获得用户的角色，及权限进行绑定
-        Role role = roleService.getById(adminUser.getRoleId());
-        // 其实这里也可以不要权限那个类了，直接用角色这个类来做鉴权，
-        // 不过角色包含很多的权限，已经算是大家约定的了，所以下面还是查询权限然后放在AuthorizationInfo里
-        simpleAuthorizationInfo.addRole(role.getName());
-        // 查询权限
-        List<Permission> permissions = permissionService.selectPermissionsByRoleId(adminUser.getRoleId());
-        // 将权限具体值取出来组装成一个权限String的集合
-        List<String> permissionValues = permissions.stream().map(Permission::getName).collect(Collectors.toList());
-        // 将权限的String集合添加进AuthorizationInfo里，后面请求鉴权有用
-        simpleAuthorizationInfo.addStringPermissions(permissionValues);
+
+        // User user = (User) principals.getPrimaryPrincipal();
+        // log.info("系统正在为用户{}进行授权...", user.getUsername());
+        // //访问@RequirePermission注解的url时触发
+
+        // User adminUser = userService.selectByUsername(user.getUsername());
+        // //获得用户的角色，及权限进行绑定
+        // Role role = roleService.getById(adminUser.getRoleId());
+        // // 其实这里也可以不要权限那个类了，直接用角色这个类来做鉴权，
+        // // 不过角色包含很多的权限，已经算是大家约定的了，所以下面还是查询权限然后放在AuthorizationInfo里
+        // simpleAuthorizationInfo.addRole(role.getName());
+        // // 查询权限
+        // List<Permission> permissions = permissionService.selectPermissionsByRoleId(adminUser.getRoleId());
+        // // 将权限具体值取出来组装成一个权限String的集合
+        // List<String> permissionValues = permissions.stream().map(Permission::getName).collect(Collectors.toList());
+        // // 将权限的String集合添加进AuthorizationInfo里，后面请求鉴权有用
+        // simpleAuthorizationInfo.addStringPermissions(permissionValues);
         return simpleAuthorizationInfo;
     }
 

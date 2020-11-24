@@ -4,10 +4,10 @@ import com.wcy.rhapsody.admin.core.R;
 import com.wcy.rhapsody.admin.modules.entity.web.Ad;
 import com.wcy.rhapsody.admin.service.api.AdService;
 import io.swagger.annotations.Api;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -19,7 +19,7 @@ import java.util.List;
 @RestController
 public class AdController {
 
-    @Autowired
+    @Resource
     private AdService adService;
 
     /**

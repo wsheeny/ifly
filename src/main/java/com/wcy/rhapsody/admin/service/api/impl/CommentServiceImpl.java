@@ -9,10 +9,10 @@ import com.wcy.rhapsody.admin.modules.entity.web.User;
 import com.wcy.rhapsody.admin.modules.vo.CommentVO;
 import com.wcy.rhapsody.admin.service.api.CommentService;
 import com.wcy.rhapsody.admin.service.api.TopicService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
 
@@ -25,7 +25,7 @@ import java.util.List;
 public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> implements CommentService {
 
 
-    @Autowired
+    @Resource
     private TopicService topicService;
 
     @Override

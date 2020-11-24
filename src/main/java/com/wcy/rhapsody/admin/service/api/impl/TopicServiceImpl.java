@@ -10,19 +10,18 @@ import com.wcy.rhapsody.admin.mapper.api.TagMapper;
 import com.wcy.rhapsody.admin.mapper.api.TopicMapper;
 import com.wcy.rhapsody.admin.modules.dto.CreateTopicDTO;
 import com.wcy.rhapsody.admin.modules.entity.web.*;
+import com.wcy.rhapsody.admin.modules.vo.CommentVO;
+import com.wcy.rhapsody.admin.modules.vo.ProfileVO;
 import com.wcy.rhapsody.admin.modules.vo.TopicVO;
-import com.wcy.rhapsody.admin.service.api.TagService;
-import com.wcy.rhapsody.admin.service.api.TopicService;
-import com.wcy.rhapsody.admin.service.api.TopicTagService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.wcy.rhapsody.admin.service.api.*;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -33,26 +32,29 @@ import java.util.stream.Collectors;
 @Service
 public class TopicServiceImpl extends ServiceImpl<TopicMapper, Topic> implements TopicService {
 
-    @Autowired
+    @Resource
     private RedisService redisService;
 
+    @Resource
+    private UserService userService;
+
+    @Resource
+    private CommentService commentService;
 
     @Resource
     private TagMapper tagMapper;
 
-
-    @Autowired
+    @Resource
     @Lazy
     private TagService tagService;
 
-    @Autowired
+    @Resource
     private TopicTagService topicTagService;
 
     @Override
-    public Page<TopicVO> getTopicListAndPage(Page<TopicVO> page, String tab) {
+    public Page<TopicVO> getList(Page<TopicVO> page, String tab) {
         // 查询话题
         Page<TopicVO> iPage = this.baseMapper.selectListAndPage(page, tab);
-
         // 查询话题的标签
         iPage.getRecords().forEach(topic -> {
             List<TopicTag> topicTags = topicTagService.selectByTopicId(topic.getId());
@@ -63,6 +65,48 @@ public class TopicServiceImpl extends ServiceImpl<TopicMapper, Topic> implements
             }
         });
         return iPage;
+    }
+
+    @Override
+    public Map<String, Object> viewTopic(String id) {
+        Map<String, Object> map = new HashMap<>(16);
+        Topic topic = this.baseMapper.selectById(id);
+        Assert.notNull(topic, "当前话题不存在,或已被作者删除");
+        // 查询话题详情
+        topic.setView(topic.getView() + 1);
+        this.baseMapper.updateById(topic);
+        // emoji转码
+        topic.setContent(EmojiParser.parseToUnicode(topic.getContent()));
+        map.put("topic", topic);
+        // 标签
+        QueryWrapper<TopicTag> wrapper = new QueryWrapper<>();
+        wrapper.lambda().eq(TopicTag::getTopicId, topic.getId());
+        Set<String> set = new HashSet<>();
+        for (TopicTag articleTag : topicTagService.list(wrapper)) {
+            set.add(articleTag.getTagId());
+        }
+        List<Tag> tags = tagService.listByIds(set);
+        map.put("tags", tags);
+        // 评论
+        List<CommentVO> commentsByTopicId = commentService.getCommentsByTopicId(id);
+        map.put("comments", commentsByTopicId);
+        // 作者
+        ProfileVO user = userService.getUserProfile(topic.getUserId());
+        map.put("user", user);
+        // 是否关注
+        map.put("isFollow", false);
+
+        // TODO: 2020/11/25 JWT 获取用户
+        // User user1 = (User) getSubject().getPrincipal();
+        // if (!StringUtils.isEmpty(user1)) {
+        //     Follow one = followService.getOne(new LambdaQueryWrapper<Follow>()
+        //             .eq(Follow::getParentId, topic.getUserId())
+        //             .eq(Follow::getFollowerId, user1.getId()));
+        //     if (!StringUtils.isEmpty(one)) {
+        //         map.put("isFollow", true);
+        //     }
+        // }
+        return map;
     }
 
     @Override

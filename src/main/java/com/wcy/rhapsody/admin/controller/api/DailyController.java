@@ -5,10 +5,10 @@ import com.wcy.rhapsody.admin.core.R;
 import com.wcy.rhapsody.admin.modules.entity.web.Daily;
 import com.wcy.rhapsody.admin.service.api.DailyService;
 import io.swagger.annotations.Api;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -20,7 +20,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/daily")
 public class DailyController extends BaseController {
-    @Autowired
+
+    @Resource
     private DailyService dailyService;
 
     @GetMapping("/all")

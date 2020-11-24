@@ -1,6 +1,5 @@
 package com.wcy.rhapsody.admin.modules.vo;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import lombok.Data;
 
 import java.util.Date;

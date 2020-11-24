@@ -3,10 +3,10 @@ package com.wcy.rhapsody.admin.config.flyway;
 import org.flywaydb.core.Flyway;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import javax.sql.DataSource;
 
 /**
@@ -19,7 +19,7 @@ public class FlywayConfig {
 
     private final Logger logger = LoggerFactory.getLogger(FlywayConfig.class);
 
-    @Autowired
+    @Resource
     private DataSource dataSource;
 
     @PostConstruct

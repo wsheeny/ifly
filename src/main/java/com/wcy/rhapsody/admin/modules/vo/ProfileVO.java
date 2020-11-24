@@ -1,9 +1,6 @@
 package com.wcy.rhapsody.admin.modules.vo;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
-
-import java.io.Serializable;
 
 /**
  * 用户数据
@@ -11,10 +8,7 @@ import java.io.Serializable;
  * @author Yeeep 2020/11/20
  */
 @Data
-@NoArgsConstructor
-public class ProfileVO implements Serializable {
-
-    private static final long serialVersionUID = -485222016506568799L;
+public class ProfileVO {
 
     /**
      * 用户ID

@@ -8,15 +8,12 @@ import com.wcy.rhapsody.admin.modules.entity.web.User;
 import com.wcy.rhapsody.admin.service.api.UserService;
 import io.swagger.annotations.Api;
 import org.springframework.util.Assert;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
-import java.util.Objects;
 
 /**
  * 用户注册
@@ -34,11 +31,7 @@ public class RegisterController extends BaseController {
      * 用户注册
      */
     @PostMapping("/register")
-    public R register(@RequestBody @Valid RegisterDTO dto, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return R.error().message(Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
-        }
-
+    public R register(@RequestBody @Valid RegisterDTO dto) {
         User one = userService.getOne(new LambdaQueryWrapper<User>().eq(User::getUsername, dto.getName()));
         Assert.isNull(one, "账号已存在，请更换");
 
@@ -48,7 +41,7 @@ public class RegisterController extends BaseController {
         int i = userService.createUser(dto);
 
         if (1 == i) {
-            return R.ok();
+            return R.ok().message("注册成功");
         }
         return R.error().message("注册失败");
     }

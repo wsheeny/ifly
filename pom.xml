@@ -98,6 +98,7 @@
             <version>${swagger.version}</version>
         </dependency>
 
+        <!--mail-->
         <dependency>
             <groupId>javax.mail</groupId>
             <artifactId>mail</artifactId>
