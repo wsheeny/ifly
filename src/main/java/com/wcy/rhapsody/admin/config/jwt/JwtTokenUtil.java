@@ -58,7 +58,9 @@ public class JwtTokenUtil {
         try {
             claims = Jwts.parser()
                     .setSigningKey(SECRET)
-                    .parseClaimsJws(token).getBody();
+                    .parseClaimsJws(token)
+                    .getBody();
+
         } catch (Exception e) {
             logger.info("Token验证失败");
         }

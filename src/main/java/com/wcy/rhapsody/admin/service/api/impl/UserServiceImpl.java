@@ -1,28 +1,24 @@
 package com.wcy.rhapsody.admin.service.api.impl;
 
-import cn.hutool.core.util.URLUtil;
 import cn.hutool.crypto.digest.BCrypt;
-import cn.hutool.extra.mail.MailUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wcy.rhapsody.admin.config.redis.RedisService;
 import com.wcy.rhapsody.admin.mapper.api.UserMapper;
 import com.wcy.rhapsody.admin.modules.dto.RegisterDTO;
-import com.wcy.rhapsody.admin.modules.entity.web.Comment;
 import com.wcy.rhapsody.admin.modules.entity.web.Follow;
 import com.wcy.rhapsody.admin.modules.entity.web.Topic;
 import com.wcy.rhapsody.admin.modules.entity.web.User;
 import com.wcy.rhapsody.admin.modules.vo.ProfileVO;
-import com.wcy.rhapsody.admin.service.api.CommentService;
 import com.wcy.rhapsody.admin.service.api.FollowService;
 import com.wcy.rhapsody.admin.service.api.TopicService;
 import com.wcy.rhapsody.admin.service.api.UserService;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.Date;
 
 /**
  * 用户 实现类
@@ -34,23 +30,31 @@ import javax.annotation.Resource;
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 
     @Resource
-    private RedisService redisService;
-
-    @Resource
     private FollowService followService;
 
     @Resource
     private TopicService topicService;
 
-    @Resource
-    private CommentService commentService;
+    @Override
+    public int createUser(RegisterDTO dto) {
+        User user = User.builder()
+                .username(dto.getName())
+                .alias(dto.getName())
+                .password(BCrypt.hashpw(dto.getPass(), BCrypt.gensalt()))
+                .email(dto.getEmail())
+                .createTime(new Date())
+                .build();
 
+        int insert = this.baseMapper.insert(user);
 
-    @Value("${user.avatar}")
-    private String avatar;
-
-    @Value("${user.signature}")
-    private String signature;
+        // TODO: 2020/11/25 暂时先不发送邮件激活了
+        // String activeUrl = URLUtil.normalize("127.0.0.1:9999/user?active=123412");
+        // // 发送激活邮件
+        // String content = "请在30分钟内激活您的账号，如非本人操作，请忽略 </br > " +
+        //         "<a href=\"" + activeUrl + "\" target =\"_blank\" '>点击激活账号</a>";
+        // MailUtil.send(dto.getEmail(), "R社区账号激活", content, true);
+        return insert;
+    }
 
     @Override
     public User selectByUsername(String username) {
@@ -60,38 +64,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
-    public int createUser(RegisterDTO dto) {
-        User user = new User();
-        user.setUsername(dto.getName())
-                .setAlias(dto.getName())
-                .setPassword(BCrypt.hashpw(dto.getPass(), BCrypt.gensalt()))
-                .setEmail(dto.getEmail())
-                .setAvatar(avatar)
-                .setActive(false)
-                .setBio("自由职业者")
-                .setSignature(signature);
-        int insert = this.baseMapper.insert(user);
-        String activeUrl = URLUtil.normalize("127.0.0.1:9999/user?active=123412");
-        // 发送激活邮件
-        String content = "请在30分钟内激活您的账号，如非本人操作，请忽略 </br > " +
-                "<a href=\"" + activeUrl + "\" target =\"_blank\" '>点击激活账号</a>";
-        MailUtil.send(dto.getEmail(), "R社区账号激活", content, true);
-        return insert;
-    }
-
-    @Override
     public ProfileVO getUserProfile(String id) {
-        // ProfileVO profile = (ProfileVO) redisService.get("user[" + id + "]");
         ProfileVO profile = new ProfileVO();
-        // if (StringUtils.isEmpty(profile)) {
         User user = this.baseMapper.selectById(id);
         BeanUtils.copyProperties(user, profile);
         // 用户文章数
         int count = topicService.count(new LambdaQueryWrapper<Topic>().eq(Topic::getUserId, id));
         profile.setTopicCount(count);
-        // 用户评论数
-        int count1 = commentService.count(new LambdaQueryWrapper<Comment>().eq(Comment::getUserId, id));
-        profile.setCommentCount(count1);
+
         // 粉丝数
         int followers = followService.count(new LambdaQueryWrapper<Follow>().eq(Follow::getParentId, id));
         profile.setFollowerCount(followers);
@@ -99,8 +79,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         int follows = followService.count(new LambdaQueryWrapper<Follow>().eq(Follow::getFollowerId, id));
         profile.setFollowCount(follows);
 
-        // redisService.set("user[" + id + "]", profile);
-        // }
         return profile;
     }
 }

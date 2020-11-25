@@ -19,7 +19,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <mybatis-plus.version>3.4.0</mybatis-plus.version>
+        <mybatis-plus.version>3.4.1</mybatis-plus.version>
         <shiro-spring.version>1.4.0</shiro-spring.version>
         <jwt.version>0.9.1</jwt.version>
         <JustAuth.version>1.15.7</JustAuth.version>

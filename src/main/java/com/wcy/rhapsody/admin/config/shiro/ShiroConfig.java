@@ -2,6 +2,7 @@ package com.wcy.rhapsody.admin.config.shiro;
 
 import com.wcy.rhapsody.admin.config.shiro.realm.MyCredentialsMatcher;
 import com.wcy.rhapsody.admin.config.shiro.realm.MyShiroRealm;
+import com.wcy.rhapsody.admin.interceptor.TokenInterceptor;
 import org.apache.shiro.codec.Base64;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
@@ -55,7 +56,9 @@ public class ShiroConfig {
         // 安全管理器配置
         shiroFilterFactoryBean.setSecurityManager(securityManager());
 
+        // 自定义filter
         Map<String, Filter> filterMap = shiroFilterFactoryBean.getFilters();
+        // filterMap.put("jwt", new TokenInterceptor());
         shiroFilterFactoryBean.setFilters(filterMap);
 
         // 拦截器

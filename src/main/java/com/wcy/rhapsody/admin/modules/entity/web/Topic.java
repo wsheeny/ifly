@@ -1,10 +1,8 @@
 package com.wcy.rhapsody.admin.modules.entity.web;
 
 import com.baomidou.mybatisplus.annotation.*;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
@@ -15,13 +13,11 @@ import java.util.Date;
  *
  * @author Yeeep
  */
+@Data
+@Builder
 @TableName("topic")
 @Accessors(chain = true)
-@AllArgsConstructor
-@NoArgsConstructor
-public @Data
-@Builder
-class Topic implements Serializable {
+public class Topic implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

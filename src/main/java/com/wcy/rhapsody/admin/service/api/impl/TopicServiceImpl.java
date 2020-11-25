@@ -1,5 +1,6 @@
 package com.wcy.rhapsody.admin.service.api.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -10,10 +11,12 @@ import com.wcy.rhapsody.admin.mapper.api.TagMapper;
 import com.wcy.rhapsody.admin.mapper.api.TopicMapper;
 import com.wcy.rhapsody.admin.modules.dto.CreateTopicDTO;
 import com.wcy.rhapsody.admin.modules.entity.web.*;
-import com.wcy.rhapsody.admin.modules.vo.CommentVO;
 import com.wcy.rhapsody.admin.modules.vo.ProfileVO;
 import com.wcy.rhapsody.admin.modules.vo.TopicVO;
-import com.wcy.rhapsody.admin.service.api.*;
+import com.wcy.rhapsody.admin.service.api.TagService;
+import com.wcy.rhapsody.admin.service.api.TopicService;
+import com.wcy.rhapsody.admin.service.api.TopicTagService;
+import com.wcy.rhapsody.admin.service.api.UserService;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,9 +40,6 @@ public class TopicServiceImpl extends ServiceImpl<TopicMapper, Topic> implements
 
     @Resource
     private UserService userService;
-
-    @Resource
-    private CommentService commentService;
 
     @Resource
     private TagMapper tagMapper;
@@ -87,25 +87,11 @@ public class TopicServiceImpl extends ServiceImpl<TopicMapper, Topic> implements
         }
         List<Tag> tags = tagService.listByIds(set);
         map.put("tags", tags);
-        // 评论
-        List<CommentVO> commentsByTopicId = commentService.getCommentsByTopicId(id);
-        map.put("comments", commentsByTopicId);
+
         // 作者
         ProfileVO user = userService.getUserProfile(topic.getUserId());
         map.put("user", user);
-        // 是否关注
-        map.put("isFollow", false);
 
-        // TODO: 2020/11/25 JWT 获取用户
-        // User user1 = (User) getSubject().getPrincipal();
-        // if (!StringUtils.isEmpty(user1)) {
-        //     Follow one = followService.getOne(new LambdaQueryWrapper<Follow>()
-        //             .eq(Follow::getParentId, topic.getUserId())
-        //             .eq(Follow::getFollowerId, user1.getId()));
-        //     if (!StringUtils.isEmpty(one)) {
-        //         map.put("isFollow", true);
-        //     }
-        // }
         return map;
     }
 
@@ -145,6 +131,10 @@ public class TopicServiceImpl extends ServiceImpl<TopicMapper, Topic> implements
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Topic create(CreateTopicDTO dto, User principal) {
+        Topic topic1 = this.baseMapper.selectOne(
+                new LambdaQueryWrapper<Topic>()
+                        .eq(Topic::getTitle, dto.getTitle()));
+        Assert.isNull(topic1, "话题重复，请修改");
 
         String dbContent = EmojiParser.parseToAliases(dto.getContent());
 

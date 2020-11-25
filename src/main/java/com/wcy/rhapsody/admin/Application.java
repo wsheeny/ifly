@@ -24,9 +24,8 @@ public class Application {
 
     public static void main(String[] args) {
         ConfigurableApplicationContext run = SpringApplication.run(Application.class, args);
-
         logger.info("启动成功：http://127.0.0.1:" + run.getEnvironment().getProperty("server.port") + "⚡");
-        logger.info("API文档：http://127.0.0.1:" + run.getEnvironment().getProperty("server.port") + "/swagger-ui.html#/⚡");
+        logger.info("接口文档：http://127.0.0.1:" + run.getEnvironment().getProperty("server.port") + "/swagger-ui.html#/⚡");
     }
 
 }

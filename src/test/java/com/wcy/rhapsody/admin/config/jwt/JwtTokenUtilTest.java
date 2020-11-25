@@ -25,6 +25,14 @@ class JwtTokenUtilTest {
         System.out.println(wongYiChen);
         System.out.println(wongYiChen.getBody());
 
+
+        String iwillbebetter = Jwts.parser()
+                .setSigningKey("IWILLBEBETTER")
+                .parseClaimsJws("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJXb25nWWlDaGVuIiwiaWF0IjoxNjA2MjQ3NDU1LCJzdWIiOiJhZG1pbiIsImV4cCI6MTYwNjI1NDY1NX0.Ta6VkewbyGKjT_5xO9h49E-dA7Q_pX-dra3heWzmglhTpsodM-8h9DxHUO1LD-_HJ6uaY60MtFOBNe67jHmPuA")
+                .getBody().getSubject();
+
+
+        System.out.println(iwillbebetter);
     }
 
 }

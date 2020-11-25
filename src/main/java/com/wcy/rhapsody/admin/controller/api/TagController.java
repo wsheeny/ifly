@@ -34,28 +34,7 @@ public class TagController extends BaseController {
     private TagService tagService;
 
     /**
-     * 获取标签列表
-     *
-     * @param page
-     * @param size
-     * @return
-     */
-    @ApiOperation(value = "获取标签列表", notes = "分页查询标签列表")
-    @GetMapping("/tags")
-    public R getTags(@ApiParam(name = "page", value = "页码，默认1", required = true) @RequestParam("page") Integer page,
-                     @ApiParam(name = "size", value = "每页数据量，默认10", required = true) @RequestParam("size") Integer size) {
-        Page<Tag> tagPage = tagService.page(new Page<>(page, size));
-        return R.ok().data(tagPage);
-    }
-
-
-    /**
      * 获取关联话题
-     *
-     * @param tagName
-     * @param page
-     * @param size
-     * @return
      */
     @ApiOperation(value = "获取标签关联文章", notes = "输入标签名称，获取关联话题")
     @ApiImplicitParam(name = "name", value = "标签名", required = true, paramType = "path")

@@ -1,6 +1,7 @@
 package com.wcy.rhapsody.admin.controller.api;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.wcy.rhapsody.admin.annotation.UserLoginToken;
 import com.wcy.rhapsody.admin.controller.BaseController;
 import com.wcy.rhapsody.admin.core.R;
 import com.wcy.rhapsody.admin.modules.dto.CreateTopicDTO;
@@ -59,17 +60,17 @@ public class TopicController extends BaseController {
         return R.ok().data(map);
     }
 
-
     /**
      * 发布
      */
+    @UserLoginToken
     @ApiOperation(value = "发布话题")
     @PostMapping("/post")
-    public R create(@RequestBody CreateTopicDTO dto) {
-        User profile = (User) getSubject().getPrincipal();
-        Assert.notNull(profile, "未登录");
-        Assert.isTrue(profile.getActive(), "你的帐号还没有激活，请去个人设置页面激活帐号");
-        Topic topic = topicService.create(dto, profile);
+    public R create(@RequestBody CreateTopicDTO dto, HttpServletRequest request) {
+        User loginUser = getLoginUser(request);
+        Assert.notNull(loginUser, "未登录");
+        Assert.isTrue(loginUser.getActive(), "你的帐号还没有激活，请去个人设置页面激活帐号");
+        Topic topic = topicService.create(dto, loginUser);
         return R.ok().data(topic);
     }
 
@@ -77,8 +78,12 @@ public class TopicController extends BaseController {
     /**
      * 修改主题
      */
+    @UserLoginToken
     @PostMapping("/update")
-    public R update(@RequestBody Topic topic) {
+    public R update(@RequestBody Topic topic, HttpServletRequest request) {
+        User loginUser = getLoginUser(request);
+        Assert.notNull(loginUser, "未登录");
+
         Assert.notNull(topic, "请检查参数是否正确");
         Topic byId = topicService.getById(topic.getId());
         Assert.notNull(byId, "来晚一步，主题已被删除");
@@ -98,17 +103,5 @@ public class TopicController extends BaseController {
         return R.ok().data(topics);
     }
 
-    // /**
-    //  * 获取指定用户的话题
-    //  */
-    // @GetMapping("/topics")
-    // @ApiOperation(value = "获取用户话题", notes = "")
-    // public R userTopics(@ApiParam(value = "userId", name = "用户ID") @RequestParam("userId") String userId,
-    //                     @ApiParam(value = "pageNo", name = "页码") @RequestParam(value = "pageNo", defaultValue = "1") Integer pageNo,
-    //                     @RequestParam(value = "size", defaultValue = "10") Integer size) {
-    //     Page<Topic> page = topicService.page(new Page<>(pageNo, size),
-    //             new LambdaQueryWrapper<Topic>().eq(Topic::getUserId, userId));
-    //     return R.ok().data(page);
-    // }
 
 }

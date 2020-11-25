@@ -2,7 +2,6 @@ package com.wcy.rhapsody.admin.controller.api;
 
 import com.wcy.rhapsody.admin.controller.BaseController;
 import com.wcy.rhapsody.admin.core.R;
-import com.wcy.rhapsody.admin.service.api.CommentService;
 import com.wcy.rhapsody.admin.service.api.TopicService;
 import com.wcy.rhapsody.admin.service.api.UserService;
 import io.swagger.annotations.Api;
@@ -28,9 +27,6 @@ public class IndexController extends BaseController {
     @Resource
     private TopicService topicService;
 
-    @Resource
-    private CommentService commentService;
-
     /**
      * 网站统计
      *
@@ -47,9 +43,7 @@ public class IndexController extends BaseController {
         /*主题*/
         int count1 = topicService.count();
         map.put("topic", count1);
-        /*回帖数*/
-        int count2 = commentService.count();
-        map.put("comment", count2);
+
         return R.ok().data(map);
     }
 }

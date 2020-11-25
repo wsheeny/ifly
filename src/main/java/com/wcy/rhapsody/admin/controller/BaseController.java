@@ -1,7 +1,11 @@
 package com.wcy.rhapsody.admin.controller;
 
+import com.wcy.rhapsody.admin.modules.entity.web.User;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 /**
  * 基类
@@ -19,5 +23,15 @@ public class BaseController {
         return SecurityUtils.getSubject();
     }
 
+    /**
+     * 获取session登录信息
+     *
+     * @param request
+     * @return
+     */
+    public User getLoginUser(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        return (User) session.getAttribute("loginUser");
+    }
 
 }

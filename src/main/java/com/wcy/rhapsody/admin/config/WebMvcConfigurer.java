@@ -1,11 +1,14 @@
 package com.wcy.rhapsody.admin.config;
 
+import com.wcy.rhapsody.admin.interceptor.TokenInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
+
+import javax.annotation.Resource;
 
 /**
  * WebMvc 配置器
@@ -15,18 +18,14 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
 @Configuration
 @DependsOn("flywayConfig")
 public class WebMvcConfigurer extends WebMvcConfigurationSupport {
+    @Resource
+    private TokenInterceptor tokenInterceptor;
 
     @Override
     protected void addInterceptors(InterceptorRegistry registry) {
         super.addInterceptors(registry);
-        // // 注入token拦截器
-        // registry.addInterceptor(new TokenInterceptor())
-        //         // 拦截后台系统所有请求
-        //         .addPathPatterns("/**")
-        //         // 排除登录，注册，注销
-        //         .excludePathPatterns("/login")
-        //         .excludePathPatterns("/register")
-        //         .excludePathPatterns("/logout");
+        // 注入token拦截器
+        registry.addInterceptor(tokenInterceptor).addPathPatterns("/**");
     }
 
     /**
