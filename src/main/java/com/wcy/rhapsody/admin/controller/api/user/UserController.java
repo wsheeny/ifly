@@ -2,8 +2,10 @@ package com.wcy.rhapsody.admin.controller.api.user;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.wcy.rhapsody.admin.config.redis.RedisService;
 import com.wcy.rhapsody.admin.controller.BaseController;
 import com.wcy.rhapsody.admin.core.R;
+import com.wcy.rhapsody.admin.modules.dto.ActiveDTO;
 import com.wcy.rhapsody.admin.modules.entity.web.Topic;
 import com.wcy.rhapsody.admin.modules.entity.web.User;
 import com.wcy.rhapsody.admin.service.api.TopicService;
@@ -16,6 +18,7 @@ import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,6 +37,9 @@ public class UserController extends BaseController {
 
     @Resource
     private TopicService topicService;
+
+    @Resource
+    private RedisService redisService;
 
     /**
      * 用户主页：根据用户名查询
@@ -55,5 +61,28 @@ public class UserController extends BaseController {
         map.put("user", user);
         map.put("topics", page);
         return R.ok().data(map);
+    }
+
+    /**
+     * 账号激活
+     * <p>
+     * user/active?name=${active.user}&code=${active.code}
+     */
+    @PostMapping("/active")
+    public R active(@RequestBody @Valid ActiveDTO activeDTO) {
+        User user = userService.selectByUsername(activeDTO.getUser());
+        Assert.notNull(user, "用户不存在");
+        Assert.isTrue(!user.getActive(), "账号已激活");
+
+        String activeCode = (String) redisService.get("activeCode[" + activeDTO.getUser() + "]");
+        Assert.isTrue(activeCode.equals(activeDTO.getCode()), "激活码错误");
+
+        user.setActive(true);
+        boolean b = userService.updateById(user);
+        if (b) {
+            redisService.del("activeCode[" + activeDTO.getUser() + "]");
+            return R.ok().message("恭喜你，账号激活成功!");
+        }
+        return R.error().message("恭喜你，账号激活成功!").code(10000);
     }
 }

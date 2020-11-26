@@ -1,10 +1,13 @@
 package com.wcy.rhapsody.admin.modules.entity.web;
 
 import com.baomidou.mybatisplus.annotation.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -16,7 +19,8 @@ import java.util.Date;
 @Data
 @Builder
 @TableName("topic")
-@Accessors(chain = true)
+@AllArgsConstructor
+@NoArgsConstructor
 public class Topic implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -29,11 +33,13 @@ public class Topic implements Serializable {
     /**
      * 标题
      */
+    @NotBlank(message = "标题不可以为空")
     @TableField(value = "title")
     private String title;
     /**
      * markdown
      */
+    @NotBlank(message = "内容不可以为空")
     @TableField("`content`")
     private String content;
 
@@ -42,6 +48,7 @@ public class Topic implements Serializable {
      */
     @TableField("user_id")
     private String userId;
+
     /**
      * 评论数
      */
@@ -62,12 +69,6 @@ public class Topic implements Serializable {
     @TableField("view")
     @Builder.Default
     private Integer view = 0;
-
-    /**
-     * 点赞用户的id英文,隔开的，要计算被多少人点赞过，可以通过英文,分隔这个字符串计算数量
-     */
-    @TableField("up_ids")
-    private String upIds;
 
     /**
      * 所属分类

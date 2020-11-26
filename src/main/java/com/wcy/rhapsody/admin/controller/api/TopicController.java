@@ -1,6 +1,7 @@
 package com.wcy.rhapsody.admin.controller.api;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.vdurmont.emoji.EmojiParser;
 import com.wcy.rhapsody.admin.annotation.UserLoginToken;
 import com.wcy.rhapsody.admin.controller.BaseController;
 import com.wcy.rhapsody.admin.core.R;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -80,17 +82,33 @@ public class TopicController extends BaseController {
      */
     @UserLoginToken
     @PostMapping("/update")
-    public R update(@RequestBody Topic topic, HttpServletRequest request) {
+    @ApiOperation(value = "话题更新", notes = "")
+    public R update(@Valid @RequestBody Topic topic, HttpServletRequest request) {
         User loginUser = getLoginUser(request);
-        Assert.notNull(loginUser, "未登录");
-
-        Assert.notNull(topic, "请检查参数是否正确");
-        Topic byId = topicService.getById(topic.getId());
-        Assert.notNull(byId, "来晚一步，主题已被删除");
-        Assert.isTrue(byId.getUserId().equals(topic.getUserId()), "非本人无权修改");
+        Assert.isTrue(loginUser.getId().equals(topic.getUserId()), "非本人无权修改");
         topic.setModifyTime(new Date());
+        topic.setContent(EmojiParser.parseToAliases(topic.getContent()));
         topicService.updateById(topic);
         return R.ok().data(topic);
+    }
+
+    /**
+     * 删除
+     *
+     * @param id
+     * @return
+     */
+    @UserLoginToken
+    @ApiImplicitParam(value = "id", name = "话题ID", required = true, paramType = "path")
+    @ApiOperation(value = "删除", notes = "")
+    @DeleteMapping("/delete/{id}")
+    public R delete(@PathVariable("id") String id, HttpServletRequest request) {
+        User loginUser = getLoginUser(request);
+        Topic byId = topicService.getById(id);
+        Assert.notNull(byId, "来晚一步，话题已不存在");
+        Assert.isTrue(byId.getUserId().equals(loginUser.getId()), "你为什么可以删除别人的话题？？？");
+        topicService.removeById(id);
+        return R.ok().message("删除成功").code(200);
     }
 
     /**

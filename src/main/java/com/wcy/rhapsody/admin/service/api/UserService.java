@@ -26,7 +26,7 @@ public interface UserService extends IService<User> {
      * @param dto
      * @return
      */
-    int createUser(RegisterDTO dto);
+    void createUser(RegisterDTO dto);
 
     /**
      * 获取用户信息

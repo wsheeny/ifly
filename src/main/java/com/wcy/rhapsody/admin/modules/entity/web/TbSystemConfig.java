@@ -4,7 +4,9 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
@@ -15,9 +17,11 @@ import java.io.Serializable;
  * @author Yeeep
  */
 @Data
-@TableName("system_config")
+@NoArgsConstructor
+@AllArgsConstructor
 @Accessors(chain = true)
-public class SystemConfig implements Serializable {
+@TableName("tb_system_config")
+public class TbSystemConfig implements Serializable {
 
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
@@ -43,7 +47,7 @@ public class SystemConfig implements Serializable {
     private String remark;
 
     /**
-     * 父级ID
+     * 父级ID，配置分组
      */
     @TableField("pid")
     private Integer pid;

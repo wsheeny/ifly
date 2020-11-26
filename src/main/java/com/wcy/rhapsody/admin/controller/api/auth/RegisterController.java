@@ -37,12 +37,8 @@ public class RegisterController extends BaseController {
 
         User one1 = userService.getOne(new LambdaQueryWrapper<User>().eq(User::getEmail, dto.getEmail()));
         Assert.isNull(one1, "邮箱已注册，请直接登录");
-
-        int i = userService.createUser(dto);
-
-        if (1 == i) {
-            return R.ok().message("注册成功");
-        }
-        return R.error().message("注册失败");
+        // 创建
+        userService.createUser(dto);
+        return R.ok().message("注册成功");
     }
 }

@@ -114,7 +114,8 @@ public class FollowController extends BaseController {
      */
     @GetMapping("/all")
     @ApiOperation(value = "获取我的分类列表", notes = "")
-    public R followerList(@ApiParam(value = "username", name = "用户名", required = true) @RequestParam("username") String username) {
+    public R followerList(@ApiParam(value = "username", name = "用户名", required = true)
+                          @RequestParam("username") String username) {
 
         User user = userService.getOne(new LambdaQueryWrapper<User>().eq(User::getUsername, username));
         Assert.notNull(user, "用户不存在");

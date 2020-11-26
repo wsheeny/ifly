@@ -13,7 +13,6 @@ class BootApplicationTests {
     void contextLoads() {
     }
 
-
     @Autowired
     private TopicMapper topicMapper;
 
@@ -24,5 +23,6 @@ class BootApplicationTests {
         topicMapper.updateById(topic);
 
     }
+
 
 }

@@ -1,6 +1,10 @@
 package com.wcy.rhapsody.admin.service.api.impl;
 
+import cn.hutool.core.thread.ThreadUtil;
+import cn.hutool.core.util.RandomUtil;
+import cn.hutool.core.util.URLUtil;
 import cn.hutool.crypto.digest.BCrypt;
+import cn.hutool.extra.mail.MailUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wcy.rhapsody.admin.config.redis.RedisService;
@@ -14,6 +18,7 @@ import com.wcy.rhapsody.admin.service.api.FollowService;
 import com.wcy.rhapsody.admin.service.api.TopicService;
 import com.wcy.rhapsody.admin.service.api.UserService;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,26 +40,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Resource
     private TopicService topicService;
 
-    @Override
-    public int createUser(RegisterDTO dto) {
-        User user = User.builder()
-                .username(dto.getName())
-                .alias(dto.getName())
-                .password(BCrypt.hashpw(dto.getPass(), BCrypt.gensalt()))
-                .email(dto.getEmail())
-                .createTime(new Date())
-                .build();
+    @Resource
+    private RedisService redisService;
 
-        int insert = this.baseMapper.insert(user);
-
-        // TODO: 2020/11/25 暂时先不发送邮件激活了
-        // String activeUrl = URLUtil.normalize("127.0.0.1:9999/user?active=123412");
-        // // 发送激活邮件
-        // String content = "请在30分钟内激活您的账号，如非本人操作，请忽略 </br > " +
-        //         "<a href=\"" + activeUrl + "\" target =\"_blank\" '>点击激活账号</a>";
-        // MailUtil.send(dto.getEmail(), "R社区账号激活", content, true);
-        return insert;
-    }
+    @Value("${config.domain}")
+    private String domain;
 
     @Override
     public User selectByUsername(String username) {
@@ -62,6 +52,31 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         wrapper.eq(User::getUsername, username);
         return this.baseMapper.selectOne(wrapper);
     }
+
+    @Override
+    public void createUser(RegisterDTO dto) {
+        User user = User.builder()
+                .username(dto.getName())
+                .alias(dto.getName())
+                .password(BCrypt.hashpw(dto.getPass(), BCrypt.gensalt()))
+                .email(dto.getEmail())
+                .createTime(new Date())
+                .build();
+        this.baseMapper.insert(user);
+        String activeCode = RandomUtil.randomString(8);
+        // 30分钟
+        redisService.set("activeCode[" + dto.getName() + "]", activeCode, 30 * 60);
+
+        // 异步发送邮件
+        ThreadUtil.execAsync(() -> {
+            // 发送激活邮件?user=hhh&code=true
+            String activeUrl = URLUtil.normalize(domain + "?user=" + dto.getName() + "&code=" + activeCode);
+            String content = "请在30分钟内激活您的账号，如非本人操作，请忽略 </br > " +
+                    "<a href=\"" + activeUrl + "\" target =\"_blank\" '>点击激活账号</a>";
+            MailUtil.send("1020317774@qq.com", "【滚雪球】账号激活", content, true);
+        });
+    }
+
 
     @Override
     public ProfileVO getUserProfile(String id) {
