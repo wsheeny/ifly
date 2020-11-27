@@ -2,10 +2,13 @@
 
 本套系统基于 `SpringBoot` 开发，与[https://github.com/1020317774/rhapsody](https://github.com/1020317774/rhapsody)搭配使用，效果更佳。
 
-![release](https://img.shields.io/github/release/1020317774/rhapsody-admin?style=flat-square&logo=Ren'py)
-![Github](https://img.shields.io/github/release/jgthms/bulma?style=flat-square&logo=Bulma)
-![license](https://img.shields.io/github/license/1020317774/rhapsody-admin?style=flat-square)
+<div align="center">
 
+<a href="https://github.com/1020317774/rhapsody-admin/stargazers"><img alt="GitHub release" src="https://img.shields.io/github/release/1020317774/rhapsody-admin?style=flat-square&logo=Ren'py"></a>
+<a href="https://github.com/1020317774/rhapsody-admin/blob/main/LICENSE"><img alt="GitHub license" src="https://img.shields.io/github/license/1020317774/rhapsody-admin"></a>
+<a href="https://github.com/1020317774/rhapsody-admin/blob/main/LICENSE"><img alt="GitHub license" src="https://img.shields.io/github/release/jgthms/bulma?style=flat-square&logo=Bulma"></a>
+
+</div>
 
 ## 技术栈
 
