@@ -1,6 +1,7 @@
 package com.wcy.rhapsody.admin.config.jwt;
 
 import cn.hutool.core.date.DateUtil;
+import com.wcy.rhapsody.admin.exception.MyException;
 import com.wcy.rhapsody.admin.modules.entity.web.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -62,7 +63,7 @@ public class JwtTokenUtil {
                     .getBody();
 
         } catch (Exception e) {
-            logger.info("Token验证失败");
+            logger.info("Token失效，请重新登录");
         }
         return claims;
     }

@@ -2,7 +2,6 @@ package com.wcy.rhapsody.admin.config.shiro;
 
 import com.wcy.rhapsody.admin.config.shiro.realm.MyCredentialsMatcher;
 import com.wcy.rhapsody.admin.config.shiro.realm.MyShiroRealm;
-import com.wcy.rhapsody.admin.interceptor.TokenInterceptor;
 import org.apache.shiro.codec.Base64;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;

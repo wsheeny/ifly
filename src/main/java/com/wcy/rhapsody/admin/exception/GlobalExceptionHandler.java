@@ -46,6 +46,18 @@ public class GlobalExceptionHandler {
     }
 
     /**
+     * 未登录
+     *
+     * @return
+     */
+    @ResponseBody
+    @ExceptionHandler(NoAuthException.class)
+    public R noAuthException(NoAuthException e) {
+        logger.error("未登录异常：" + ExceptionUtil.getMessage(e));
+        return R.error().code(e.getCode()).message(e.getMessage());
+    }
+
+    /**
      * 处理自定义异常
      *
      * @param e 异常

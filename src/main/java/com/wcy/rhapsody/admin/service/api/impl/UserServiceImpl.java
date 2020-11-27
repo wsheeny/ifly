@@ -67,7 +67,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         // 30分钟
         redisService.set("activeCode[" + dto.getName() + "]", activeCode, 30 * 60);
 
-        // 异步发送邮件
+        // 异步发送邮件 // TODO: 2020/11/26 部署后发送失败
         ThreadUtil.execAsync(() -> {
             // 发送激活邮件?user=hhh&code=true
             String activeUrl = URLUtil.normalize(domain + "?user=" + dto.getName() + "&code=" + activeCode);

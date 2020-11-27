@@ -2,7 +2,7 @@ package com.wcy.rhapsody.admin.controller.api;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.vdurmont.emoji.EmojiParser;
-import com.wcy.rhapsody.admin.annotation.UserLoginToken;
+import com.wcy.rhapsody.admin.annotation.RequireLogin;
 import com.wcy.rhapsody.admin.controller.BaseController;
 import com.wcy.rhapsody.admin.core.R;
 import com.wcy.rhapsody.admin.modules.dto.CreateTopicDTO;
@@ -57,7 +57,7 @@ public class TopicController extends BaseController {
     @GetMapping("/{id}")
     @ApiOperation(value = "获取指定话题,议题", notes = "输入话题ID获取")
     @ApiImplicitParam(required = true, value = "话题ID", name = "id", paramType = "path")
-    public R view(@PathVariable("id") String id, HttpServletRequest request) {
+    public R view(@PathVariable("id") String id) {
         Map<String, Object> map = topicService.viewTopic(id);
         return R.ok().data(map);
     }
@@ -65,12 +65,11 @@ public class TopicController extends BaseController {
     /**
      * 发布
      */
-    @UserLoginToken
+    @RequireLogin
     @ApiOperation(value = "发布话题")
     @PostMapping("/post")
     public R create(@RequestBody CreateTopicDTO dto, HttpServletRequest request) {
         User loginUser = getLoginUser(request);
-        Assert.notNull(loginUser, "未登录");
         Assert.isTrue(loginUser.getActive(), "你的帐号还没有激活，请去个人设置页面激活帐号");
         Topic topic = topicService.create(dto, loginUser);
         return R.ok().data(topic);
@@ -80,7 +79,7 @@ public class TopicController extends BaseController {
     /**
      * 修改主题
      */
-    @UserLoginToken
+    @RequireLogin
     @PostMapping("/update")
     @ApiOperation(value = "话题更新", notes = "")
     public R update(@Valid @RequestBody Topic topic, HttpServletRequest request) {
@@ -98,7 +97,7 @@ public class TopicController extends BaseController {
      * @param id
      * @return
      */
-    @UserLoginToken
+    @RequireLogin
     @ApiImplicitParam(value = "id", name = "话题ID", required = true, paramType = "path")
     @ApiOperation(value = "删除", notes = "")
     @DeleteMapping("/delete/{id}")
