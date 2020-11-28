@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wcy.rhapsody.admin.controller.BaseController;
 import com.wcy.rhapsody.admin.core.R;
-import com.wcy.rhapsody.admin.modules.entity.web.Event;
+import com.wcy.rhapsody.admin.model.entity.web.Event;
 import com.wcy.rhapsody.admin.service.api.EventService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

@@ -1,7 +1,7 @@
 package com.wcy.rhapsody.admin.service.api;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.wcy.rhapsody.admin.modules.entity.web.Role;
+import com.wcy.rhapsody.admin.model.entity.web.Role;
 
 /**
  * 角色 接口

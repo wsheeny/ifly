@@ -4,21 +4,26 @@ import cn.hutool.crypto.digest.BCrypt;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.wcy.rhapsody.admin.config.jwt.JwtTokenUtil;
 import com.wcy.rhapsody.admin.controller.BaseController;
+import com.wcy.rhapsody.admin.core.MyHttpCode;
 import com.wcy.rhapsody.admin.core.R;
-import com.wcy.rhapsody.admin.modules.dto.LoginDTO;
-import com.wcy.rhapsody.admin.modules.entity.web.User;
+import com.wcy.rhapsody.admin.exception.NoAuthException;
+import com.wcy.rhapsody.admin.model.dto.LoginDTO;
+import com.wcy.rhapsody.admin.model.entity.web.User;
 import com.wcy.rhapsody.admin.service.api.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
@@ -47,25 +52,29 @@ public class LoginController extends BaseController {
     @ApiOperation(value = "前台登录", notes = "前台用户登录接口", httpMethod = "POST")
     @ApiImplicitParam(value = "登录信息")
     @PostMapping("/login")
-    public R login(@Valid @RequestBody LoginDTO dto) {
+    public R login(@Valid @RequestBody LoginDTO dto, HttpServletRequest request) {
+        HttpSession session = request.getSession();
         Map<String, Object> map = new HashMap<>(16);
         String username = dto.getUsername();
         String password = dto.getPassword();
         // 验证数据库用户
         User dbUser = userService.getOne(new LambdaQueryWrapper<User>().eq(User::getUsername, username));
-        Assert.notNull(dbUser, "用户名密码错误");
-        // 验证密码
-        boolean checkPw = BCrypt.checkpw(password, dbUser.getPassword());
-        if (checkPw) {
-            String token = jwtTokenUtil.generateToken(dbUser);
-            dbUser.setToken(token);
-            userService.updateById(dbUser);
 
-            map.put("token", token);
-            map.put("user", dbUser);
-            return R.ok().data(map);
+        if (!StringUtils.isEmpty(dbUser)) {
+            // 验证密码
+            if (BCrypt.checkpw(password, dbUser.getPassword())) {
+                String token = jwtTokenUtil.generateToken(dbUser);
+                dbUser.setToken(token);
+                userService.updateById(dbUser);
+
+                map.put("token", token);
+                map.put("user", dbUser);
+                session.setAttribute("user", dbUser);
+                session.setAttribute("token", token);
+                return R.ok().message("登录成功").data(map);
+            }
         }
-        return R.error().message("用户名密码错误");
+        return R.error().code(MyHttpCode.USER_NAME_PASS_ERROR).message("用户名密码错误");
     }
 
     /**
@@ -79,6 +88,9 @@ public class LoginController extends BaseController {
     public R getUserInfoByToken(@ApiParam(name = "token", value = "用户登录Token", required = true)
                                 @RequestParam String token) {
         String username = jwtTokenUtil.parseToken(token).getSubject();
+        if (StringUtils.isEmpty(username)) {
+            throw new NoAuthException();
+        }
         User user = userService.selectByUsername(username);
         Assert.notNull(user, "用户不存在");
         return R.ok().data(user);

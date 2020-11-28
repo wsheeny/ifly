@@ -1,7 +1,7 @@
 package com.wcy.rhapsody.admin.mapper.api;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.wcy.rhapsody.admin.modules.entity.web.User;
+import com.wcy.rhapsody.admin.model.entity.web.User;
 import org.mapstruct.Mapper;
 
 /**

@@ -1,7 +1,7 @@
 package com.wcy.rhapsody.admin.mapper.api;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.wcy.rhapsody.admin.modules.entity.web.Tip;
+import com.wcy.rhapsody.admin.model.entity.web.Tip;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.mapstruct.Mapper;

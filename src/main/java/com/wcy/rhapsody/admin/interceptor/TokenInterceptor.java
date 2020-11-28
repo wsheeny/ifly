@@ -4,7 +4,7 @@ import com.wcy.rhapsody.admin.annotation.PassToken;
 import com.wcy.rhapsody.admin.annotation.RequireLogin;
 import com.wcy.rhapsody.admin.config.jwt.JwtTokenUtil;
 import com.wcy.rhapsody.admin.exception.NoAuthException;
-import com.wcy.rhapsody.admin.modules.entity.web.User;
+import com.wcy.rhapsody.admin.model.entity.web.User;
 import com.wcy.rhapsody.admin.service.api.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,26 +41,14 @@ public class TokenInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         HttpSession session = request.getSession();
+        // System.out.println(session.getId());
         String uri = request.getRequestURI();
-        logger.info("检测到用户请求 {}", uri);
+        logger.info("检测到用户请求： {}", uri);
         String token = request.getHeader(TOKEN);
         // 如果不是映射到方法直接通过
         if (!(handler instanceof HandlerMethod)) {
             return true;
         }
-
-        if (!StringUtils.isEmpty(token)) {
-            String username = jwtTokenUtil.parseToken(token).getSubject();
-            if (!StringUtils.isEmpty(username)) {
-                logger.info("验证用户:{}", username);
-                User user = userService.selectByUsername(username);
-                if (jwtTokenUtil.validateToken(token, user)) {
-                    // 根据token登录
-                    session.setAttribute("loginUser", user);
-                }
-            }
-        }
-
         HandlerMethod handlerMethod = (HandlerMethod) handler;
         Method method = handlerMethod.getMethod();
         // 检查是否有PassToken注释，有则跳过认证
@@ -77,9 +65,9 @@ public class TokenInterceptor implements HandlerInterceptor {
                 if (!StringUtils.isEmpty(token)) {
                     String username = jwtTokenUtil.parseToken(token).getSubject();
                     if (!StringUtils.isEmpty(username)) {
-                        logger.info("验证用户:{}", username);
                         User user = userService.selectByUsername(username);
                         if (jwtTokenUtil.validateToken(token, user)) {
+                            logger.info("用户 {} 验证成功", username);
                             // 根据token登录
                             session.setAttribute("loginUser", user);
                         }

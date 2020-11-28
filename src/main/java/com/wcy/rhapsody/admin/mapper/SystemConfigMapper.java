@@ -1,7 +1,7 @@
 package com.wcy.rhapsody.admin.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.wcy.rhapsody.admin.modules.entity.web.TbSystemConfig;
+import com.wcy.rhapsody.admin.model.entity.web.TbSystemConfig;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

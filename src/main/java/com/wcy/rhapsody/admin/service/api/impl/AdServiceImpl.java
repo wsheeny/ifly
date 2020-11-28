@@ -2,7 +2,7 @@ package com.wcy.rhapsody.admin.service.api.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wcy.rhapsody.admin.mapper.api.AdMapper;
-import com.wcy.rhapsody.admin.modules.entity.web.Ad;
+import com.wcy.rhapsody.admin.model.entity.web.Ad;
 import com.wcy.rhapsody.admin.service.api.AdService;
 import org.springframework.stereotype.Service;
 

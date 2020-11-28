@@ -2,7 +2,7 @@ package com.wcy.rhapsody.admin.service.admin.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wcy.rhapsody.admin.mapper.admin.AdminUserMapper;
-import com.wcy.rhapsody.admin.modules.entity.admin.AdminUser;
+import com.wcy.rhapsody.admin.model.entity.admin.AdminUser;
 import com.wcy.rhapsody.admin.service.admin.AdminUserService;
 import org.springframework.stereotype.Service;
 

@@ -3,7 +3,7 @@ package com.wcy.rhapsody.admin.service.api.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wcy.rhapsody.admin.mapper.api.RolePermissionMapper;
-import com.wcy.rhapsody.admin.modules.entity.web.RolePermission;
+import com.wcy.rhapsody.admin.model.entity.web.RolePermission;
 import com.wcy.rhapsody.admin.service.api.RolePermissionService;
 import org.springframework.stereotype.Service;
 

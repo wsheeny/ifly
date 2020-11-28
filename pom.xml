@@ -9,8 +9,8 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.wcy</groupId>
-    <artifactId>rhapsody-admin</artifactId>
-    <version>0.0.1</version>
+    <artifactId>rhapsody</artifactId>
+    <version>1.1.6</version>
     <name>rhapsody-admin</name>
     <description>rhapsody-为极客而生！</description>
 
@@ -24,7 +24,7 @@
         <jwt.version>0.9.1</jwt.version>
         <JustAuth.version>1.15.7</JustAuth.version>
         <elasticsearch.version>6.5.3</elasticsearch.version>
-        <javax.mail.version>1.5.0-b01</javax.mail.version>
+        <javax.mail.version>1.4.7</javax.mail.version>
         <commonmark.version>0.12.1</commonmark.version>
         <hutool.version>5.4.4</hutool.version>
         <fastjson.version>1.2.73</fastjson.version>

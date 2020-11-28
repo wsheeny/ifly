@@ -4,8 +4,8 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wcy.rhapsody.admin.mapper.api.TopicTagMapper;
-import com.wcy.rhapsody.admin.modules.entity.web.Tag;
-import com.wcy.rhapsody.admin.modules.entity.web.TopicTag;
+import com.wcy.rhapsody.admin.model.entity.web.Tag;
+import com.wcy.rhapsody.admin.model.entity.web.TopicTag;
 import com.wcy.rhapsody.admin.service.api.TopicTagService;
 import org.springframework.stereotype.Service;
 

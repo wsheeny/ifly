@@ -1,8 +1,7 @@
 package com.wcy.rhapsody.admin.config.jwt;
 
 import cn.hutool.core.date.DateUtil;
-import com.wcy.rhapsody.admin.exception.MyException;
-import com.wcy.rhapsody.admin.modules.entity.web.User;
+import com.wcy.rhapsody.admin.model.entity.web.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

@@ -3,11 +3,11 @@ package com.wcy.rhapsody.admin.service.api;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.wcy.rhapsody.admin.modules.dto.CreateTopicDTO;
-import com.wcy.rhapsody.admin.modules.entity.web.Category;
-import com.wcy.rhapsody.admin.modules.entity.web.Topic;
-import com.wcy.rhapsody.admin.modules.entity.web.User;
-import com.wcy.rhapsody.admin.modules.vo.TopicVO;
+import com.wcy.rhapsody.admin.model.dto.CreateTopicDTO;
+import com.wcy.rhapsody.admin.model.entity.web.Category;
+import com.wcy.rhapsody.admin.model.entity.web.Topic;
+import com.wcy.rhapsody.admin.model.entity.web.User;
+import com.wcy.rhapsody.admin.model.vo.TopicVO;
 
 import java.util.List;
 import java.util.Map;

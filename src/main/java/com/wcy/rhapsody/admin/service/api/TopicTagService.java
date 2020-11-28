@@ -1,8 +1,8 @@
 package com.wcy.rhapsody.admin.service.api;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.wcy.rhapsody.admin.modules.entity.web.Tag;
-import com.wcy.rhapsody.admin.modules.entity.web.TopicTag;
+import com.wcy.rhapsody.admin.model.entity.web.Tag;
+import com.wcy.rhapsody.admin.model.entity.web.TopicTag;
 
 import java.util.List;
 import java.util.Set;

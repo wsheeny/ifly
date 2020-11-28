@@ -2,8 +2,8 @@ package com.wcy.rhapsody.admin.mapper.api;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.wcy.rhapsody.admin.modules.entity.web.Topic;
-import com.wcy.rhapsody.admin.modules.vo.TopicVO;
+import com.wcy.rhapsody.admin.model.entity.web.Topic;
+import com.wcy.rhapsody.admin.model.vo.TopicVO;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.mapstruct.Mapper;

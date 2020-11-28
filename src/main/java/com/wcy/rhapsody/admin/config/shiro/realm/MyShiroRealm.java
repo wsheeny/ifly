@@ -1,6 +1,6 @@
 package com.wcy.rhapsody.admin.config.shiro.realm;
 
-import com.wcy.rhapsody.admin.modules.entity.web.User;
+import com.wcy.rhapsody.admin.model.entity.web.User;
 import com.wcy.rhapsody.admin.service.api.PermissionService;
 import com.wcy.rhapsody.admin.service.api.RoleService;
 import com.wcy.rhapsody.admin.service.api.UserService;

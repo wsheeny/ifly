@@ -4,7 +4,7 @@ import cn.hutool.core.thread.ThreadUtil;
 import cn.hutool.core.util.URLUtil;
 import cn.hutool.extra.mail.MailUtil;
 import com.wcy.rhapsody.admin.mapper.api.TopicMapper;
-import com.wcy.rhapsody.admin.modules.entity.web.Topic;
+import com.wcy.rhapsody.admin.model.entity.web.Topic;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

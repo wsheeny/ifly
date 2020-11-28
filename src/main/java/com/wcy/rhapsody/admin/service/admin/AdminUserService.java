@@ -1,7 +1,7 @@
 package com.wcy.rhapsody.admin.service.admin;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.wcy.rhapsody.admin.modules.entity.admin.AdminUser;
+import com.wcy.rhapsody.admin.model.entity.admin.AdminUser;
 
 /**
  * 后台系统用户接口

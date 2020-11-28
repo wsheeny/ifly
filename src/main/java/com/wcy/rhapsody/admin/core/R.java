@@ -35,7 +35,7 @@ public class R implements Serializable {
     public static R ok() {
         R r = new R();
         r.setSuccess(true)
-                .setCode(200)
+                .setCode(MyHttpCode.OK)
                 .setMessage("接口调用成功");
         return r;
     }
@@ -46,8 +46,8 @@ public class R implements Serializable {
     public static R error() {
         R r = new R();
         r.setSuccess(false)
-                .setCode(500)
-                .setMessage("失败");
+                .setCode(MyHttpCode.HTTP_INTERNAL_ERROR)
+                .setMessage("服务器错误");
         return r;
     }
 

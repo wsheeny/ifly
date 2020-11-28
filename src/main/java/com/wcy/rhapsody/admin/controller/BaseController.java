@@ -1,10 +1,8 @@
 package com.wcy.rhapsody.admin.controller;
 
-import com.wcy.rhapsody.admin.exception.NoAuthException;
-import com.wcy.rhapsody.admin.modules.entity.web.User;
+import com.wcy.rhapsody.admin.model.entity.web.User;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
-import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;

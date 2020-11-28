@@ -1,6 +1,5 @@
 package com.wcy.rhapsody.admin.service.api.impl;
 
-import cn.hutool.core.thread.ThreadUtil;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.URLUtil;
 import cn.hutool.crypto.digest.BCrypt;
@@ -9,11 +8,11 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wcy.rhapsody.admin.config.redis.RedisService;
 import com.wcy.rhapsody.admin.mapper.api.UserMapper;
-import com.wcy.rhapsody.admin.modules.dto.RegisterDTO;
-import com.wcy.rhapsody.admin.modules.entity.web.Follow;
-import com.wcy.rhapsody.admin.modules.entity.web.Topic;
-import com.wcy.rhapsody.admin.modules.entity.web.User;
-import com.wcy.rhapsody.admin.modules.vo.ProfileVO;
+import com.wcy.rhapsody.admin.model.dto.RegisterDTO;
+import com.wcy.rhapsody.admin.model.entity.web.Follow;
+import com.wcy.rhapsody.admin.model.entity.web.Topic;
+import com.wcy.rhapsody.admin.model.entity.web.User;
+import com.wcy.rhapsody.admin.model.vo.ProfileVO;
 import com.wcy.rhapsody.admin.service.api.FollowService;
 import com.wcy.rhapsody.admin.service.api.TopicService;
 import com.wcy.rhapsody.admin.service.api.UserService;
@@ -67,14 +66,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         // 30分钟
         redisService.set("activeCode[" + dto.getName() + "]", activeCode, 30 * 60);
 
-        // 异步发送邮件 // TODO: 2020/11/26 部署后发送失败
-        ThreadUtil.execAsync(() -> {
-            // 发送激活邮件?user=hhh&code=true
-            String activeUrl = URLUtil.normalize(domain + "?user=" + dto.getName() + "&code=" + activeCode);
-            String content = "请在30分钟内激活您的账号，如非本人操作，请忽略 </br > " +
-                    "<a href=\"" + activeUrl + "\" target =\"_blank\" '>点击激活账号</a>";
-            MailUtil.send("1020317774@qq.com", "【滚雪球】账号激活", content, true);
-        });
+        // 发送邮件
+        String activeUrl = URLUtil.normalize(domain + "?user=" + dto.getName() + "&code=" + activeCode);
+        String content = "请在30分钟内激活您的账号，如非本人操作，请忽略 </br > " +
+                "<a href=\"" + activeUrl + "\" target =\"_blank\" '>点击激活账号</a>";
+        MailUtil.send(dto.getEmail(), "【滚雪球】账号激活", content, true);
     }
 
 

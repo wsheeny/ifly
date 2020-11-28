@@ -1,7 +1,7 @@
 package com.wcy.rhapsody.admin.service.api;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.wcy.rhapsody.admin.modules.entity.web.FriendLink;
+import com.wcy.rhapsody.admin.model.entity.web.FriendLink;
 
 /**
  * 友链
