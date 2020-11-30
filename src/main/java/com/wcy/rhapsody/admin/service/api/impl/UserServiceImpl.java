@@ -7,8 +7,10 @@ import cn.hutool.extra.mail.MailUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wcy.rhapsody.admin.config.redis.RedisService;
+import com.wcy.rhapsody.admin.mapper.ColumnMapper;
 import com.wcy.rhapsody.admin.mapper.api.UserMapper;
 import com.wcy.rhapsody.admin.model.dto.RegisterDTO;
+import com.wcy.rhapsody.admin.model.entity.web.Column;
 import com.wcy.rhapsody.admin.model.entity.web.Follow;
 import com.wcy.rhapsody.admin.model.entity.web.Topic;
 import com.wcy.rhapsody.admin.model.entity.web.User;
@@ -41,6 +43,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Resource
     private RedisService redisService;
+
+    @Resource
+    private ColumnMapper columnMapper;
 
     @Value("${config.domain}")
     private String domain;
@@ -89,6 +94,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         // 关注数
         int follows = followService.count(new LambdaQueryWrapper<Follow>().eq(Follow::getFollowerId, id));
         profile.setFollowCount(follows);
+        // 专栏数
+        Integer integer = columnMapper.selectCount(new LambdaQueryWrapper<Column>().eq(Column::getUserId, id));
+        profile.setColumns(integer);
 
         return profile;
     }

@@ -54,10 +54,9 @@ public class TopicController extends BaseController {
     /**
      * 浏览指定话题
      */
-    @GetMapping("/{id}")
+    @GetMapping()
     @ApiOperation(value = "获取指定话题,议题", notes = "输入话题ID获取")
-    @ApiImplicitParam(required = true, value = "话题ID", name = "id", paramType = "path")
-    public R view(@PathVariable("id") String id) {
+    public R view(@ApiParam(value = "id", name = "话题ID", required = true) @RequestParam("id") String id) {
         Map<String, Object> map = topicService.viewTopic(id);
         return R.ok().data(map);
     }

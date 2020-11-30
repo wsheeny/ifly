@@ -60,7 +60,6 @@ public class JwtTokenUtil {
                     .setSigningKey(SECRET)
                     .parseClaimsJws(token)
                     .getBody();
-
         } catch (Exception e) {
             logger.info("Token失效，请重新登录");
         }

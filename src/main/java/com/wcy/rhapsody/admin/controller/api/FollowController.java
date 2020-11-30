@@ -3,7 +3,9 @@ package com.wcy.rhapsody.admin.controller.api;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.wcy.rhapsody.admin.annotation.RequireLogin;
 import com.wcy.rhapsody.admin.controller.BaseController;
+import com.wcy.rhapsody.admin.core.MyHttpCode;
 import com.wcy.rhapsody.admin.core.R;
+import com.wcy.rhapsody.admin.exception.MyException;
 import com.wcy.rhapsody.admin.model.entity.web.Follow;
 import com.wcy.rhapsody.admin.model.entity.web.User;
 import com.wcy.rhapsody.admin.service.api.FollowService;
@@ -50,12 +52,17 @@ public class FollowController extends BaseController {
     public R handleFollow(@PathVariable("userId") String parentId, HttpServletRequest request) {
         User loginUser = getLoginUser(request);
 
-        Assert.isTrue(!parentId.equals(loginUser.getId()), "您脸皮太厚了，自己怎么可以关注自己呢(⊙o⊙)…");
+        if (parentId.equals(loginUser.getId())) {
+            throw new MyException().code(MyHttpCode.HAS_FOLLOW).message("您脸皮太厚了，自己怎么可以关注自己呢(⊙o⊙)…");
+        }
+
         Follow one = followService.getOne(
                 new LambdaQueryWrapper<Follow>()
                         .eq(Follow::getParentId, parentId)
                         .eq(Follow::getFollowerId, loginUser.getId()));
-        Assert.isNull(one, "您已关注此用户");
+        if (!StringUtils.isEmpty(one)) {
+            throw new MyException().code(MyHttpCode.UN_FOLLOW).message("已关注");
+        }
 
         Follow follow = new Follow();
         follow.setParentId(parentId);
@@ -79,7 +86,9 @@ public class FollowController extends BaseController {
                 new LambdaQueryWrapper<Follow>()
                         .eq(Follow::getParentId, parentId)
                         .eq(Follow::getFollowerId, loginUser.getId()));
-        Assert.notNull(one, "当前未关注此用户");
+        if (StringUtils.isEmpty(one)) {
+            throw new MyException().code(MyHttpCode.UN_FOLLOW).message("未关注，无法取关");
+        }
 
         followService.remove(new LambdaQueryWrapper<Follow>().eq(Follow::getParentId, parentId)
                 .eq(Follow::getFollowerId, loginUser.getId()));
@@ -112,7 +121,7 @@ public class FollowController extends BaseController {
      *
      * @return
      */
-    @GetMapping("/all")
+    @GetMapping("/myfans")
     @ApiOperation(value = "获取我的分类列表", notes = "")
     public R followerList(@ApiParam(value = "username", name = "用户名", required = true)
                           @RequestParam("username") String username) {
@@ -130,7 +139,7 @@ public class FollowController extends BaseController {
      *
      * @return
      */
-    @GetMapping("/{username}/follow")
+    @GetMapping("/myfollow")
     @ApiOperation(value = "获取我的关注列表", notes = "")
     @ApiImplicitParam(name = "username", value = "用户username", required = true, paramType = "path")
     public R followList(@PathVariable("username") String username) {

@@ -46,6 +46,11 @@ public class ProfileVO {
     private Integer topicCount;
 
     /**
+     * 专栏数
+     */
+    private Integer columns;
+
+    /**
      * 评论数
      */
     private Integer commentCount;

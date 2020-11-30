@@ -5,8 +5,7 @@
         SELECT s.*,
                COUNT(t.id) AS topics
         FROM section s
-                 LEFT JOIN
-             topic t
-             ON s.id = t.section_id
+                 LEFT JOIN topic t ON s.id = t.section_id
+        GROUP BY s.title
     </select>
 </mapper>

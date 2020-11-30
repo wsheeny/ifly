@@ -3,6 +3,7 @@ package com.wcy.rhapsody.admin.interceptor;
 import com.wcy.rhapsody.admin.annotation.PassToken;
 import com.wcy.rhapsody.admin.annotation.RequireLogin;
 import com.wcy.rhapsody.admin.config.jwt.JwtTokenUtil;
+import com.wcy.rhapsody.admin.exception.MyException;
 import com.wcy.rhapsody.admin.exception.NoAuthException;
 import com.wcy.rhapsody.admin.model.entity.web.User;
 import com.wcy.rhapsody.admin.service.api.UserService;
@@ -66,11 +67,13 @@ public class TokenInterceptor implements HandlerInterceptor {
                     String username = jwtTokenUtil.parseToken(token).getSubject();
                     if (!StringUtils.isEmpty(username)) {
                         User user = userService.selectByUsername(username);
-                        if (jwtTokenUtil.validateToken(token, user)) {
-                            logger.info("用户 {} 验证成功", username);
-                            // 根据token登录
-                            session.setAttribute("loginUser", user);
+                        if (!jwtTokenUtil.validateToken(token, user)) {
+                            logger.info("用户 {} Token验证失败", username);
+                            throw new MyException().code(401).message("Token失效，重新登录");
                         }
+                        logger.info("用户 {} Token验证成功", username);
+                        // 根据token登录
+                        session.setAttribute("loginUser", user);
                     }
                 } else {
                     logger.info("用户未登录，已拒绝其请求 {}", uri);
