@@ -2,12 +2,13 @@ package com.wcy.rhapsody.admin.controller.api;
 
 import com.wcy.rhapsody.admin.controller.BaseController;
 import com.wcy.rhapsody.admin.core.R;
-import com.wcy.rhapsody.admin.service.api.TopicService;
-import com.wcy.rhapsody.admin.service.api.UserService;
+import com.wcy.rhapsody.admin.service.TopicService;
+import com.wcy.rhapsody.admin.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
@@ -19,7 +20,7 @@ import java.util.Map;
  * @author Yeeep 2020/11/7
  */
 @Api(tags = "首页控制器")
-@RestController
+@Controller
 public class IndexController extends BaseController {
     @Resource
     private UserService userService;
@@ -32,6 +33,7 @@ public class IndexController extends BaseController {
      *
      * @return
      */
+    @ResponseBody
     @GetMapping("/size/count")
     @ApiOperation(value = "站点统计", notes = "统计")
     public R count() {

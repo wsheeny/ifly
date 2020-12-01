@@ -6,10 +6,10 @@ import com.wcy.rhapsody.admin.controller.BaseController;
 import com.wcy.rhapsody.admin.core.MyHttpCode;
 import com.wcy.rhapsody.admin.core.R;
 import com.wcy.rhapsody.admin.exception.MyException;
-import com.wcy.rhapsody.admin.model.entity.web.Follow;
-import com.wcy.rhapsody.admin.model.entity.web.User;
-import com.wcy.rhapsody.admin.service.api.FollowService;
-import com.wcy.rhapsody.admin.service.api.UserService;
+import com.wcy.rhapsody.admin.model.entity.Follow;
+import com.wcy.rhapsody.admin.model.entity.User;
+import com.wcy.rhapsody.admin.service.FollowService;
+import com.wcy.rhapsody.admin.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -53,7 +53,7 @@ public class FollowController extends BaseController {
         User loginUser = getLoginUser(request);
 
         if (parentId.equals(loginUser.getId())) {
-            throw new MyException().code(MyHttpCode.HAS_FOLLOW).message("您脸皮太厚了，自己怎么可以关注自己呢(⊙o⊙)…");
+            throw new MyException().code(MyHttpCode.HAS_FOLLOW).message("您脸皮太厚了，怎么可以关注自己呢😮");
         }
 
         Follow one = followService.getOne(
@@ -61,7 +61,7 @@ public class FollowController extends BaseController {
                         .eq(Follow::getParentId, parentId)
                         .eq(Follow::getFollowerId, loginUser.getId()));
         if (!StringUtils.isEmpty(one)) {
-            throw new MyException().code(MyHttpCode.UN_FOLLOW).message("已关注");
+            throw new MyException().code(MyHttpCode.HAS_FOLLOW).message("您已关注过了");
         }
 
         Follow follow = new Follow();

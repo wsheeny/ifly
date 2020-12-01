@@ -1,9 +1,9 @@
 package com.wcy.rhapsody.admin.config.shiro.realm;
 
-import com.wcy.rhapsody.admin.model.entity.web.User;
-import com.wcy.rhapsody.admin.service.api.PermissionService;
-import com.wcy.rhapsody.admin.service.api.RoleService;
-import com.wcy.rhapsody.admin.service.api.UserService;
+import com.wcy.rhapsody.admin.model.entity.User;
+import com.wcy.rhapsody.admin.service.PermissionService;
+import com.wcy.rhapsody.admin.service.RoleService;
+import com.wcy.rhapsody.admin.service.UserService;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;

@@ -51,8 +51,8 @@ public class GlobalExceptionHandler {
      * @return
      */
     @ResponseBody
-    @ExceptionHandler(NoAuthException.class)
-    public R noAuthException(NoAuthException e) {
+    @ExceptionHandler(TokenException.class)
+    public R noAuthException(TokenException e) {
         logger.error("未登录异常：" + ExceptionUtil.getMessage(e));
         return R.error().code(e.getCode()).message(e.getMessage());
     }

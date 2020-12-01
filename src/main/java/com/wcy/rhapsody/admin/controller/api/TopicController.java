@@ -6,10 +6,10 @@ import com.wcy.rhapsody.admin.annotation.RequireLogin;
 import com.wcy.rhapsody.admin.controller.BaseController;
 import com.wcy.rhapsody.admin.core.R;
 import com.wcy.rhapsody.admin.model.dto.CreateTopicDTO;
-import com.wcy.rhapsody.admin.model.entity.web.Topic;
-import com.wcy.rhapsody.admin.model.entity.web.User;
+import com.wcy.rhapsody.admin.model.entity.Topic;
+import com.wcy.rhapsody.admin.model.entity.User;
 import com.wcy.rhapsody.admin.model.vo.TopicVO;
-import com.wcy.rhapsody.admin.service.api.TopicService;
+import com.wcy.rhapsody.admin.service.TopicService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -37,6 +37,54 @@ public class TopicController extends BaseController {
     @Resource
     private TopicService topicService;
 
+
+    /**
+     * 发布
+     */
+    @RequireLogin
+    @ApiOperation(value = "发布话题")
+    @PostMapping("/create")
+    public R create(@RequestBody CreateTopicDTO dto, HttpServletRequest request) {
+        User loginUser = getLoginUser(request);
+        Assert.isTrue(loginUser.getActive(), "你的帐号还没有激活，请去个人设置页面激活帐号");
+        Topic topic = topicService.create(dto, loginUser);
+        return R.ok().data(topic);
+    }
+
+    /**
+     * 删除
+     *
+     * @param id
+     * @return
+     */
+    @RequireLogin
+    @ApiImplicitParam(value = "id", name = "话题ID", required = true, paramType = "path")
+    @ApiOperation(value = "删除", notes = "")
+    @DeleteMapping("/delete/{id}")
+    public R delete(@PathVariable("id") String id, HttpServletRequest request) {
+        User loginUser = getLoginUser(request);
+        Topic byId = topicService.getById(id);
+        Assert.notNull(byId, "来晚一步，话题已不存在");
+        Assert.isTrue(byId.getUserId().equals(loginUser.getId()), "你为什么可以删除别人的话题？？？");
+        topicService.removeById(id);
+        return R.ok().message("删除成功").code(200);
+    }
+
+    /**
+     * 修改主题
+     */
+    @RequireLogin
+    @PostMapping("/update")
+    @ApiOperation(value = "话题更新", notes = "")
+    public R update(@Valid @RequestBody Topic topic, HttpServletRequest request) {
+        User loginUser = getLoginUser(request);
+        Assert.isTrue(loginUser.getId().equals(topic.getUserId()), "非本人无权修改");
+        topic.setModifyTime(new Date());
+        topic.setContent(EmojiParser.parseToAliases(topic.getContent()));
+        topicService.updateById(topic);
+        return R.ok().data(topic);
+    }
+
     /**
      * 首页获取话题列表
      */
@@ -59,54 +107,6 @@ public class TopicController extends BaseController {
     public R view(@ApiParam(value = "id", name = "话题ID", required = true) @RequestParam("id") String id) {
         Map<String, Object> map = topicService.viewTopic(id);
         return R.ok().data(map);
-    }
-
-    /**
-     * 发布
-     */
-    @RequireLogin
-    @ApiOperation(value = "发布话题")
-    @PostMapping("/post")
-    public R create(@RequestBody CreateTopicDTO dto, HttpServletRequest request) {
-        User loginUser = getLoginUser(request);
-        Assert.isTrue(loginUser.getActive(), "你的帐号还没有激活，请去个人设置页面激活帐号");
-        Topic topic = topicService.create(dto, loginUser);
-        return R.ok().data(topic);
-    }
-
-
-    /**
-     * 修改主题
-     */
-    @RequireLogin
-    @PostMapping("/update")
-    @ApiOperation(value = "话题更新", notes = "")
-    public R update(@Valid @RequestBody Topic topic, HttpServletRequest request) {
-        User loginUser = getLoginUser(request);
-        Assert.isTrue(loginUser.getId().equals(topic.getUserId()), "非本人无权修改");
-        topic.setModifyTime(new Date());
-        topic.setContent(EmojiParser.parseToAliases(topic.getContent()));
-        topicService.updateById(topic);
-        return R.ok().data(topic);
-    }
-
-    /**
-     * 删除
-     *
-     * @param id
-     * @return
-     */
-    @RequireLogin
-    @ApiImplicitParam(value = "id", name = "话题ID", required = true, paramType = "path")
-    @ApiOperation(value = "删除", notes = "")
-    @DeleteMapping("/delete/{id}")
-    public R delete(@PathVariable("id") String id, HttpServletRequest request) {
-        User loginUser = getLoginUser(request);
-        Topic byId = topicService.getById(id);
-        Assert.notNull(byId, "来晚一步，话题已不存在");
-        Assert.isTrue(byId.getUserId().equals(loginUser.getId()), "你为什么可以删除别人的话题？？？");
-        topicService.removeById(id);
-        return R.ok().message("删除成功").code(200);
     }
 
     /**

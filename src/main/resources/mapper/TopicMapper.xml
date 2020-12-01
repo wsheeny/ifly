@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.wcy.rhapsody.admin.mapper.api.TopicMapper">
+<mapper namespace="com.wcy.rhapsody.admin.mapper.TopicMapper">
     <select id="selectListAndPage" resultType="com.wcy.rhapsody.admin.model.vo.TopicVO">
         SELECT
         t.id,t.title,t.user_id,t.comments,
@@ -50,6 +50,26 @@
                  LEFT JOIN user u
                            ON t.user_id = u.id
         WHERE t.category_id = #{id}
+        order by t.view desc, t.create_time desc
+    </select>
+    <select id="selectByColumn" resultType="com.wcy.rhapsody.admin.model.vo.TopicVO">
+        SELECT t.id,
+               t.title,
+               t.user_id,
+               t.comments,
+               t.view,
+               t.collects,
+               t.top,
+               t.essence,
+               t.create_time,
+               t.modify_time,
+               u.username,
+               u.alias,
+               u.avatar
+        FROM topic t
+                 LEFT JOIN user u
+                           ON t.user_id = u.id
+        WHERE t.section_id = #{column.id}
         order by t.view desc, t.create_time desc
     </select>
 </mapper>

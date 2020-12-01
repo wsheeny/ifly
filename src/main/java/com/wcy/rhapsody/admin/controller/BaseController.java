@@ -1,6 +1,6 @@
 package com.wcy.rhapsody.admin.controller;
 
-import com.wcy.rhapsody.admin.model.entity.web.User;
+import com.wcy.rhapsody.admin.model.entity.User;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 

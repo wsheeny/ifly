@@ -2,7 +2,7 @@ package com.wcy.rhapsody.admin.controller.api;
 
 import com.wcy.rhapsody.admin.controller.BaseController;
 import com.wcy.rhapsody.admin.core.R;
-import com.wcy.rhapsody.admin.service.api.FriendLinkService;
+import com.wcy.rhapsody.admin.service.FriendLinkService;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;

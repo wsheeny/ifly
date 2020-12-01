@@ -1,7 +1,7 @@
 package com.wcy.rhapsody.admin.controller.admin;
 
 import com.wcy.rhapsody.admin.controller.BaseController;
-import com.wcy.rhapsody.admin.service.admin.AdminUserService;
+import com.wcy.rhapsody.admin.service.AdminUserService;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

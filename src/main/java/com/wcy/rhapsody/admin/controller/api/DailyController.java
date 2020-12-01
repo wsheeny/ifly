@@ -2,8 +2,8 @@ package com.wcy.rhapsody.admin.controller.api;
 
 import com.wcy.rhapsody.admin.controller.BaseController;
 import com.wcy.rhapsody.admin.core.R;
-import com.wcy.rhapsody.admin.model.entity.web.Daily;
-import com.wcy.rhapsody.admin.service.api.DailyService;
+import com.wcy.rhapsody.admin.model.entity.Daily;
+import com.wcy.rhapsody.admin.service.DailyService;
 import io.swagger.annotations.Api;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;

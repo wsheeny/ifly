@@ -1,6 +1,6 @@
 package com.wcy.rhapsody.admin.model.vo;
 
-import com.wcy.rhapsody.admin.model.entity.web.Column;
+import com.wcy.rhapsody.admin.model.entity.Column;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

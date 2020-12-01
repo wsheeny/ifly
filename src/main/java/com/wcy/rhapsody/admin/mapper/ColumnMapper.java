@@ -3,7 +3,7 @@ package com.wcy.rhapsody.admin.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.wcy.rhapsody.admin.model.entity.web.Column;
+import com.wcy.rhapsody.admin.model.entity.Column;
 import com.wcy.rhapsody.admin.model.vo.ColumnVO;
 import org.apache.ibatis.annotations.Mapper;
 

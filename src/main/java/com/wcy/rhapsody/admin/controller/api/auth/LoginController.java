@@ -6,10 +6,10 @@ import com.wcy.rhapsody.admin.config.jwt.JwtTokenUtil;
 import com.wcy.rhapsody.admin.controller.BaseController;
 import com.wcy.rhapsody.admin.core.MyHttpCode;
 import com.wcy.rhapsody.admin.core.R;
-import com.wcy.rhapsody.admin.exception.NoAuthException;
+import com.wcy.rhapsody.admin.exception.TokenException;
 import com.wcy.rhapsody.admin.model.dto.LoginDTO;
-import com.wcy.rhapsody.admin.model.entity.web.User;
-import com.wcy.rhapsody.admin.service.api.UserService;
+import com.wcy.rhapsody.admin.model.entity.User;
+import com.wcy.rhapsody.admin.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -74,7 +74,7 @@ public class LoginController extends BaseController {
                 return R.ok().message("登录成功").data(map);
             }
         }
-        return R.error().code(MyHttpCode.USER_NAME_PASS_ERROR).message("用户名密码错误");
+        return R.error().code(MyHttpCode.USER_NAME_PASS_ERROR).message("用户名或密码错误");
     }
 
     /**
@@ -89,7 +89,7 @@ public class LoginController extends BaseController {
                                 @RequestParam String token) {
         String username = jwtTokenUtil.parseToken(token).getSubject();
         if (StringUtils.isEmpty(username)) {
-            throw new NoAuthException();
+            throw new TokenException();
         }
         User user = userService.selectByUsername(username);
         Assert.notNull(user, "用户不存在");

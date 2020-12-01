@@ -1,6 +1,6 @@
 package com.wcy.rhapsody.admin.model.vo;
 
-import com.wcy.rhapsody.admin.model.entity.web.Tag;
+import com.wcy.rhapsody.admin.model.entity.Tag;
 import lombok.Data;
 
 import java.util.Date;

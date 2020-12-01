@@ -1,7 +1,9 @@
 package com.wcy.rhapsody.admin.config.jwt;
 
 import cn.hutool.core.date.DateUtil;
-import com.wcy.rhapsody.admin.model.entity.web.User;
+import com.wcy.rhapsody.admin.core.MyHttpCode;
+import com.wcy.rhapsody.admin.exception.MyException;
+import com.wcy.rhapsody.admin.model.entity.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -54,7 +56,7 @@ public class JwtTokenUtil {
      * 解析Jwt对象（包括：header，body，signature）
      */
     public Claims parseToken(String token) {
-        Claims claims = null;
+        Claims claims;
         try {
             claims = Jwts.parser()
                     .setSigningKey(SECRET)
@@ -62,6 +64,7 @@ public class JwtTokenUtil {
                     .getBody();
         } catch (Exception e) {
             logger.info("Token失效，请重新登录");
+            throw new MyException(MyHttpCode.FAILURE_TOKEN, "Token失效");
         }
         return claims;
     }
@@ -79,7 +82,13 @@ public class JwtTokenUtil {
         // 获取过期时间
         Date expiration = claims.getExpiration();
         // 用户名一致，有效期内
-        return username.equals(dbUser.getUsername()) && !expiration.before(new Date());
+        if (expiration.before(new Date())) {
+            throw new MyException(MyHttpCode.FAILURE_TOKEN, "Token失效");
+        }
+        if (!username.equals(dbUser.getUsername())) {
+            throw new MyException(MyHttpCode.FAILURE_TOKEN, "Token错误");
+        }
+        return true;
     }
 
     /**

@@ -6,11 +6,11 @@ import com.wcy.rhapsody.admin.controller.BaseController;
 import com.wcy.rhapsody.admin.core.MyHttpCode;
 import com.wcy.rhapsody.admin.core.R;
 import com.wcy.rhapsody.admin.exception.MyException;
-import com.wcy.rhapsody.admin.model.entity.web.Column;
-import com.wcy.rhapsody.admin.model.entity.web.Topic;
+import com.wcy.rhapsody.admin.model.entity.Column;
 import com.wcy.rhapsody.admin.model.vo.ColumnVO;
-import com.wcy.rhapsody.admin.service.api.ColumnService;
-import com.wcy.rhapsody.admin.service.api.TopicService;
+import com.wcy.rhapsody.admin.model.vo.TopicVO;
+import com.wcy.rhapsody.admin.service.ColumnService;
+import com.wcy.rhapsody.admin.service.TopicService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -63,7 +63,7 @@ public class ColumnController extends BaseController {
      */
     @ApiOperation(value = "专栏话题列表", notes = "")
     @ApiImplicitParam(value = "title", name = "专栏标题", paramType = "path", required = true)
-    @GetMapping("/all/{title}")
+    @GetMapping("/{title}/all")
     public R list(@PathVariable("title") String title,
                   @ApiParam(value = "page", name = "页码", required = true) @RequestParam("page") Integer page,
                   @ApiParam(value = "size", name = "每页数据", required = true) @RequestParam("size") Integer size) {
@@ -71,7 +71,7 @@ public class ColumnController extends BaseController {
         if (StringUtils.isEmpty(one)) {
             throw new MyException().code(MyHttpCode.HTTP_NOT_FOUND).message("专栏不存在");
         }
-        Page<Topic> topicPage = topicService.page(new Page<>(page, size), new LambdaQueryWrapper<Topic>().eq(Topic::getSectionId, one.getId()));
-        return R.ok().data(topicPage);
+        Page<TopicVO> topics = topicService.selectByColumn(new Page<>(page, size), one);
+        return R.ok().data(topics);
     }
 }
