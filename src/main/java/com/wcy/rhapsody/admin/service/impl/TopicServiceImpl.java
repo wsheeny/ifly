@@ -155,7 +155,8 @@ public class TopicServiceImpl extends ServiceImpl<TopicMapper, Topic> implements
         this.baseMapper.insert(topic);
 
         // 用户积分增加
-        userMapper.updateById(principal.setScore(principal.getScore() + 1));
+        int newScore = principal.getScore() + 1;
+        userMapper.updateById(principal.setScore(newScore));
 
         // 标签
         if (!StringUtils.isEmpty(dto.getTags())) {

@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wcy.rhapsody.admin.config.redis.RedisService;
 import com.wcy.rhapsody.admin.controller.BaseController;
-import com.wcy.rhapsody.admin.core.R;
+import com.wcy.rhapsody.admin.common.R;
 import com.wcy.rhapsody.admin.model.dto.ActiveDTO;
 import com.wcy.rhapsody.admin.model.entity.Topic;
 import com.wcy.rhapsody.admin.model.entity.User;

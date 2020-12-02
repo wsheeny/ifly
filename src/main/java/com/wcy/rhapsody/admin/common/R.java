@@ -1,4 +1,4 @@
-package com.wcy.rhapsody.admin.core;
+package com.wcy.rhapsody.admin.common;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

@@ -1,7 +1,7 @@
 package com.wcy.rhapsody.admin.websocket;
 
 import com.alibaba.fastjson.JSON;
-import com.wcy.rhapsody.admin.core.R;
+import com.wcy.rhapsody.admin.common.R;
 
 import javax.websocket.Encoder;
 import javax.websocket.EndpointConfig;

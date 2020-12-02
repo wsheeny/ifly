@@ -1,4 +1,4 @@
-package com.wcy.rhapsody.admin.core;
+package com.wcy.rhapsody.admin.common;
 
 /**
  * HttpStatus 状态码

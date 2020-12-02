@@ -1,6 +1,6 @@
 package com.wcy.rhapsody.admin.controller.api;
 
-import com.wcy.rhapsody.admin.core.R;
+import com.wcy.rhapsody.admin.common.R;
 import com.wcy.rhapsody.admin.model.entity.Ad;
 import com.wcy.rhapsody.admin.service.AdService;
 import io.swagger.annotations.Api;

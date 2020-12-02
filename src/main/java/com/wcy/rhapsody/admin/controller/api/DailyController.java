@@ -1,7 +1,7 @@
 package com.wcy.rhapsody.admin.controller.api;
 
 import com.wcy.rhapsody.admin.controller.BaseController;
-import com.wcy.rhapsody.admin.core.R;
+import com.wcy.rhapsody.admin.common.R;
 import com.wcy.rhapsody.admin.model.entity.Daily;
 import com.wcy.rhapsody.admin.service.DailyService;
 import io.swagger.annotations.Api;

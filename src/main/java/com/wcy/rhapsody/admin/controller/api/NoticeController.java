@@ -2,7 +2,7 @@ package com.wcy.rhapsody.admin.controller.api;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.wcy.rhapsody.admin.controller.BaseController;
-import com.wcy.rhapsody.admin.core.R;
+import com.wcy.rhapsody.admin.common.R;
 import com.wcy.rhapsody.admin.model.entity.Notice;
 import com.wcy.rhapsody.admin.service.NoticeService;
 import io.swagger.annotations.Api;

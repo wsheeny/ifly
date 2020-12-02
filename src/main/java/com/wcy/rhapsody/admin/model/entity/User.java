@@ -2,8 +2,10 @@ package com.wcy.rhapsody.admin.model.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
@@ -17,6 +19,8 @@ import java.util.Date;
 @Data
 @Builder
 @TableName("user")
+@NoArgsConstructor
+@AllArgsConstructor
 @Accessors(chain = true)
 public class User implements Serializable {
     private static final long serialVersionUID = -5051120337175047163L;
@@ -41,7 +45,6 @@ public class User implements Serializable {
     @TableField("email")
     private String email;
 
-    @Builder.Default
     @TableField("mobile")
     private String mobile;
 

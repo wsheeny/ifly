@@ -3,7 +3,7 @@ package com.wcy.rhapsody.admin.controller.api;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wcy.rhapsody.admin.controller.BaseController;
-import com.wcy.rhapsody.admin.core.R;
+import com.wcy.rhapsody.admin.common.R;
 import com.wcy.rhapsody.admin.model.entity.Tag;
 import com.wcy.rhapsody.admin.model.entity.Topic;
 import com.wcy.rhapsody.admin.service.TagService;

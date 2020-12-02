@@ -3,8 +3,8 @@ package com.wcy.rhapsody.admin.controller.api;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.wcy.rhapsody.admin.annotation.RequireLogin;
 import com.wcy.rhapsody.admin.controller.BaseController;
-import com.wcy.rhapsody.admin.core.MyHttpCode;
-import com.wcy.rhapsody.admin.core.R;
+import com.wcy.rhapsody.admin.common.MyHttpCode;
+import com.wcy.rhapsody.admin.common.R;
 import com.wcy.rhapsody.admin.exception.MyException;
 import com.wcy.rhapsody.admin.model.entity.Follow;
 import com.wcy.rhapsody.admin.model.entity.User;
@@ -87,7 +87,7 @@ public class FollowController extends BaseController {
                         .eq(Follow::getParentId, parentId)
                         .eq(Follow::getFollowerId, loginUser.getId()));
         if (StringUtils.isEmpty(one)) {
-            throw new MyException().code(MyHttpCode.UN_FOLLOW).message("未关注，无法取关");
+            throw new MyException().code(MyHttpCode.UN_FOLLOW).message("当前用户未关注，无需取关");
         }
 
         followService.remove(new LambdaQueryWrapper<Follow>().eq(Follow::getParentId, parentId)
@@ -108,7 +108,8 @@ public class FollowController extends BaseController {
         User loginUser = getLoginUser(request);
         if (!StringUtils.isEmpty(loginUser)) {
             Follow one = followService.getOne(new LambdaQueryWrapper<Follow>()
-                    .eq(Follow::getParentId, topicUserId));
+                    .eq(Follow::getParentId, topicUserId)
+                    .eq(Follow::getFollowerId, loginUser.getId()));
             if (!StringUtils.isEmpty(one)) {
                 map.put("hasFollow", true);
             }

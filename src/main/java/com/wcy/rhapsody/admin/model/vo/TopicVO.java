@@ -1,8 +1,11 @@
 package com.wcy.rhapsody.admin.model.vo;
 
 import com.wcy.rhapsody.admin.model.entity.Tag;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -12,7 +15,10 @@ import java.util.List;
  * @author Yeeep 2020/11/7
  */
 @Data
-public class TopicVO {
+@NoArgsConstructor
+@AllArgsConstructor
+public class TopicVO implements Serializable {
+    private static final long serialVersionUID = -261082150965211545L;
 
     /**
      * 文章ID

@@ -3,8 +3,8 @@ package com.wcy.rhapsody.admin.controller.api;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.vdurmont.emoji.EmojiParser;
 import com.wcy.rhapsody.admin.annotation.RequireLogin;
+import com.wcy.rhapsody.admin.common.R;
 import com.wcy.rhapsody.admin.controller.BaseController;
-import com.wcy.rhapsody.admin.core.R;
 import com.wcy.rhapsody.admin.model.dto.CreateTopicDTO;
 import com.wcy.rhapsody.admin.model.entity.Topic;
 import com.wcy.rhapsody.admin.model.entity.User;
@@ -58,7 +58,6 @@ public class TopicController extends BaseController {
      * @return
      */
     @RequireLogin
-    @ApiImplicitParam(value = "id", name = "话题ID", required = true, paramType = "path")
     @ApiOperation(value = "删除", notes = "")
     @DeleteMapping("/delete/{id}")
     public R delete(@PathVariable("id") String id, HttpServletRequest request) {

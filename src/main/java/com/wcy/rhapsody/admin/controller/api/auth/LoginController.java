@@ -4,8 +4,8 @@ import cn.hutool.crypto.digest.BCrypt;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.wcy.rhapsody.admin.config.jwt.JwtTokenUtil;
 import com.wcy.rhapsody.admin.controller.BaseController;
-import com.wcy.rhapsody.admin.core.MyHttpCode;
-import com.wcy.rhapsody.admin.core.R;
+import com.wcy.rhapsody.admin.common.MyHttpCode;
+import com.wcy.rhapsody.admin.common.R;
 import com.wcy.rhapsody.admin.exception.TokenException;
 import com.wcy.rhapsody.admin.model.dto.LoginDTO;
 import com.wcy.rhapsody.admin.model.entity.User;
@@ -16,10 +16,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -35,6 +32,7 @@ import java.util.Map;
  */
 @Api(tags = "登录控制器")
 @RestController
+@RequestMapping("/auth")
 public class LoginController extends BaseController {
 
     @Resource

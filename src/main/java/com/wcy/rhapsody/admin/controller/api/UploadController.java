@@ -1,7 +1,7 @@
 package com.wcy.rhapsody.admin.controller.api;
 
 import com.wcy.rhapsody.admin.controller.BaseController;
-import com.wcy.rhapsody.admin.core.R;
+import com.wcy.rhapsody.admin.common.R;
 import com.wcy.rhapsody.admin.exception.MyException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

@@ -1,6 +1,6 @@
 package com.wcy.rhapsody.admin.exception;
 
-import com.wcy.rhapsody.admin.core.MyHttpCode;
+import com.wcy.rhapsody.admin.common.MyHttpCode;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

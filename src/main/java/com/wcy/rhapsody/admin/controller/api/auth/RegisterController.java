@@ -1,8 +1,8 @@
 package com.wcy.rhapsody.admin.controller.api.auth;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.wcy.rhapsody.admin.common.R;
 import com.wcy.rhapsody.admin.controller.BaseController;
-import com.wcy.rhapsody.admin.core.R;
 import com.wcy.rhapsody.admin.model.dto.RegisterDTO;
 import com.wcy.rhapsody.admin.model.entity.User;
 import com.wcy.rhapsody.admin.service.UserService;
@@ -10,6 +10,7 @@ import io.swagger.annotations.Api;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -20,8 +21,9 @@ import javax.validation.Valid;
  *
  * @author Yeeep 2020/11/12
  */
-@Api(tags = "用户注册控制器")
+@Api(tags = "用户注册控制器", value = "RegisterController")
 @RestController
+@RequestMapping("/auth")
 public class RegisterController extends BaseController {
 
     @Resource

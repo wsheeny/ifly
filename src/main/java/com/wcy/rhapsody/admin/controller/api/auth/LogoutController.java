@@ -1,10 +1,11 @@
 package com.wcy.rhapsody.admin.controller.api.auth;
 
 import com.wcy.rhapsody.admin.controller.BaseController;
-import com.wcy.rhapsody.admin.core.R;
+import com.wcy.rhapsody.admin.common.R;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Api(tags = "注销控制器")
 @RestController
+@RequestMapping("/auth")
 public class LogoutController extends BaseController {
 
     /**
