@@ -26,7 +26,7 @@
 - [x] FastJson
 - [x] Hutool
 - [x] Lombok
-- [ ] ElasticSearch
+- [x] ElasticSearch
 
 ……
 
@@ -49,20 +49,28 @@ git clone https://github.com/1020317774/rhapsody-admin.git
 
 ![首页面](./preview/index.png)
 
-![活动](./preview/event.png)
+![活动](./preview/activity.png)
 
 ![摸鱼](./preview/moyu.png)
 
-![详情页](./preview/detail.png)
+![详情页](./preview/topic-detail.png)
 
-![我的日常](./preview/daily.png)
-
-![分类](./preview/category.png)
-
-![排行榜](./preview/top.png)
+![评论](./preview/footer.png)
 
 ![专栏](./preview/column.png)
 
+![专栏详情](./preview/column-detail.png)
+
+![登录](./preview/login.png)
+
+![注册](./preview/register.png)
+
+![夜间](./preview/dark.png)
+
+![swagger](./preview/swagger.png)
+
+
+
 ## 版权
 
-Code copyright 2020 Q1020317774. Code released under [the MIT license](https://github.com/jgthms/bulma/blob/master/LICENSE).
+Code copyright 2020 QQ:1020317774. Code released under [the MIT license](https://github.com/jgthms/bulma/blob/master/LICENSE).
