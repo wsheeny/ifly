@@ -3,6 +3,7 @@ package com.wcy.rhapsody.admin.service.impl;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.URLUtil;
 import cn.hutool.crypto.digest.BCrypt;
+import cn.hutool.extra.mail.MailAccount;
 import cn.hutool.extra.mail.MailUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -71,11 +72,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         // 30分钟
         redisService.set("activeCode[" + dto.getName() + "]", activeCode, 30 * 60);
 
+        MailAccount account = new MailAccount();
+        account.setAuth(true);
+        account.setFrom("2106328644@qq.com");
+        account.setPass("hydfukkriifkeifj");
+
+
         // 发送邮件
         String activeUrl = URLUtil.normalize(domain + "?user=" + dto.getName() + "&code=" + activeCode);
         String content = "请在30分钟内激活您的账号，如非本人操作，请忽略 </br > " +
                 "<a href=\"" + activeUrl + "\" target =\"_blank\" '>点击激活账号</a>";
-        MailUtil.send(dto.getEmail(), "【滚雪球】账号激活", content, true);
+        MailUtil.send(account, dto.getEmail(), "【滚雪球】账号激活", content, true);
     }
 
 
