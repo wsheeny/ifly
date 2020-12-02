@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.wcy.rhapsody.admin.mapper.TopicMapper">
-    <select id="selectListAndPage" resultType="com.wcy.rhapsody.admin.model.vo.TopicVO">
+<mapper namespace="com.wyc.elegant.admin.mapper.TopicMapper">
+    <select id="selectListAndPage" resultType="com.wyc.elegant.admin.model.vo.TopicVO">
         SELECT
         t.id,t.title,t.user_id,t.comments,
         t.view,t.collects,t.top,t.essence,
@@ -32,7 +32,7 @@
             order by t.view desc, t.create_time desc
         </if>
     </select>
-    <select id="selectTopicsByCategory" resultType="com.wcy.rhapsody.admin.model.vo.TopicVO">
+    <select id="selectTopicsByCategory" resultType="com.wyc.elegant.admin.model.vo.TopicVO">
         SELECT t.id,
                t.title,
                t.user_id,
@@ -52,7 +52,7 @@
         WHERE t.category_id = #{id}
         order by t.view desc, t.create_time desc
     </select>
-    <select id="selectByColumn" resultType="com.wcy.rhapsody.admin.model.vo.TopicVO">
+    <select id="selectByColumn" resultType="com.wyc.elegant.admin.model.vo.TopicVO">
         SELECT t.id,
                t.title,
                t.user_id,

@@ -5,64 +5,50 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.2.9.RELEASE</version>
+        <version>2.4.0</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.wcy</groupId>
-    <artifactId>rhapsody</artifactId>
+    <groupId>com.wyc</groupId>
+    <artifactId>elegant-admin</artifactId>
     <version>1.0.1</version>
-    <name>rhapsody-admin</name>
-    <description>rhapsody-为极客而生！</description>
+    <name>elegant-admin</name>
+    <description>一款优雅简洁的智慧社区系统</description>
 
     <properties>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <mybatis-plus.version>3.4.1</mybatis-plus.version>
-        <shiro-spring.version>1.4.0</shiro-spring.version>
-        <jwt.version>0.9.1</jwt.version>
-        <JustAuth.version>1.15.7</JustAuth.version>
-        <elasticsearch.version>6.5.3</elasticsearch.version>
-        <javax.mail.version>1.4.7</javax.mail.version>
-        <commonmark.version>0.12.1</commonmark.version>
-        <hutool.version>5.4.4</hutool.version>
-        <fastjson.version>1.2.75</fastjson.version>
-        <jsoup.version>1.11.3</jsoup.version>
-        <swagger.version>2.9.2</swagger.version>
-        <emoji-java.version>5.1.1</emoji-java.version>
+        <!--指定elastic版本，防止冲突-->
+        <elasticsearch.version>7.10.0</elasticsearch.version>
     </properties>
 
     <dependencies>
+        <!--web-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-        <!--AOP-->
+
+        <!--SpringSecurity依赖配置-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-aop</artifactId>
+            <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
+
+        <!--jjwt-->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>0.9.1</version>
+        </dependency>
+
+        <!--elasticsearch-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
         </dependency>
-        <!--mysql-->
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-        </dependency>
-        <!--mybatis-plus-->
-        <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-boot-starter</artifactId>
-            <version>${mybatis-plus.version}</version>
-        </dependency>
-        <!--flyway数据库版本管理-->
-        <dependency>
-            <groupId>org.flywaydb</groupId>
-            <artifactId>flyway-core</artifactId>
-        </dependency>
+
         <!--redis-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -74,102 +60,100 @@
             <artifactId>commons-pool2</artifactId>
         </dependency>
 
-        <!--Shiro-->
-        <dependency>
-            <groupId>org.apache.shiro</groupId>
-            <artifactId>shiro-spring</artifactId>
-            <version>${shiro-spring.version}</version>
-        </dependency>
-
-        <!--JWT(Json Web Token)登录支持-->
-        <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt</artifactId>
-            <version>${jwt.version}</version>
-        </dependency>
-
-        <!--swagger-->
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-            <version>${swagger.version}</version>
-        </dependency>
-        <!--swagger ui-->
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger-ui</artifactId>
-            <version>${swagger.version}</version>
-        </dependency>
-
-        <!--mail-->
-        <dependency>
-            <groupId>javax.mail</groupId>
-            <artifactId>mail</artifactId>
-            <version>${javax.mail.version}</version>
-        </dependency>
-
-        <!--emoji-java-->
-        <dependency>
-            <groupId>com.vdurmont</groupId>
-            <artifactId>emoji-java</artifactId>
-            <version>${emoji-java.version}</version>
-        </dependency>
-
-        <!--JustAuth三方登录-->
-        <dependency>
-            <groupId>me.zhyd.oauth</groupId>
-            <artifactId>JustAuth</artifactId>
-            <version>${JustAuth.version}</version>
-        </dependency>
-
         <!--websocket-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-websocket</artifactId>
         </dependency>
 
+        <!--mysql-->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!--mybatis-plus-->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+            <version>3.4.1</version>
+        </dependency>
+
+        <!--flyway-->
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+        </dependency>
+
+        <!--swagger-->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>2.9.2</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>2.9.2</version>
+        </dependency>
+
+        <!--mail-->
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+            <version>1.4.7</version>
+        </dependency>
+
+        <!--emoji-java-->
+        <dependency>
+            <groupId>com.vdurmont</groupId>
+            <artifactId>emoji-java</artifactId>
+            <version>5.1.1</version>
+        </dependency>
+
+        <!--JustAuth三方登录-->
+        <dependency>
+            <groupId>me.zhyd.oauth</groupId>
+            <artifactId>JustAuth</artifactId>
+            <version>1.15.7</version>
+        </dependency>
+
         <!--fastjson-->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
-            <version>${fastjson.version}</version>
-        </dependency>
-        <!--hutool-->
-        <dependency>
-            <groupId>cn.hutool</groupId>
-            <artifactId>hutool-all</artifactId>
-            <version>${hutool.version}</version>
+            <version>1.2.75</version>
         </dependency>
 
-        <!--jsoup-->
-        <dependency>
-            <groupId>org.jsoup</groupId>
-            <artifactId>jsoup</artifactId>
-            <version>1.11.3</version>
-        </dependency>
-
-        <!--validator-->
-        <dependency>
-            <groupId>org.hibernate.validator</groupId>
-            <artifactId>hibernate-validator</artifactId>
-        </dependency>
-
-        <!--commons-lang3-->
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-        </dependency>
-
+        <!--yaml-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
         </dependency>
+
+        <!--lombok-->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
+
+        <!--bean validator-->
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+        </dependency>
+
+        <!--HuTool-->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>5.4.4</version>
+        </dependency>
+
+        <!--测试-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -191,36 +175,5 @@
             </plugin>
         </plugins>
     </build>
-
-    <!--<repositories>-->
-    <!--    <repository>-->
-    <!--        <id>spring-milestones</id>-->
-    <!--        <name>Spring Milestones</name>-->
-    <!--        <url>https://repo.spring.io/milestone</url>-->
-    <!--    </repository>-->
-    <!--    <repository>-->
-    <!--        <id>spring-snapshots</id>-->
-    <!--        <name>Spring Snapshots</name>-->
-    <!--        <url>https://repo.spring.io/snapshot</url>-->
-    <!--        <snapshots>-->
-    <!--            <enabled>true</enabled>-->
-    <!--        </snapshots>-->
-    <!--    </repository>-->
-    <!--</repositories>-->
-    <!--<pluginRepositories>-->
-    <!--    <pluginRepository>-->
-    <!--        <id>spring-milestones</id>-->
-    <!--        <name>Spring Milestones</name>-->
-    <!--        <url>https://repo.spring.io/milestone</url>-->
-    <!--    </pluginRepository>-->
-    <!--    <pluginRepository>-->
-    <!--        <id>spring-snapshots</id>-->
-    <!--        <name>Spring Snapshots</name>-->
-    <!--        <url>https://repo.spring.io/snapshot</url>-->
-    <!--        <snapshots>-->
-    <!--            <enabled>true</enabled>-->
-    <!--        </snapshots>-->
-    <!--    </pluginRepository>-->
-    <!--</pluginRepositories>-->
 
 </project>

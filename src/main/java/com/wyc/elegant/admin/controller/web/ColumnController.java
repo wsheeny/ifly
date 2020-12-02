@@ -1,0 +1,77 @@
+package com.wyc.elegant.admin.controller.web;
+
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.wyc.elegant.admin.common.MyHttpCode;
+import com.wyc.elegant.admin.common.R;
+import com.wyc.elegant.admin.controller.BaseController;
+import com.wyc.elegant.admin.exception.MyException;
+import com.wyc.elegant.admin.model.entity.Column;
+import com.wyc.elegant.admin.model.vo.ColumnVO;
+import com.wyc.elegant.admin.model.vo.TopicVO;
+import com.wyc.elegant.admin.service.ColumnService;
+import com.wyc.elegant.admin.service.TopicService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.*;
+
+/**
+ * 用户话题专栏
+ *
+ * @author Yeeep
+ * @date 2020/11/28
+ */
+@Api(tags = "专栏")
+@RestController
+@RequestMapping("/column")
+public class ColumnController extends BaseController {
+
+    @Autowired
+    private ColumnService columnService;
+
+    @Autowired
+    private TopicService topicService;
+
+    /**
+     * 专栏列表
+     *
+     * @param page
+     * @param size
+     * @return
+     */
+    @ApiOperation(value = "专栏列表", notes = "")
+    @GetMapping("/all")
+    public R list(/*@RequestBody Column column,*/
+            @ApiParam(value = "page", name = "页码", required = true) @RequestParam("page") Integer page,
+            @ApiParam(value = "size", name = "每页数据", required = true) @RequestParam("size") Integer size) {
+        Page<ColumnVO> columnVO = columnService.getList(new Page<>(page, size));
+        return R.ok().data(columnVO);
+    }
+
+
+    /**
+     * 专栏下的话题
+     *
+     * @param title
+     * @param page
+     * @param size
+     * @return
+     */
+    @ApiOperation(value = "专栏话题列表", notes = "")
+    @ApiImplicitParam(value = "title", name = "专栏标题", paramType = "path", required = true)
+    @GetMapping("/{title}/all")
+    public R list(@PathVariable("title") String title,
+                  @ApiParam(value = "page", name = "页码", required = true) @RequestParam("page") Integer page,
+                  @ApiParam(value = "size", name = "每页数据", required = true) @RequestParam("size") Integer size) {
+        Column one = columnService.getOne(new LambdaQueryWrapper<Column>().eq(Column::getTitle, title));
+        if (StringUtils.isEmpty(one)) {
+            throw new MyException().code(MyHttpCode.HTTP_NOT_FOUND).message("专栏不存在");
+        }
+        Page<TopicVO> topics = topicService.selectByColumn(new Page<>(page, size), one);
+        return R.ok().data(topics);
+    }
+}
