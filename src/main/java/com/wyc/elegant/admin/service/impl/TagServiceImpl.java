@@ -4,8 +4,8 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wyc.elegant.admin.mapper.TagMapper;
-import com.wyc.elegant.admin.model.entity.Tag;
-import com.wyc.elegant.admin.model.entity.Topic;
+import com.wyc.elegant.admin.model.entity.TbTag;
+import com.wyc.elegant.admin.model.entity.TbTopic;
 import com.wyc.elegant.admin.service.TagService;
 import com.wyc.elegant.admin.service.TopicService;
 import com.wyc.elegant.admin.service.TopicTagService;
@@ -19,10 +19,10 @@ import java.util.Set;
 /**
  * Tag 实现类
  *
- * @author Yeeep 2020/11/7
+ * @author Knox 2020/11/7
  */
 @Service
-public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagService {
+public class TagServiceImpl extends ServiceImpl<TagMapper, TbTag> implements TagService {
 
     @Autowired
     private TopicTagService topicTagService;
@@ -31,12 +31,12 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
     private TopicService topicService;
 
     @Override
-    public List<Tag> insertTags(List<String> tagNames) {
-        List<Tag> tagList = new ArrayList<>();
+    public List<TbTag> insertTags(List<String> tagNames) {
+        List<TbTag> tagList = new ArrayList<>();
         for (String tagName : tagNames) {
-            Tag tag = this.baseMapper.selectOne(new LambdaQueryWrapper<Tag>().eq(Tag::getName, tagName));
+            TbTag tag = this.baseMapper.selectOne(new LambdaQueryWrapper<TbTag>().eq(TbTag::getName, tagName));
             if (tag == null) {
-                tag = Tag.builder().name(tagName).build();
+                tag = TbTag.builder().name(tagName).build();
                 this.baseMapper.insert(tag);
             } else {
                 tag.setTopicCount(tag.getTopicCount() + 1);
@@ -48,12 +48,12 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
     }
 
     @Override
-    public Page<Topic> selectTopicsByTagId(Page<Topic> topicPage, String id) {
+    public Page<TbTopic> selectTopicsByTagId(Page<TbTopic> topicPage, String id) {
 
         // 获取关联的话题ID
         Set<String> ids = topicTagService.selectTopicIdsByTagId(id);
-        LambdaQueryWrapper<Topic> wrapper = new LambdaQueryWrapper<>();
-        wrapper.in(Topic::getId, ids);
+        LambdaQueryWrapper<TbTopic> wrapper = new LambdaQueryWrapper<>();
+        wrapper.in(TbTopic::getId, ids);
 
         return topicService.page(topicPage, wrapper);
     }

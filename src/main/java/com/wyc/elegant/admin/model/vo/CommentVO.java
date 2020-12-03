@@ -7,7 +7,7 @@ import java.util.Date;
 /**
  * 评论VO
  *
- * @author Yeeep 2020/11/13
+ * @author Knox 2020/11/13
  */
 @Data
 public class CommentVO {

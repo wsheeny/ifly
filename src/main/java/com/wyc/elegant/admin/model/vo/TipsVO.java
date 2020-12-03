@@ -5,7 +5,7 @@ import lombok.Data;
 /**
  * TipsVO
  *
- * @author Yeeep 2020/11/7
+ * @author Knox 2020/11/7
  */
 @Data
 public class TipsVO {

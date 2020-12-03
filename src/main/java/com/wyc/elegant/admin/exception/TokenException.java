@@ -7,7 +7,7 @@ import lombok.EqualsAndHashCode;
 /**
  * 未登录异常
  *
- * @author Yeeep
+ * @author Knox
  * @date 2020/11/27
  */
 @Data

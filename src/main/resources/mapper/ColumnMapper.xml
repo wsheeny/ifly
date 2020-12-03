@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.wyc.elegant.admin.mapper.ColumnMapper">
-    <select id="selectPageVo" resultType="com.wyc.elegant.admin.model.vo.ColumnVO">
+    <select id="selectPageVo" resultType="com.wyc.elegant.admin.model.vo.TbColumnVO">
         SELECT s.*,
                COUNT(t.id) AS topics
-        FROM section s
-                 LEFT JOIN topic t ON s.id = t.section_id
+        FROM tb_section s
+                 LEFT JOIN tb_topic t ON s.id = t.section_id
         GROUP BY s.title
     </select>
 </mapper>

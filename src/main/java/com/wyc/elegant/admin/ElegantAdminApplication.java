@@ -4,18 +4,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.web.socket.config.annotation.EnableWebSocket;
 
 /**
  * 系统启动器
  *
- * @author Yeeep
+ * @author Knox
  */
 @Slf4j
 @EnableCaching
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "com.wyc")
 public class ElegantAdminApplication {
 
     public static void main(String[] args) {

@@ -14,7 +14,7 @@ import java.io.Serializable;
 /**
  * 系统配置
  *
- * @author Yeeep
+ * @author Knox
  */
 @Data
 @NoArgsConstructor

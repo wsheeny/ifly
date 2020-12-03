@@ -9,7 +9,7 @@ import java.io.StringWriter;
  * <p>
  * 将异常信息写入文件中
  *
- * @author Yeeep
+ * @author Knox
  */
 public class ExceptionUtil {
     public static String getMessage(Exception e) {

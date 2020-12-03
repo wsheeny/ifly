@@ -1,6 +1,6 @@
 package com.wyc.elegant.admin.model.vo;
 
-import com.wyc.elegant.admin.model.entity.Tag;
+import com.wyc.elegant.admin.model.entity.TbTag;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * 话题视图层
  *
- * @author Yeeep 2020/11/7
+ * @author Knox 2020/11/7
  */
 @Data
 @NoArgsConstructor
@@ -63,7 +63,7 @@ public class TopicVO implements Serializable {
     /**
      * 话题关联标签
      */
-    private List<Tag> tags;
+    private List<TbTag> tags;
     /**
      * 浏览量
      */

@@ -3,7 +3,7 @@ package com.wyc.elegant.admin.utils;
 import cn.hutool.core.date.DateUtil;
 import com.wyc.elegant.admin.common.MyHttpCode;
 import com.wyc.elegant.admin.exception.MyException;
-import com.wyc.elegant.admin.model.entity.User;
+import com.wyc.elegant.admin.model.entity.TbUser;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -18,7 +18,7 @@ import java.util.Map;
 /**
  * JwtToken生成的工具类
  *
- * @author Yeeep 2020/11/19
+ * @author Knox 2020/11/19
  */
 @Component
 public class TokenUtil {
@@ -32,7 +32,7 @@ public class TokenUtil {
      *
      * @param userDetails 登录用户信息
      */
-    public String generateToken(User userDetails) {
+    public String generateToken(TbUser userDetails) {
 
         Map<String, Object> header = new HashMap<>(16);
         header.put("alg", "HS256");
@@ -75,7 +75,7 @@ public class TokenUtil {
      * @param token  客户端传入的token
      * @param dbUser 从数据库中查询出来的用户信息
      */
-    public boolean validateToken(String token, User dbUser) {
+    public boolean validateToken(String token, TbUser dbUser) {
         Claims claims = parseToken(token);
         // 用户名
         String username = claims.getSubject();
@@ -94,7 +94,7 @@ public class TokenUtil {
     /**
      * 判断token是否可以被刷新
      */
-    public String refreshToken(String token, User dbUser) {
+    public String refreshToken(String token, TbUser dbUser) {
         // 获取过期时间
         Date expiration = parseToken(token).getExpiration();
         if (expiration.before(new Date())) {

@@ -7,8 +7,8 @@
         t.view,t.collects,t.top,t.essence,
         t.create_time ,t.modify_time ,
         u.username,u.alias, u.avatar
-        FROM topic t
-        LEFT JOIN user u
+        FROM tb_topic t
+        LEFT JOIN tb_user u
         ON t.user_id = u.id
         <where>
             <if test="tab == 'essence'">
@@ -32,26 +32,7 @@
             order by t.view desc, t.create_time desc
         </if>
     </select>
-    <select id="selectTopicsByCategory" resultType="com.wyc.elegant.admin.model.vo.TopicVO">
-        SELECT t.id,
-               t.title,
-               t.user_id,
-               t.comments,
-               t.view,
-               t.collects,
-               t.top,
-               t.essence,
-               t.create_time,
-               t.modify_time,
-               u.username,
-               u.alias,
-               u.avatar
-        FROM topic t
-                 LEFT JOIN user u
-                           ON t.user_id = u.id
-        WHERE t.category_id = #{id}
-        order by t.view desc, t.create_time desc
-    </select>
+
     <select id="selectByColumn" resultType="com.wyc.elegant.admin.model.vo.TopicVO">
         SELECT t.id,
                t.title,
@@ -66,10 +47,17 @@
                u.username,
                u.alias,
                u.avatar
-        FROM topic t
-                 LEFT JOIN user u
+        FROM tb_topic t
+                 LEFT JOIN tb_user u
                            ON t.user_id = u.id
         WHERE t.section_id = #{column.id}
         order by t.view desc, t.create_time desc
+    </select>
+    <select id="selectRecommend" resultType="com.wyc.elegant.admin.model.entity.TbTopic">
+        select *
+        from tb_topic t
+        where t.id != #{id}
+        order by rand(), t.view
+        limit 10
     </select>
 </mapper>

@@ -5,7 +5,7 @@ import com.wyc.elegant.admin.model.entity.TbSystemConfig;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
- * @author Yeeep 2020/11/26
+ * @author Knox 2020/11/26
  */
 @Mapper
 public interface SystemConfigMapper extends BaseMapper<TbSystemConfig> {

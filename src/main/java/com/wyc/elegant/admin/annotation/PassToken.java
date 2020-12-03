@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 /**
  * 跳过验证
  *
- * @author Yeeep 2020/11/25
+ * @author Knox 2020/11/25
  */
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)

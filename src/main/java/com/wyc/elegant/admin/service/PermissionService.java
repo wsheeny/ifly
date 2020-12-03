@@ -1,16 +1,16 @@
 package com.wyc.elegant.admin.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.wyc.elegant.admin.model.entity.Permission;
+import com.wyc.elegant.admin.model.entity.TbPermission;
 
 import java.util.List;
 
 /**
  * 权限接口
  *
- * @author Yeeep 2020/11/7
+ * @author Knox 2020/11/7
  */
-public interface PermissionService extends IService<Permission> {
+public interface PermissionService extends IService<TbPermission> {
 
     /**
      * 根据角色ID查询用户权限
@@ -18,5 +18,5 @@ public interface PermissionService extends IService<Permission> {
      * @param roleId
      * @return
      */
-    List<Permission> selectPermissionsByRoleId(Integer roleId);
+    List<TbPermission> selectPermissionsByRoleId(Integer roleId);
 }

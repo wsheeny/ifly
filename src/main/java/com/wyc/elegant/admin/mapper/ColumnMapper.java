@@ -3,16 +3,16 @@ package com.wyc.elegant.admin.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.wyc.elegant.admin.model.entity.Column;
-import com.wyc.elegant.admin.model.vo.ColumnVO;
+import com.wyc.elegant.admin.model.entity.TbColumn;
+import com.wyc.elegant.admin.model.vo.TbColumnVO;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
- * @author Yeeep
+ * @author Knox
  * @date 2020/11/28
  */
 @Mapper
-public interface ColumnMapper extends BaseMapper<Column> {
+public interface ColumnMapper extends BaseMapper<TbColumn> {
 
     /**
      * 查询专栏列表
@@ -20,5 +20,5 @@ public interface ColumnMapper extends BaseMapper<Column> {
      * @param page
      * @return
      */
-    Page<ColumnVO> selectPageVo(IPage<ColumnVO> page);
+    Page<TbColumnVO> selectPageVo(IPage<TbColumnVO> page);
 }

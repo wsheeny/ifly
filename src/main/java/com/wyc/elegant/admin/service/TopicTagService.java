@@ -1,8 +1,8 @@
 package com.wyc.elegant.admin.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.wyc.elegant.admin.model.entity.Tag;
-import com.wyc.elegant.admin.model.entity.TopicTag;
+import com.wyc.elegant.admin.model.entity.TbTag;
+import com.wyc.elegant.admin.model.entity.TbTopicTag;
 
 import java.util.List;
 import java.util.Set;
@@ -10,9 +10,9 @@ import java.util.Set;
 /**
  * Topic Tag 接口
  *
- * @author Yeeep 2020/11/7
+ * @author Knox 2020/11/7
  */
-public interface TopicTagService extends IService<TopicTag> {
+public interface TopicTagService extends IService<TbTopicTag> {
 
     /**
      * 获取Topic Tag 关联记录
@@ -20,7 +20,7 @@ public interface TopicTagService extends IService<TopicTag> {
      * @param topicId TopicId
      * @return
      */
-    List<TopicTag> selectByTopicId(String topicId);
+    List<TbTopicTag> selectByTopicId(String topicId);
 
     /**
      * 获取标签换脸话题ID集合
@@ -37,5 +37,5 @@ public interface TopicTagService extends IService<TopicTag> {
      * @param tags
      * @return
      */
-    int createTopicTag(String id, List<Tag> tags);
+    int createTopicTag(String id, List<TbTag> tags);
 }

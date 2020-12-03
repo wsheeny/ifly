@@ -2,11 +2,10 @@ package com.wyc.elegant.admin.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.wyc.elegant.admin.model.entity.Column;
-import com.wyc.elegant.admin.model.entity.Topic;
+import com.wyc.elegant.admin.model.entity.TbColumn;
+import com.wyc.elegant.admin.model.entity.TbTopic;
 import com.wyc.elegant.admin.model.vo.TopicVO;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
 import org.mapstruct.Mapper;
 
 import java.util.List;
@@ -14,10 +13,10 @@ import java.util.List;
 /**
  * 话题，议题
  *
- * @author Yeeep 2020/11/7
+ * @author Knox 2020/11/7
  */
 @Mapper
-public interface TopicMapper extends BaseMapper<Topic> {
+public interface TopicMapper extends BaseMapper<TbTopic> {
     /**
      * 分页查询首页话题列表
      * <p>
@@ -35,17 +34,7 @@ public interface TopicMapper extends BaseMapper<Topic> {
      * @param id
      * @return
      */
-    @Select("select * from topic t where t.id != #{id} order by rand(),t.view limit 10")
-    List<Topic> selectRecommend(@Param("id") String id);
-
-    /**
-     * 查询指定类目
-     *
-     * @param id
-     * @param topicVOPage
-     * @return
-     */
-    Page<TopicVO> selectTopicsByCategory(@Param("id") Integer id, @Param("topicVOPage") Page<TopicVO> topicVOPage);
+    List<TbTopic> selectRecommend(@Param("id") String id);
 
     /**
      * 专栏检索
@@ -54,5 +43,5 @@ public interface TopicMapper extends BaseMapper<Topic> {
      * @param column
      * @return
      */
-    Page<TopicVO> selectByColumn(@Param("page") Page<TopicVO> page, @Param("column") Column column);
+    Page<TopicVO> selectByColumn(@Param("page") Page<TopicVO> page, @Param("column") TbColumn column);
 }

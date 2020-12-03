@@ -3,7 +3,7 @@ package com.wyc.elegant.admin.common;
 /**
  * HttpStatus 状态码
  *
- * @author Yeeep
+ * @author Knox
  * @see java.net.HttpURLConnection
  */
 public class MyHttpCode {

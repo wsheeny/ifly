@@ -5,7 +5,7 @@ import lombok.Data;
 /**
  * 用户数据
  *
- * @author Yeeep 2020/11/20
+ * @author Knox 2020/11/20
  */
 @Data
 public class ProfileVO {

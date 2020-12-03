@@ -1,7 +1,7 @@
 package com.wyc.elegant.admin.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.wyc.elegant.admin.model.entity.TopicTag;
+import com.wyc.elegant.admin.model.entity.TbTopicTag;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 
@@ -10,10 +10,10 @@ import java.util.Set;
 /**
  * Topic
  *
- * @author Yeeep 2020/11/7
+ * @author Knox 2020/11/7
  */
 @Service
-public interface TopicTagMapper extends BaseMapper<TopicTag> {
+public interface TopicTagMapper extends BaseMapper<TbTopicTag> {
 
     /**
      * 根据标签获取话题ID集合

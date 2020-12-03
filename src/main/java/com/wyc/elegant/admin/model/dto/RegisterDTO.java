@@ -9,7 +9,7 @@ import javax.validation.constraints.NotEmpty;
 /**
  * 用户注册DTO
  *
- * @author Yeeep 2020/11/12
+ * @author Knox 2020/11/12
  */
 @Data
 public class RegisterDTO {

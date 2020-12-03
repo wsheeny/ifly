@@ -4,8 +4,8 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wyc.elegant.admin.mapper.TopicTagMapper;
-import com.wyc.elegant.admin.model.entity.Tag;
-import com.wyc.elegant.admin.model.entity.TopicTag;
+import com.wyc.elegant.admin.model.entity.TbTag;
+import com.wyc.elegant.admin.model.entity.TbTopicTag;
 import com.wyc.elegant.admin.service.TopicTagService;
 import org.springframework.stereotype.Service;
 
@@ -15,15 +15,15 @@ import java.util.Set;
 /**
  * Topic Tag 实现类
  *
- * @author Yeeep 2020/11/7
+ * @author Knox 2020/11/7
  */
 @Service
-public class TopicTagServiceImpl extends ServiceImpl<TopicTagMapper, TopicTag> implements TopicTagService {
+public class TopicTagServiceImpl extends ServiceImpl<TopicTagMapper, TbTopicTag> implements TopicTagService {
 
     @Override
-    public List<TopicTag> selectByTopicId(String topicId) {
-        QueryWrapper<TopicTag> wrapper = new QueryWrapper<>();
-        wrapper.lambda().eq(TopicTag::getTopicId, topicId);
+    public List<TbTopicTag> selectByTopicId(String topicId) {
+        QueryWrapper<TbTopicTag> wrapper = new QueryWrapper<>();
+        wrapper.lambda().eq(TbTopicTag::getTopicId, topicId);
         return this.baseMapper.selectList(wrapper);
     }
 
@@ -33,13 +33,13 @@ public class TopicTagServiceImpl extends ServiceImpl<TopicTagMapper, TopicTag> i
     }
 
     @Override
-    public int createTopicTag(String id, List<Tag> tags) {
+    public int createTopicTag(String id, List<TbTag> tags) {
         // 先删除topicId对应的所有记录
-        this.baseMapper.delete(new LambdaQueryWrapper<TopicTag>().eq(TopicTag::getTopicId, id));
+        this.baseMapper.delete(new LambdaQueryWrapper<TbTopicTag>().eq(TbTopicTag::getTopicId, id));
 
         // 循环保存对应关联
         tags.forEach(tag -> {
-            TopicTag topicTag = new TopicTag();
+            TbTopicTag topicTag = new TbTopicTag();
             topicTag.setTopicId(id);
             topicTag.setTagId(tag.getId());
             this.baseMapper.insert(topicTag);

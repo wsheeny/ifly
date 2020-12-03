@@ -2,24 +2,24 @@ package com.wyc.elegant.admin.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.wyc.elegant.admin.model.entity.Tag;
-import com.wyc.elegant.admin.model.entity.Topic;
+import com.wyc.elegant.admin.model.entity.TbTag;
+import com.wyc.elegant.admin.model.entity.TbTopic;
 
 import java.util.List;
 
 /**
  * Tag 接口
  *
- * @author Yeeep 2020/11/7
+ * @author Knox 2020/11/7
  */
-public interface TagService extends IService<Tag> {
+public interface TagService extends IService<TbTag> {
     /**
      * 插入标签
      *
      * @param tags
      * @return
      */
-    List<Tag> insertTags(List<String> tags);
+    List<TbTag> insertTags(List<String> tags);
 
     /**
      * 获取标签关联话题
@@ -28,7 +28,7 @@ public interface TagService extends IService<Tag> {
      * @param id
      * @return
      */
-    Page<Topic> selectTopicsByTagId(Page<Topic> topicPage, String id);
+    Page<TbTopic> selectTopicsByTagId(Page<TbTopic> topicPage, String id);
 
 
 }

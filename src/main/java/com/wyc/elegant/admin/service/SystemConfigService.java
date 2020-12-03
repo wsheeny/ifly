@@ -6,7 +6,7 @@ import com.wyc.elegant.admin.model.entity.TbSystemConfig;
 /**
  * 系统配置
  *
- * @author Yeeep 2020/11/26
+ * @author Knox 2020/11/26
  */
 public interface SystemConfigService extends IService<TbSystemConfig> {
 

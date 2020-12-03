@@ -7,7 +7,7 @@ import javax.validation.constraints.NotBlank;
 /**
  * 账号激活DTO
  *
- * @author Yeeep 2020/11/26
+ * @author Knox 2020/11/26
  */
 @Data
 public class ActiveDTO {

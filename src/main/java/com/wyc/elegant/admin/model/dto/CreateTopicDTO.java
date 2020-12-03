@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * 发布话题
  *
- * @author Yeeep 2020/11/14
+ * @author Knox 2020/11/14
  */
 @Data
 public class CreateTopicDTO implements Serializable {
@@ -28,10 +28,5 @@ public class CreateTopicDTO implements Serializable {
      * 标签
      */
     private List<String> tags;
-
-    /**
-     * 分类ID
-     */
-    private String categoryId;
 
 }

@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 /**
  * 邮件实现类
  *
- * @author Yeeep 2020/11/12
+ * @author Knox 2020/11/12
  */
 @Service
 public class EmailServiceImpl {

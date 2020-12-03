@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.wyc.elegant.admin.mapper.TopicTagMapper">
     <select id="getTopicIdsByTagId" resultType="java.lang.String">
-        SELECT topic_id
-        from topic_tag
-        where tag_id = #{id}
+        SELECT t.topic_id
+        from tb_topic_tag t
+        where t.tag_id = #{id}
     </select>
 </mapper>

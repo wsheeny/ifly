@@ -1,19 +1,19 @@
 package com.wyc.elegant.admin.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.wyc.elegant.admin.model.entity.Tip;
+import com.wyc.elegant.admin.model.entity.TbTip;
 
 /**
  * Tip
  *
- * @author Yeeep 2020/11/7
+ * @author Knox 2020/11/7
  */
-public interface TipService extends IService<Tip> {
+public interface TipService extends IService<TbTip> {
     /**
      * 获取每日赠言
      *
      * @param type 类型
-     * @return {@link Tip}
+     * @return {@link TbTip}
      */
-    Tip getRandomTip(Integer type);
+    TbTip getRandomTip(Integer type);
 }

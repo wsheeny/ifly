@@ -14,7 +14,7 @@ import java.util.Objects;
 /**
  * 统一异常处理
  *
- * @author Yeeep
+ * @author Knox
  */
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -23,12 +23,12 @@ public class GlobalExceptionHandler {
     /**
      * 全局异常捕获
      */
-    // @ResponseBody
-    // @ExceptionHandler(Exception.class)
-    // public R error(Exception e) {
-    //     logger.error("全局异常：" + ExceptionUtil.getMessage(e));
-    //     return R.error().message(e.getMessage());
-    // }
+    @ResponseBody
+    @ExceptionHandler(Exception.class)
+    public R error(Exception e) {
+        logger.error("全局异常：" + ExceptionUtil.getMessage(e));
+        return R.error().message(e.getMessage());
+    }
 
     /**
      * 处理入参时，参数校验异常

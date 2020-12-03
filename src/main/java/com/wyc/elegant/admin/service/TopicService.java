@@ -1,13 +1,11 @@
 package com.wyc.elegant.admin.service;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.wyc.elegant.admin.model.dto.CreateTopicDTO;
-import com.wyc.elegant.admin.model.entity.Category;
-import com.wyc.elegant.admin.model.entity.Column;
-import com.wyc.elegant.admin.model.entity.Topic;
-import com.wyc.elegant.admin.model.entity.User;
+import com.wyc.elegant.admin.model.entity.TbColumn;
+import com.wyc.elegant.admin.model.entity.TbTopic;
+import com.wyc.elegant.admin.model.entity.TbUser;
 import com.wyc.elegant.admin.model.vo.TopicVO;
 
 import java.util.List;
@@ -16,9 +14,9 @@ import java.util.Map;
 /**
  * 议题接口
  *
- * @author Yeeep 2020/11/7
+ * @author Knox 2020/11/7
  */
-public interface TopicService extends IService<Topic> {
+public interface TopicService extends IService<TbTopic> {
 
     /**
      * 获取首页话题列表
@@ -45,7 +43,7 @@ public interface TopicService extends IService<Topic> {
      * @param topicId
      * @return
      */
-    List<Topic> selectAuthorOtherTopic(String userId, String topicId);
+    List<TbTopic> selectAuthorOtherTopic(String userId, String topicId);
 
     /**
      * 用户主页：查询用户的话题，10篇
@@ -54,7 +52,7 @@ public interface TopicService extends IService<Topic> {
      * @param page
      * @return
      */
-    Page<Topic> selectTopicsByUserId(String userId, Page<Topic> page);
+    Page<TbTopic> selectTopicsByUserId(String userId, Page<TbTopic> page);
 
     /**
      * 获取随机推荐10篇
@@ -62,7 +60,7 @@ public interface TopicService extends IService<Topic> {
      * @param id
      * @return
      */
-    List<Topic> getRecommend(String id);
+    List<TbTopic> getRecommend(String id);
 
     /**
      * 发布
@@ -71,16 +69,7 @@ public interface TopicService extends IService<Topic> {
      * @param principal
      * @return
      */
-    Topic create(CreateTopicDTO dto, User principal);
-
-    /**
-     * 查询指定类目下的主题
-     *
-     * @param category
-     * @param topicVOPage
-     * @return
-     */
-    IPage<TopicVO> selectTopicsByCategory(Category category, Page<TopicVO> topicVOPage);
+    TbTopic create(CreateTopicDTO dto, TbUser principal);
 
     /**
      * 专栏检索
@@ -89,5 +78,5 @@ public interface TopicService extends IService<Topic> {
      * @param column
      * @return
      */
-    Page<TopicVO> selectByColumn(Page<TopicVO> page, Column column);
+    Page<TopicVO> selectByColumn(Page<TopicVO> page, TbColumn column);
 }
