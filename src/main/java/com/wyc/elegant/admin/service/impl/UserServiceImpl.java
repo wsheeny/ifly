@@ -2,33 +2,21 @@ package com.wyc.elegant.admin.service.impl;
 
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.URLUtil;
+import cn.hutool.crypto.digest.BCrypt;
 import cn.hutool.extra.mail.MailUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.wyc.elegant.admin.config.jwt.JwtTokenUtil;
 import com.wyc.elegant.admin.config.redis.RedisService;
-import com.wyc.elegant.admin.mapper.ColumnMapper;
-import com.wyc.elegant.admin.mapper.PermissionMapper;
-import com.wyc.elegant.admin.mapper.UserMapper;
+import com.wyc.elegant.admin.mapper.*;
 import com.wyc.elegant.admin.model.dto.LoginDTO;
 import com.wyc.elegant.admin.model.dto.RegisterDTO;
 import com.wyc.elegant.admin.model.entity.*;
 import com.wyc.elegant.admin.model.vo.ProfileVO;
-import com.wyc.elegant.admin.service.FollowService;
-import com.wyc.elegant.admin.service.TbUserService;
-import com.wyc.elegant.admin.service.TopicService;
+import com.wyc.elegant.admin.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -45,13 +33,13 @@ import java.util.List;
 @Slf4j
 @Service
 @Transactional(rollbackFor = Exception.class)
-public class TbUserServiceImpl extends ServiceImpl<UserMapper, TbUser> implements TbUserService {
+public class UserServiceImpl extends ServiceImpl<UserMapper, TbUser> implements UserService {
 
     @Autowired
-    private FollowService followService;
+    private FollowMapper followMapper;
 
     @Autowired
-    private TopicService topicService;
+    private TopicMapper topicMapper;
 
     @Autowired
     private RedisService redisService;
@@ -61,16 +49,6 @@ public class TbUserServiceImpl extends ServiceImpl<UserMapper, TbUser> implement
 
     @Value("${config.domain}")
     private String domain;
-
-    @Qualifier("userDetailsServiceBean")
-    @Autowired
-    private UserDetailsService userDetailsService;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    private JwtTokenUtil jwtTokenUtil;
 
     @Resource
     private PermissionMapper permissionMapper;
@@ -87,7 +65,7 @@ public class TbUserServiceImpl extends ServiceImpl<UserMapper, TbUser> implement
         TbUser addUser = TbUser.builder()
                 .username(dto.getName())
                 .alias(dto.getName())
-                .password(passwordEncoder.encode(dto.getPass()))
+                .password(BCrypt.hashpw(dto.getPass(), BCrypt.gensalt()))
                 .email(dto.getEmail())
                 .createTime(new Date())
                 .status(true)
@@ -110,18 +88,19 @@ public class TbUserServiceImpl extends ServiceImpl<UserMapper, TbUser> implement
     @Override
     public String login(LoginDTO dto) {
         String token = null;
-        try {
-            UserDetails userDetails = userDetailsService.loadUserByUsername(dto.getUsername());
-            if (!passwordEncoder.matches(dto.getPassword(), userDetails.getPassword())) {
-                throw new BadCredentialsException("密码不正确");
-            }
-            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                    userDetails, null, userDetails.getAuthorities());
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            token = jwtTokenUtil.generateToken(userDetails);
-        } catch (AuthenticationException e) {
-            log.warn("登录异常:{}", e.getMessage());
-        }
+        // try {
+        //     UserDetails userDetails = myUserDetailsService.loadUserByUsername(dto.getUsername());
+        //     if (!passwordEncoder.matches(dto.getPassword(), userDetails.getPassword())) {
+        //         throw new BadCredentialsException("密码不正确");
+        //     }
+        //     UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+        //             userDetails, null, userDetails.getAuthorities());
+        //     SecurityContextHolder.getContext().setAuthentication(authentication);
+        //
+        //     token = jwtTokenUtil.generateToken(userDetails);
+        // } catch (AuthenticationException e) {
+        //     log.warn("登录异常:{}", e.getMessage());
+        // }
         return token;
     }
 
@@ -141,14 +120,14 @@ public class TbUserServiceImpl extends ServiceImpl<UserMapper, TbUser> implement
         TbUser user = this.baseMapper.selectById(id);
         BeanUtils.copyProperties(user, profile);
         // 用户文章数
-        int count = topicService.count(new LambdaQueryWrapper<TbTopic>().eq(TbTopic::getUserId, id));
+        int count = topicMapper.selectCount(new LambdaQueryWrapper<TbTopic>().eq(TbTopic::getUserId, id));
         profile.setTopicCount(count);
 
         // 粉丝数
-        int followers = followService.count(new LambdaQueryWrapper<TbFollow>().eq(TbFollow::getParentId, id));
+        int followers = followMapper.selectCount((new LambdaQueryWrapper<TbFollow>().eq(TbFollow::getParentId, id)));
         profile.setFollowerCount(followers);
         // 关注数
-        int follows = followService.count(new LambdaQueryWrapper<TbFollow>().eq(TbFollow::getFollowerId, id));
+        int follows = followMapper.selectCount((new LambdaQueryWrapper<TbFollow>().eq(TbFollow::getFollowerId, id)));
         profile.setFollowCount(follows);
         // 专栏数
         Integer integer = columnMapper.selectCount(new LambdaQueryWrapper<TbColumn>().eq(TbColumn::getUserId, id));

@@ -1,6 +1,7 @@
 package com.wyc.elegant.admin.exception;
 
 import com.wyc.elegant.admin.common.R;
+import org.apache.shiro.authz.UnauthenticatedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.validation.BindingResult;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.Objects;
 
 /**
@@ -31,7 +33,7 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * 处理入参时，参数校验异常
+     * 处理JSR-303参数校验异常
      *
      * @param e
      * @return
@@ -46,15 +48,15 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * 未登录
+     * 捕获shiro异常
      *
      * @return
      */
     @ResponseBody
-    @ExceptionHandler(TokenException.class)
-    public R noAuthException(TokenException e) {
+    @ExceptionHandler(UnauthenticatedException.class)
+    public R noAuthException(UnauthenticatedException e) {
         logger.error("未登录异常：" + ExceptionUtil.getMessage(e));
-        return R.error().code(e.getCode()).message(e.getMessage());
+        return R.error().code(HttpServletResponse.SC_UNAUTHORIZED).message("未登录，请先登录");
     }
 
     /**

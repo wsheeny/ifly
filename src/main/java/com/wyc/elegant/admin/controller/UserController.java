@@ -8,7 +8,7 @@ import com.wyc.elegant.admin.model.dto.ActiveDTO;
 import com.wyc.elegant.admin.model.entity.TbPermission;
 import com.wyc.elegant.admin.model.entity.TbTopic;
 import com.wyc.elegant.admin.model.entity.TbUser;
-import com.wyc.elegant.admin.service.TbUserService;
+import com.wyc.elegant.admin.service.UserService;
 import com.wyc.elegant.admin.service.TopicService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -34,7 +34,7 @@ import java.util.Map;
 public class UserController extends BaseController {
 
     @Autowired
-    private TbUserService userService;
+    private UserService userService;
 
     @Autowired
     private TopicService topicService;

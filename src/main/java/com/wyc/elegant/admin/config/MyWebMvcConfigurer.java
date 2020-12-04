@@ -37,23 +37,4 @@ public class MyWebMvcConfigurer implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         // 注入token拦截器
     }
-
-    // /**
-    //  * 解决swagger-ui.html 404无法访问的问题
-    //  *
-    //  * @param registry
-    //  */
-    // @Override
-    // public void addResourceHandlers(ResourceHandlerRegistry registry) {
-    //     // 解决静态资源无法访问
-    //     registry.addResourceHandler("/**")
-    //             .addResourceLocations("classpath:/static/");
-    //     // 解决swagger无法访问
-    //     registry.addResourceHandler("/swagger-ui.html")
-    //             .addResourceLocations("classpath:/META-INF/resources/");
-    //     // 解决swagger的js文件无法访问
-    //     registry.addResourceHandler("/webjars/**")
-    //             .addResourceLocations("classpath:/META-INF/resources/webjars/");
-    // }
-
 }

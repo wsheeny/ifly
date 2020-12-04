@@ -16,25 +16,23 @@
 
 ## 技术栈
 
-| 技术 | 版本 |说明 |
-| --- | --- | --- |
-|Spring Boot|2.4.0|容器+MVC框架|
-|Spring Security|5.1.4|认证和授权框架|
-|JWT|0.9.0|JWT登录支持|
-|Mysql|8.0.22|关系型数据库|
-|MyBatis|3.4.6|ORM框架|
-|MyBatis-Plus|3.4.1|MB增强工具|
-|MyBatisGenerator|1.3.3|数据层代码生成|
-|Flyway|7.1.1| Java数据库移植框架|
-|Swagger-UI|2.9.2|文档生产工具|
-|Elasticsearch|7.6.2|搜索引擎|
-|RabbitMq|3.7.14|消息队列|
-|Redis|5.0|分布式缓存|
-|Druid|1.1.10|数据库连接池|
-|Lombok|1.18.6|简化对象封装工具|
-|Hutool|5.5.1|Java工具类库|
-|FastJson|1.2.73|JSON解析库|
-|JustAuth|1.15.8|第三方授权登录的工具类库|
+-[x] Spring Boot
+-[x] Spring Security
+-[x] JWT
+-[x] Mysql
+-[x] MyBatis
+-[x] MyBatis-Plus
+-[x] MyBatisGenerator
+-[x] Flyway
+-[x] Swagger-UI
+-[x] Elasticsearch
+-[x] RabbitMq
+-[x] Redis
+-[x] Druid
+-[x] Lombok
+-[x] Hutool
+-[x] FastJson
+-[x] JustAuth
 
 ……
 

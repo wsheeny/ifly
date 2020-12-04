@@ -7,7 +7,6 @@ import com.wyc.elegant.admin.model.dto.CreateTopicDTO;
 import com.wyc.elegant.admin.model.entity.TbTopic;
 import com.wyc.elegant.admin.model.entity.TbUser;
 import com.wyc.elegant.admin.model.vo.TopicVO;
-import com.wyc.elegant.admin.service.TbUserService;
 import com.wyc.elegant.admin.service.TopicService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -17,7 +16,6 @@ import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.security.Principal;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -35,18 +33,13 @@ public class TopicController extends BaseController {
     @Autowired
     private TopicService topicService;
 
-    @Autowired
-    private TbUserService tbUserService;
-
-
     /**
      * 发布
      */
     @ApiOperation(value = "发布话题")
     @PostMapping("/create")
-    public R create(@RequestBody CreateTopicDTO dto, Principal principal) {
-        String name = getUserName(principal);
-        TbUser tbUser = tbUserService.getUserByUsername(name);
+    public R create(@RequestBody CreateTopicDTO dto) {
+        TbUser tbUser = null;
         Assert.isTrue(tbUser.getActive(), "你的帐号还没有激活，请去个人设置页面激活帐号");
         TbTopic topic = topicService.create(dto, tbUser);
         return R.ok().data(topic);
@@ -60,9 +53,8 @@ public class TopicController extends BaseController {
      */
     @ApiOperation(value = "删除", notes = "")
     @DeleteMapping("/delete/{id}")
-    public R delete(@PathVariable("id") String id, Principal principal) {
-        String name = getUserName(principal);
-        TbUser tbUser = tbUserService.getUserByUsername(name);
+    public R delete(@PathVariable("id") String id) {
+        TbUser tbUser = null;
         TbTopic byId = topicService.getById(id);
         Assert.notNull(byId, "来晚一步，话题已不存在");
         Assert.isTrue(byId.getUserId().equals(tbUser.getId()), "你为什么可以删除别人的话题？？？");
@@ -75,9 +67,8 @@ public class TopicController extends BaseController {
      */
     @PostMapping("/update")
     @ApiOperation(value = "话题更新", notes = "")
-    public R update(@Valid @RequestBody TbTopic topic, Principal principal) {
-        String name = getUserName(principal);
-        TbUser tbUser = tbUserService.getUserByUsername(name);
+    public R update(@Valid @RequestBody TbTopic topic) {
+        TbUser tbUser = null;
         Assert.isTrue(tbUser.getId().equals(topic.getUserId()), "非本人无权修改");
         topic.setModifyTime(new Date());
         topic.setContent(EmojiParser.parseToAliases(topic.getContent()));

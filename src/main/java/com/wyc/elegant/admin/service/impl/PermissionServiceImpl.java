@@ -25,7 +25,7 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, TbPermi
     private RolePermissionService rolePermissionService;
 
     @Override
-    public List<TbPermission> selectPermissionsByRoleId(Integer roleId) {
+    public List<TbPermission> getByRoleId(Integer roleId) {
         List<TbRolePermission> rolePermissions = rolePermissionService.selectByRoleId(roleId);
         List<Integer> permissionIds = rolePermissions.stream()
                 .map(TbRolePermission::getPermissionId)

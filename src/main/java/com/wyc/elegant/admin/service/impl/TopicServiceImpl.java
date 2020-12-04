@@ -14,7 +14,7 @@ import com.wyc.elegant.admin.model.entity.*;
 import com.wyc.elegant.admin.model.vo.ProfileVO;
 import com.wyc.elegant.admin.model.vo.TopicVO;
 import com.wyc.elegant.admin.service.TagService;
-import com.wyc.elegant.admin.service.TbUserService;
+import com.wyc.elegant.admin.service.UserService;
 import com.wyc.elegant.admin.service.TopicService;
 import com.wyc.elegant.admin.service.TopicTagService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +40,7 @@ public class TopicServiceImpl extends ServiceImpl<TopicMapper, TbTopic> implemen
     private RedisService redisService;
 
     @Autowired
-    private TbUserService userService;
+    private UserService userService;
 
     @Resource
     private UserMapper userMapper;

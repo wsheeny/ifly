@@ -13,4 +13,10 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class RoleServiceImpl extends ServiceImpl<RoleMapper, TbRole> implements RoleService {
+
+    @Override
+    public TbRole getRoleById(Integer roleId) {
+        return this.baseMapper.selectById(roleId);
+    }
+
 }

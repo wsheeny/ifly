@@ -18,5 +18,5 @@ public interface PermissionService extends IService<TbPermission> {
      * @param roleId
      * @return
      */
-    List<TbPermission> selectPermissionsByRoleId(Integer roleId);
+    List<TbPermission> getByRoleId(Integer roleId);
 }

@@ -7,17 +7,17 @@ import com.wyc.elegant.admin.exception.MyException;
 import com.wyc.elegant.admin.model.entity.TbFollow;
 import com.wyc.elegant.admin.model.entity.TbUser;
 import com.wyc.elegant.admin.service.FollowService;
-import com.wyc.elegant.admin.service.TbUserService;
+import com.wyc.elegant.admin.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,7 +36,7 @@ public class FollowController extends BaseController {
     private FollowService followService;
 
     @Autowired
-    private TbUserService userService;
+    private UserService userService;
 
 
     /**
@@ -45,10 +45,10 @@ public class FollowController extends BaseController {
      * @param parentId
      * @return
      */
+    @RequiresAuthentication
     @GetMapping("/do/{userId}")
-    public R handleFollow(@PathVariable("userId") String parentId, Principal principal) {
-        String userName = getUserName(principal);
-        TbUser tbUser = userService.getUserByUsername(userName);
+    public R handleFollow(@PathVariable("userId") String parentId) {
+        TbUser tbUser = getLoginProfile();
         if (parentId.equals(tbUser.getId())) {
             throw new MyException().code(MyHttpCode.HAS_FOLLOW).message("您脸皮太厚了，怎么可以关注自己呢😮");
         }
@@ -75,10 +75,8 @@ public class FollowController extends BaseController {
      * @return
      */
     @GetMapping("/undo/{userId}")
-    public R handleUnFollow(@PathVariable("userId") String parentId, Principal principal) {
-        String userName = getUserName(principal);
-        TbUser tbUser = userService.getUserByUsername(userName);
-
+    public R handleUnFollow(@PathVariable("userId") String parentId) {
+        TbUser tbUser = getLoginProfile();
         TbFollow one = followService.getOne(
                 new LambdaQueryWrapper<TbFollow>()
                         .eq(TbFollow::getParentId, parentId)
@@ -99,13 +97,10 @@ public class FollowController extends BaseController {
     @ApiOperation(value = "验证是否关注", notes = "")
     @ApiImplicitParam(value = "topicUserId", name = "当前浏览话题作者ID", required = true, paramType = "path")
     @GetMapping("/validate/{topicUserId}")
-    public R isFollow(@PathVariable("topicUserId") String topicUserId, Principal principal) {
-        String userName = getUserName(principal);
-        TbUser tbUser = userService.getUserByUsername(userName);
-
+    public R isFollow(@PathVariable("topicUserId") String topicUserId) {
+        TbUser tbUser = getLoginProfile();
         Map<String, Object> map = new HashMap<>(16);
         map.put("hasFollow", false);
-
         if (!ObjectUtils.isEmpty(tbUser)) {
             TbFollow one = followService.getOne(new LambdaQueryWrapper<TbFollow>()
                     .eq(TbFollow::getParentId, topicUserId)

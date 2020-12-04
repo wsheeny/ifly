@@ -26,7 +26,7 @@ public class LogoutController extends BaseController {
     @ApiOperation(value = "退出登录", notes = "退出登录状态", httpMethod = "POST")
     @PostMapping("/logout")
     public R logout() {
-        // getSubject().logout();
+        getSubject().logout();
         return R.ok().message("账号退出成功");
     }
 }

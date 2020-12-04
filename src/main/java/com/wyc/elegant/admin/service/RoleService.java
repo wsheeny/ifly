@@ -9,4 +9,12 @@ import com.wyc.elegant.admin.model.entity.TbRole;
  * @author Knox 2020/11/7
  */
 public interface RoleService extends IService<TbRole> {
+
+    /**
+     * 获取角色
+     *
+     * @param roleId
+     * @return
+     */
+    TbRole getRoleById(Integer roleId);
 }

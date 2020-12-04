@@ -7,6 +7,7 @@ import com.wyc.elegant.admin.model.entity.TbTopic;
 import com.wyc.elegant.admin.model.vo.TopicVO;
 import org.apache.ibatis.annotations.Param;
 import org.mapstruct.Mapper;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -16,6 +17,7 @@ import java.util.List;
  * @author Knox 2020/11/7
  */
 @Mapper
+@Repository
 public interface TopicMapper extends BaseMapper<TbTopic> {
     /**
      * 分页查询首页话题列表

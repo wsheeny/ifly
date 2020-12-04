@@ -14,7 +14,7 @@ import java.util.List;
  *
  * @author Knox 2020/11/7
  */
-public interface TbUserService extends IService<TbUser> {
+public interface UserService extends IService<TbUser> {
     /**
      * 获取用户信息
      *

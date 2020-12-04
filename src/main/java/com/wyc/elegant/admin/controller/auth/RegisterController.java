@@ -4,7 +4,7 @@ import com.wyc.elegant.admin.common.R;
 import com.wyc.elegant.admin.controller.BaseController;
 import com.wyc.elegant.admin.model.dto.RegisterDTO;
 import com.wyc.elegant.admin.model.entity.TbUser;
-import com.wyc.elegant.admin.service.TbUserService;
+import com.wyc.elegant.admin.service.UserService;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,7 +25,7 @@ import javax.validation.Valid;
 public class RegisterController extends BaseController {
 
     @Autowired
-    private TbUserService userService;
+    private UserService userService;
 
     /**
      * 用户注册

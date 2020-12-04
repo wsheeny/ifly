@@ -23,8 +23,8 @@ public class TbPermission implements Serializable {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    @TableField("name")
-    private String name;
+    @TableField("`value`")
+    private String value;
 
     @TableField("remark")
     private String remark;
