@@ -87,9 +87,6 @@ public class MyWebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement()// 基于token，所以不需要session
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         // .and()
-        http.rememberMe()
-                .rememberMeParameter("rememberMe")
-                .rememberMeCookieName("rememberMe");
 
         http.authorizeRequests()
                 // 允许对于网站静态资源的无授权访问
@@ -99,7 +96,8 @@ public class MyWebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/favicon.ico",
                         "/**/*.html",
                         "/**/*.css",
-                        "/**/*.js"
+                        "/**/*.js",
+                        "/static/**"
                 ).permitAll()
 
                 // swagger
