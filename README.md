@@ -16,23 +16,23 @@
 
 ## 技术栈
 
--[x] Spring Boot
--[x] Spring Security
--[x] JWT
--[x] Mysql
--[x] MyBatis
--[x] MyBatis-Plus
--[x] MyBatisGenerator
--[x] Flyway
--[x] Swagger-UI
--[x] Elasticsearch
--[x] RabbitMq
--[x] Redis
--[x] Druid
--[x] Lombok
--[x] Hutool
--[x] FastJson
--[x] JustAuth
+- [x] Spring Boot
+- [x] Spring Security
+- [x] JWT
+- [x] Mysql
+- [x] MyBatis
+- [x] MyBatis-Plus
+- [x] MyBatisGenerator
+- [x] Flyway
+- [x] Swagger-UI
+- [x] Elasticsearch
+- [x] RabbitMq
+- [x] Redis
+- [x] Druid
+- [x] Lombok
+- [x] Hutool
+- [x] FastJson
+- [x] JustAuth
 
 ……
 
