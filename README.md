@@ -17,24 +17,20 @@
 ## 技术栈
 
 - [x] Spring Boot
-- [x] Spring Security
+- [x] SpringSecurity
 - [x] JWT
 - [x] Mysql
-- [x] MyBatis
+- [x] Mybatis
 - [x] MyBatis-Plus
-- [x] MyBatisGenerator
 - [x] Flyway
-- [x] Swagger-UI
 - [x] Elasticsearch
-- [x] RabbitMq
 - [x] Redis
-- [x] Druid
+- [x] Swagger
 - [x] Lombok
 - [x] Hutool
 - [x] FastJson
-- [x] JustAuth
+- [ ] JustAuth
 
-……
 
 ## 安装指导
 

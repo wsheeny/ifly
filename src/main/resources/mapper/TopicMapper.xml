@@ -1,7 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.wyc.elegant.admin.mapper.TopicMapper">
-    <select id="selectListAndPage" resultType="com.wyc.elegant.admin.model.vo.TopicVO">
+<mapper namespace="com.wyc.buefy.web.mapper.TopicMapper">
+    <resultMap id="topicVO" type="com.wyc.buefy.web.model.vo.TopicVO">
+        <id column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="user_id" property="userId"/>
+        <result column="comments" property="comments"/>
+        <result column="view" property="view"/>
+        <result column="collects" property="collects"/>
+        <result column="top" property="top"/>
+        <result column="essence" property="essence"/>
+        <result column="create_time" property="createTime"/>
+        <result column="modify_time" property="modifyTime"/>
+        <result column="username" property="username"/>
+        <result column="alias" property="alias"/>
+        <result column="avatar" property="avatar"/>
+    </resultMap>
+
+    <select id="selectListAndPage" resultMap="topicVO">
         SELECT
         t.id,t.title,t.user_id,t.comments,
         t.view,t.collects,t.top,t.essence,
@@ -33,7 +49,7 @@
         </if>
     </select>
 
-    <select id="selectByColumn" resultType="com.wyc.elegant.admin.model.vo.TopicVO">
+    <select id="selectByColumn" resultMap="topicVO">
         SELECT t.id,
                t.title,
                t.user_id,
@@ -53,11 +69,38 @@
         WHERE t.section_id = #{column.id}
         order by t.view desc, t.create_time desc
     </select>
-    <select id="selectRecommend" resultType="com.wyc.elegant.admin.model.entity.TbTopic">
+    <select id="selectRecommend" resultType="com.wyc.buefy.web.model.entity.TbTopic">
         select *
         from tb_topic t
         where t.id != #{id}
         order by rand(), t.view
         limit 10
+    </select>
+    <select id="searchByKey" resultMap="topicVO">
+        SELECT t.id,
+        t.title,
+        t.user_id,
+        t.comments,
+        t.view,
+        t.collects,
+        t.top,
+        t.essence,
+        t.create_time,
+        t.modify_time,
+        u.username,
+        u.alias,
+        u.avatar
+        FROM tb_topic t
+        LEFT JOIN tb_user u
+        ON t.user_id = u.id
+        <where>
+            <if test="keyword!=null">
+                and t.title like CONCAT('%','${keyword}')
+                or t.title like CONCAT('${keyword}','%')
+                or t.title like CONCAT('%','${keyword}','%')
+                or t.title = #{keyword}
+            </if>
+        </where>
+        order by t.view desc, t.create_time desc
     </select>
 </mapper>

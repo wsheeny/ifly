@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.wyc.elegant.admin.mapper.TipMapper">
-    <select id="getRandomTip" resultType="com.wyc.elegant.admin.model.entity.TbTip">
+<mapper namespace="com.wyc.buefy.web.mapper.TipMapper">
+    <select id="getRandomTip" resultType="com.wyc.buefy.web.model.entity.TbTip">
         select *
         from tb_tip
         where type = #{type}
