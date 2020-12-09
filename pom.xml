@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.wyc</groupId>
-    <artifactId>buefy-admin</artifactId>
+    <artifactId>rhapsody-web-admin</artifactId>
     <version>1.0.3</version>
-    <name>buefy-admin</name>
+    <name>rhapsody-web-admin</name>
     <description>一款优雅简洁的智慧社区系统</description>
 
     <properties>
