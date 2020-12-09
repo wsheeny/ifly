@@ -12,6 +12,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,7 +26,7 @@ import java.util.Map;
  *
  * @author Knox 2020/11/7
  */
-@Api(tags = "话题处理器")
+@Api(tags = "话题处理器", value = "TopicController")
 @RestController
 @RequestMapping("/api/topic")
 public class TopicController extends BaseController {
@@ -36,6 +37,7 @@ public class TopicController extends BaseController {
     /**
      * 发布
      */
+    @PreAuthorize("isAuthenticated()")
     @ApiOperation(value = "发布话题")
     @PostMapping("/create")
     public R create(@RequestBody CreateTopicDTO dto) {
@@ -48,9 +50,10 @@ public class TopicController extends BaseController {
     /**
      * 删除
      *
-     * @param id
+     * @param id 话题ID
      * @return
      */
+    @PreAuthorize("isAuthenticated()")
     @ApiOperation(value = "删除", notes = "")
     @DeleteMapping("/delete/{id}")
     public R delete(@PathVariable("id") String id) {
@@ -65,6 +68,7 @@ public class TopicController extends BaseController {
     /**
      * 修改主题
      */
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/update")
     @ApiOperation(value = "话题更新", notes = "")
     public R update(@Valid @RequestBody TbTopic topic) {

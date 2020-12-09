@@ -12,7 +12,7 @@ import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
- * Swagger2
+ * Swagger
  * <p>
  * 访问地址：http://ip:port/swagger-ui.html
  *
@@ -27,7 +27,7 @@ public class SwaggerConfig {
                 .apiInfo(apiInfo())
                 .select()
                 //为当前包下controller生成API文档
-                .apis(RequestHandlerSelectors.basePackage("com.wyc.elegant.admin.controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.wyc.buefy.web.controller"))
                 // 排除
                 // .paths(Predicates.not(PathSelectors.regex("/admin/.*")))
                 .paths(PathSelectors.any())
@@ -39,10 +39,11 @@ public class SwaggerConfig {
      */
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("SwaggerUI演示")
+                .title("BuefyAdmin接口文档")
                 .description("admin-api")
-                .version("V0.0.1")
-                .contact(new Contact("王一宸", "http://www.rhapsody.com", "1020317774@qq.com"))
+                .version("1.0")
+                .contact(new Contact("王一宸", "", "1020317774@qq.com"))
                 .build();
     }
+
 }

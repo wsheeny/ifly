@@ -20,8 +20,8 @@ public interface PermissionMapper extends BaseMapper<TbPermission> {
     /**
      * 获取用户权限
      *
-     * @param userId
-     * @return
+     * @param userId 用户ID
+     * @return 权限集合
      */
     List<TbPermission> selectList(@Param("userId") String userId);
 

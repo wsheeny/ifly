@@ -17,10 +17,10 @@ import org.springframework.cache.annotation.EnableCaching;
 @EnableCaching
 @MapperScan("com.wyc.buefy.web.mapper")
 @SpringBootApplication()
-public class BuefyWebApplication {
+public class WebApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(BuefyWebApplication.class, args);
+        SpringApplication.run(WebApplication.class, args);
         log.info("server_url-------------->http://127.0.0.1:10000 ⚡");
         log.info("server_api-------------->http://127.0.0.1:10000/swagger-ui.html 📕");
     }

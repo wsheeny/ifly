@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.wyc</groupId>
-    <artifactId>elegant-admin</artifactId>
+    <artifactId>buefy-admin</artifactId>
     <version>1.0.3</version>
-    <name>elegant-admin</name>
+    <name>buefy-admin</name>
     <description>一款优雅简洁的智慧社区系统</description>
 
     <properties>

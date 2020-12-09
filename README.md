@@ -1,11 +1,11 @@
 <div align="center">
-    <h2>elegant-admin</h2>
+    <h2>buefy-admin</h2>
     <p>
         一款基于SpringBoot构建的智慧社区系统，与<a href="https://github.com/1020317774/rhapsody" target="_blank">rhapsody</a>搭配使用，效果更佳。
     </p>
     <p>
-        <a href="https://github.com/1020317774/elegant-admin/stargazers"><img alt="GitHub release" src="https://img.shields.io/github/release/1020317774/elegant-admin?style=flat-square"></a>
-        <a href="https://github.com/1020317774/elegant-admin/blob/main/LICENSE"><img alt="GitHub license" src="https://img.shields.io/github/license/1020317774/elegant-admin"></a>
+        <a href="https://github.com/1020317774/buefy-admin/stargazers"><img alt="GitHub release" src="https://img.shields.io/github/release/1020317774/buefy-admin?style=flat-square"></a>
+        <a href="https://github.com/1020317774/buefy-admin/blob/main/LICENSE"><img alt="GitHub license" src="https://img.shields.io/github/license/1020317774/buefy-admin"></a>
     </p>
     <p>
         <a href="./README.md">简体中文</a>
@@ -36,7 +36,7 @@
 
 - 克隆
 ```java
-git clone https://github.com/1020317774/elegant-admin.git
+git clone https://github.com/1020317774/buefy-admin.git
 ```
 
 - 修改`application.properties`选择环境

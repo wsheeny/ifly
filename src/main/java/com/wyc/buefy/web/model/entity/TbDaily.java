@@ -1,8 +1,11 @@
 package com.wyc.buefy.web.model.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -13,7 +16,11 @@ import java.util.Date;
  * @author Knox 2020/11/17
  */
 @Data
+@Builder
+@Accessors(chain = true)
 @TableName("tb_daily")
+@NoArgsConstructor
+@AllArgsConstructor
 public class TbDaily implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -54,9 +61,5 @@ public class TbDaily implements Serializable {
     @Builder.Default
     @TableField("`like`")
     private Integer like = 0;
-
-    public TbDaily() {
-
-    }
 
 }
