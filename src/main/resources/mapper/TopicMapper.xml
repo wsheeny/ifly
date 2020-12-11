@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.wyc.buefy.web.mapper.TopicMapper">
-    <resultMap id="topicVO" type="com.wyc.buefy.web.model.vo.TopicVO">
+<mapper namespace="com.wyc.rhapsody.backend.mapper.TopicMapper">
+    <resultMap id="topicVO" type="com.wyc.rhapsody.backend.model.vo.TopicVO">
         <id column="id" property="id"/>
         <result column="title" property="title"/>
         <result column="user_id" property="userId"/>
@@ -69,7 +69,7 @@
         WHERE t.section_id = #{column.id}
         order by t.view desc, t.create_time desc
     </select>
-    <select id="selectRecommend" resultType="com.wyc.buefy.web.model.entity.TbTopic">
+    <select id="selectRecommend" resultType="com.wyc.rhapsody.backend.model.entity.TbTopic">
         select *
         from tb_topic t
         where t.id != #{id}

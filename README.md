@@ -1,7 +1,7 @@
 <div align="center">
-    <h2>rhapsody-web-admin</h2>
+    <h2>rhapsody-backend</h2>
     <p>
-        一款基于SpringBoot构建的智慧社区系统，与<a href="https://github.com/1020317774/rhapsody" target="_blank">rhapsody</a>搭配使用，效果更佳。
+        基于SpringBoot构建的智慧社区系统，与<a href="https://github.com/1020317774/rhapsody" target="_blank">rhapsody</a>搭配使用，效果更佳。
     </p>
     <p>
         <a href="https://github.com/1020317774/rhapsody-web-admin/stargazers"><img alt="GitHub release" src="https://img.shields.io/github/release/1020317774/rhapsody-web-admin?style=flat-square"></a>
@@ -13,6 +13,11 @@
         <a href="./README_EN.md">English</a>
     </p>
 </div>
+
+> NOTE
+>
+> 如果发现了bug或者有好的建议，欢迎提issue，想参与的朋友也欢迎pr
+
 
 ## 技术栈
 
@@ -36,14 +41,14 @@
 
 - 克隆
 ```java
-git clone https://github.com/1020317774/rhapsody-web-admin.git
+git clone https://github.com/1020317774/rhapsody-backend.git
 ```
 
 - 修改`application.properties`选择环境
 
 - 修改多环境配置中的redis参数和数据库
 
-- 启动`BootApplication`
+- 启动`Application`
 
 - 访问[`http://127.0.0.1:10000`](http://127.0.0.1:10000)
 
@@ -73,6 +78,6 @@ git clone https://github.com/1020317774/rhapsody-web-admin.git
 
 
 
-## 版权
+## LICENSE
 
-Code copyright 2020 QQ:1020317774. Code released under [the MIT license](https://github.com/jgthms/bulma/blob/master/LICENSE).
+2020 &copy; Knox. Code released under [the Apache license](LICENSE).
