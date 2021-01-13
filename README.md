@@ -48,33 +48,43 @@
 
 ## 版本预览
 - 登录   
+  
   ![](doc/login.png)
 
 - 注册
+  
   ![](doc/register.png)
   
 - 首页
+  
   ![首页面](doc/index.png)
 
 - 活动
+  
   ![活动](doc/activity.png)
 
 - 摸鱼
+  
   ![摸鱼](doc/moyu.png)
 
 - 详情
+  
   ![详情页](doc/topic-detail.png)
 
 - 评论
+  
   ![评论](doc/footer.png)
 
 - 专栏
+  
   ![专栏](doc/column.png)
 
 - 专栏详情
+  
   ![专栏详情](doc/column-detail.png)
 
 - swagger
+  
   ![swagger](/doc/swagger.png)
 
 
