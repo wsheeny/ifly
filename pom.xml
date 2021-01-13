@@ -181,6 +181,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <skip>true</skip>
+                    <mainClass>com.wyc.amor.Application</mainClass>
                 </configuration>
             </plugin>
         </plugins>
