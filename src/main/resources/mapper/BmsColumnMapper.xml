@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wyc.amor.mapper.BmsColumnMapper">
+    <select id="selectPageVo" resultType="com.wyc.amor.model.vo.TbColumnVO">
+        SELECT s.*,
+               COUNT(t.id) AS topics
+        FROM tb_section s
+                 LEFT JOIN tb_post t ON s.id = t.section_id
+        GROUP BY s.title
+    </select>
+</mapper>

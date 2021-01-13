@@ -39,8 +39,15 @@ secure:
       - /webjars/springfox-swagger-ui/**
       - /actuator/**
       - /druid/**
-      - /ums/user/login
       - /ums/user/register
+      - /ums/user/login
       - /ums/user/info
       - /ums/user/logout
+      - /ums/user/active
       - /minio/upload
+      - /notice/**
+      - /post/list
+      - /tip/today
+      - /friend/link/**
+      - /promotion/all
+#      - /activity/all

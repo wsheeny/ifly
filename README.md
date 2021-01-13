@@ -4,8 +4,8 @@
         一套前后端分离的极简社区系统，采用RESTFul风格构建。
     </p>
     <p>
-        <a href="https://github.com/1020317774/rhapsody-web-admin/stargazers"><img alt="GitHub release" src="https://img.shields.io/github/release/1020317774/rhapsody-web-admin?style=flat-square"></a>
-        <a href="https://github.com/1020317774/rhapsody-web-admin/blob/main/LICENSE"><img alt="GitHub license" src="https://img.shields.io/github/license/1020317774/rhapsody-web-admin"></a>
+        <a href="https://github.com/1020317774/amor/stargazers"><img alt="GitHub release" src="https://img.shields.io/github/release/1020317774/rhapsody-web-admin?style=flat-square"></a>
+        <a href="https://github.com/1020317774/amor/blob/main/LICENSE"><img alt="GitHub license" src="https://img.shields.io/github/license/1020317774/rhapsody-web-admin"></a>
     </p>
     <p>
         <a href="./README.md">简体中文</a>

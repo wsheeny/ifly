@@ -5,22 +5,28 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.4.0</version>
+        <version>2.3.5.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.wyc</groupId>
-    <artifactId>rhapsody-backend</artifactId>
+    <artifactId>amor</artifactId>
     <version>1.0.5</version>
-    <name>rhapsody-backend</name>
-    <description>rhapsody后台</description>
+    <name>amor</name>
 
     <properties>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-
+        <mybatis-plus.version>3.4.1</mybatis-plus.version>
         <!--指定elastic版本，防止冲突-->
         <elasticsearch.version>7.10.0</elasticsearch.version>
+        <swagger.version>2.9.2</swagger.version>
+        <hutool.version>5.4.4</hutool.version>
+        <jwt.version>0.9.1</jwt.version>
+        <javax.mail.version>1.4.7</javax.mail.version>
+        <fastjson.version>1.2.75</fastjson.version>
+        <emoji-java.version>5.1.1</emoji-java.version>
+        <justauth.version>1.15.7</justauth.version>
     </properties>
 
     <dependencies>
@@ -40,7 +46,7 @@
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
-            <version>0.9.1</version>
+            <version>${jwt.version}</version>
         </dependency>
 
         <!--elasticsearch-->
@@ -77,7 +83,7 @@
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
-            <version>3.4.1</version>
+            <version>${mybatis-plus.version}</version>
         </dependency>
 
         <!--flyway-->
@@ -90,40 +96,40 @@
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
-            <version>2.9.2</version>
+            <version>${swagger.version}</version>
         </dependency>
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
-            <version>2.9.2</version>
+            <version>${swagger.version}</version>
         </dependency>
 
         <!--mail-->
         <dependency>
             <groupId>javax.mail</groupId>
             <artifactId>mail</artifactId>
-            <version>1.4.7</version>
+            <version>${javax.mail.version}</version>
         </dependency>
 
         <!--emoji-java-->
         <dependency>
             <groupId>com.vdurmont</groupId>
             <artifactId>emoji-java</artifactId>
-            <version>5.1.1</version>
+            <version>${emoji-java.version}</version>
         </dependency>
 
         <!--JustAuth三方登录-->
         <dependency>
             <groupId>me.zhyd.oauth</groupId>
             <artifactId>JustAuth</artifactId>
-            <version>1.15.7</version>
+            <version>${justauth.version}</version>
         </dependency>
 
         <!--fastjson-->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
-            <version>1.2.75</version>
+            <version>${fastjson.version}</version>
         </dependency>
 
         <!--yaml-->
@@ -150,7 +156,7 @@
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
-            <version>5.4.4</version>
+            <version>${hutool.version}</version>
         </dependency>
 
         <!--七牛云-->
@@ -165,12 +171,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.junit.vintage</groupId>
-                    <artifactId>junit-vintage-engine</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
     </dependencies>
 
