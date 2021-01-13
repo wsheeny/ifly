@@ -1,7 +1,7 @@
 <div align="center">
-    <h2>rhapsody-backend</h2>
+    <h2>Amor</h2>
     <p>
-        基于SpringBoot构建的智慧社区系统，与<a href="https://github.com/1020317774/rhapsody" target="_blank">rhapsody</a>搭配使用，效果更佳。
+        一套前后端分离的极简社区系统，采用RESTFul风格构建。
     </p>
     <p>
         <a href="https://github.com/1020317774/rhapsody-web-admin/stargazers"><img alt="GitHub release" src="https://img.shields.io/github/release/1020317774/rhapsody-web-admin?style=flat-square"></a>
@@ -14,10 +14,7 @@
     </p>
 </div>
 
-> NOTE
->
-> 如果发现了bug或者有好的建议，欢迎提issue，想参与的朋友也欢迎pr
-
+> 如果发现了bug或者有好的建议，欢迎提issue，想参与的朋友也欢迎 PR
 
 ## 技术栈
 
@@ -39,45 +36,49 @@
 
 ## 安装指导
 
-- 克隆
-```java
-git clone https://github.com/1020317774/rhapsody-backend.git
-```
+- 克隆当前项目
 
-- 修改`application.properties`选择环境
+- 修改`application.yaml`切换开发环境
 
-- 修改多环境配置中的redis参数和数据库
+- 修改数据库及redis参数
 
 - 启动`Application`
 
 - 访问[`http://127.0.0.1:10000`](http://127.0.0.1:10000)
 
 ## 版本预览
+- 登录   
+  ![](./doc/login.png)
 
-![首页面](src/main/resources/preview/index.png)
+- 注册
+  ![](./doc/register.png)
+  
+- 首页
+  ![首页面](src/main/resources/preview/index.png)
 
-![活动](src/main/resources/preview/activity.png)
+- 活动
+  ![活动](src/main/resources/preview/activity.png)
 
-![摸鱼](src/main/resources/preview/moyu.png)
+- 摸鱼
+  ![摸鱼](src/main/resources/preview/moyu.png)
 
-![详情页](src/main/resources/preview/topic-detail.png)
+- 详情
+  ![详情页](src/main/resources/preview/topic-detail.png)
 
-![评论](src/main/resources/preview/footer.png)
+- 评论
+  ![评论](src/main/resources/preview/footer.png)
 
-![专栏](src/main/resources/preview/column.png)
+- 专栏
+  ![专栏](src/main/resources/preview/column.png)
 
-![专栏详情](src/main/resources/preview/column-detail.png)
+- 专栏详情
+  ![专栏详情](src/main/resources/preview/column-detail.png)
 
-![登录](src/main/resources/preview/login.png)
-
-![注册](src/main/resources/preview/register.png)
-
-![夜间](src/main/resources/preview/dark.png)
-
-![swagger](src/main/resources/preview/swagger.png)
+- swagger
+  ![swagger](src/main/resources/preview/swagger.png)
 
 
 
 ## LICENSE
 
-2020 &copy; Knox. Code released under [the Apache license](LICENSE).
+Copyright 2020-present. Knox. Code released under [the Apache license](LICENSE).
