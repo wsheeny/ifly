@@ -3,9 +3,9 @@ package com.wyc.amor.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.wyc.amor.model.dto.CreateTopicDTO;
-import com.wyc.amor.model.entity.TbColumn;
-import com.wyc.amor.model.entity.TbPost;
-import com.wyc.amor.model.entity.ums.UmsUser;
+import com.wyc.amor.model.entity.BmsColumn;
+import com.wyc.amor.model.entity.BmsPost;
+import com.wyc.amor.model.entity.UmsUser;
 import com.wyc.amor.model.vo.PostVO;
 
 import java.util.List;
@@ -16,7 +16,7 @@ import java.util.Map;
  *
  * @author Knox 2020/11/7
  */
-public interface IBmsPostService extends IService<TbPost> {
+public interface IBmsPostService extends IService<BmsPost> {
 
     /**
      * 获取首页话题列表
@@ -43,7 +43,7 @@ public interface IBmsPostService extends IService<TbPost> {
      * @param topicId
      * @return
      */
-    List<TbPost> selectAuthorOtherTopic(String userId, String topicId);
+    List<BmsPost> selectAuthorOtherTopic(String userId, String topicId);
 
     /**
      * 用户主页：查询用户的话题，10篇
@@ -52,7 +52,7 @@ public interface IBmsPostService extends IService<TbPost> {
      * @param page
      * @return
      */
-    Page<TbPost> selectTopicsByUserId(String userId, Page<TbPost> page);
+    Page<BmsPost> selectTopicsByUserId(String userId, Page<BmsPost> page);
 
     /**
      * 获取随机推荐10篇
@@ -60,7 +60,7 @@ public interface IBmsPostService extends IService<TbPost> {
      * @param id
      * @return
      */
-    List<TbPost> getRecommend(String id);
+    List<BmsPost> getRecommend(String id);
 
     /**
      * 发布
@@ -69,7 +69,7 @@ public interface IBmsPostService extends IService<TbPost> {
      * @param principal
      * @return
      */
-    TbPost create(CreateTopicDTO dto, UmsUser principal);
+    BmsPost create(CreateTopicDTO dto, UmsUser principal);
 
     /**
      * 专栏检索
@@ -78,7 +78,7 @@ public interface IBmsPostService extends IService<TbPost> {
      * @param column
      * @return
      */
-    Page<PostVO> selectByColumn(Page<PostVO> page, TbColumn column);
+    Page<PostVO> selectByColumn(Page<PostVO> page, BmsColumn column);
 
     /**
      * 关键字检索

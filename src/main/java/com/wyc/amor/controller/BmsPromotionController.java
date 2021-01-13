@@ -1,7 +1,7 @@
 package com.wyc.amor.controller;
 
 import com.wyc.amor.common.api.ApiResult;
-import com.wyc.amor.model.entity.TbPromotion;
+import com.wyc.amor.model.entity.BmsPromotion;
 import com.wyc.amor.service.IBmsPromotionService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -27,8 +27,8 @@ public class BmsPromotionController extends BaseController {
 
     @GetMapping("/all")
     @ApiOperation(value = "获取推广集合")
-    public ApiResult<List<TbPromotion>> list() {
-        List<TbPromotion> list = bmsPromotionService.list();
+    public ApiResult<List<BmsPromotion>> list() {
+        List<BmsPromotion> list = bmsPromotionService.list();
         return ApiResult.success(list);
     }
 

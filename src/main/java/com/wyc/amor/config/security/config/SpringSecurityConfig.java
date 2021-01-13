@@ -1,7 +1,6 @@
 package com.wyc.amor.config.security.config;
 
 import com.wyc.amor.config.security.component.*;
-import com.wyc.amor.service.IUmsUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.annotation.Bean;
@@ -13,14 +12,18 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
-import javax.annotation.Resource;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -70,39 +73,49 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
-        ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry registry = httpSecurity.authorizeRequests();
-        // 禁用缓存
-        httpSecurity.headers().cacheControl();
-        // 允许跨域请求的OPTIONS请求[跨域请求会先进行一次options请求]
-        registry.antMatchers(HttpMethod.OPTIONS).permitAll();
-
         // 白名单
         List<String> urls = ignoreUrlsConfig.getUrls();
         for (String url : urls) {
-            registry.antMatchers(url).permitAll();
+            httpSecurity.authorizeRequests().antMatchers(url).permitAll();
         }
 
-        // 任何请求需要身份认证
-        registry
-                .and()
-                .authorizeRequests()
-                .anyRequest()
-                .authenticated()
+        httpSecurity
                 // 关闭跨站请求防护及不使用session
-                .and().csrf().disable()
+                .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                // 自定义权限拒绝处理类
-                .exceptionHandling()
-                .accessDeniedHandler(restAccessDeniedHandler)
-                .authenticationEntryPoint(restAuthenticationEntryPoint)
-                // 自定义权限拦截器JWT过滤器
-                .and()
-                .addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
+                .cors()
 
-        //有动态权限配置时添加动态权限校验过滤器
+                // 授权配置
+                .and()
+                .authorizeRequests()
+                // 允许跨域请求的OPTIONS请求[跨域请求会先进行一次options请求]
+                .antMatchers(HttpMethod.OPTIONS).permitAll()
+                // 放行
+                // .antMatchers().permitAll()
+                // 其他任何请求需要身份认证
+                .anyRequest().authenticated()
+                .and()
+                .logout()
+                .logoutUrl("/logout")
+                .logoutSuccessHandler(new LogoutSuccessHandler() {
+                    @Override
+                    public void onLogoutSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
+                        System.out.println("注销成功");
+                    }
+                });
+
+        // 禁用缓存
+        httpSecurity.headers().cacheControl();
+        // 自定义权限拦截器JWT过滤器
+        httpSecurity.addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
+        //添加自定义未授权和未登录结果返回
+        httpSecurity.exceptionHandling()
+                .accessDeniedHandler(restAccessDeniedHandler)
+                .authenticationEntryPoint(restAuthenticationEntryPoint);
+        // 有动态权限配置时添加动态权限校验过滤器
         if (dynamicSecurityService != null) {
-            registry.and().addFilterBefore(dynamicSecurityFilter(), FilterSecurityInterceptor.class);
+            httpSecurity.addFilterBefore(dynamicSecurityFilter(), FilterSecurityInterceptor.class);
         }
     }
 

@@ -1,7 +1,7 @@
 package com.wyc.amor.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.wyc.amor.model.entity.TbTip;
+import com.wyc.amor.model.entity.BmsTip;
 import org.apache.ibatis.annotations.Param;
 import org.mapstruct.Mapper;
 import org.springframework.stereotype.Repository;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
  */
 @Mapper
 @Repository
-public interface BmsTipMapper extends BaseMapper<TbTip> {
+public interface BmsTipMapper extends BaseMapper<BmsTip> {
 
     /**
      * 获取随机赠言
@@ -21,5 +21,5 @@ public interface BmsTipMapper extends BaseMapper<TbTip> {
      * @param type 类型
      * @return
      */
-    TbTip getRandomTip(@Param("type") Integer type);
+    BmsTip getRandomTip(@Param("type") Integer type);
 }

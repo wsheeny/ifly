@@ -4,8 +4,8 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wyc.amor.mapper.BmsTopicTagMapper;
-import com.wyc.amor.model.entity.TbTag;
-import com.wyc.amor.model.entity.TbTopicTag;
+import com.wyc.amor.model.entity.BmsTag;
+import com.wyc.amor.model.entity.BmsTopicTag;
 import com.wyc.amor.service.IBmsTopicTagService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,12 +20,12 @@ import java.util.Set;
  */
 @Service
 @Transactional(rollbackFor = Exception.class)
-public class IBmsTopicTagServiceImpl extends ServiceImpl<BmsTopicTagMapper, TbTopicTag> implements IBmsTopicTagService {
+public class IBmsTopicTagServiceImpl extends ServiceImpl<BmsTopicTagMapper, BmsTopicTag> implements IBmsTopicTagService {
 
     @Override
-    public List<TbTopicTag> selectByTopicId(String topicId) {
-        QueryWrapper<TbTopicTag> wrapper = new QueryWrapper<>();
-        wrapper.lambda().eq(TbTopicTag::getTopicId, topicId);
+    public List<BmsTopicTag> selectByTopicId(String topicId) {
+        QueryWrapper<BmsTopicTag> wrapper = new QueryWrapper<>();
+        wrapper.lambda().eq(BmsTopicTag::getTopicId, topicId);
         return this.baseMapper.selectList(wrapper);
     }
 
@@ -35,13 +35,13 @@ public class IBmsTopicTagServiceImpl extends ServiceImpl<BmsTopicTagMapper, TbTo
     }
 
     @Override
-    public void createTopicTag(String id, List<TbTag> tags) {
+    public void createTopicTag(String id, List<BmsTag> tags) {
         // 先删除topicId对应的所有记录
-        this.baseMapper.delete(new LambdaQueryWrapper<TbTopicTag>().eq(TbTopicTag::getTopicId, id));
+        this.baseMapper.delete(new LambdaQueryWrapper<BmsTopicTag>().eq(BmsTopicTag::getTopicId, id));
 
         // 循环保存对应关联
         tags.forEach(tag -> {
-            TbTopicTag topicTag = new TbTopicTag();
+            BmsTopicTag topicTag = new BmsTopicTag();
             topicTag.setTopicId(id);
             topicTag.setTagId(tag.getId());
             this.baseMapper.insert(topicTag);

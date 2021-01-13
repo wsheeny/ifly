@@ -15,8 +15,8 @@ import java.util.Date;
  * @author Knox 2020/11/21
  */
 @Data
-@TableName("tb_activity")
-public class TbActivity implements Serializable {
+@TableName("bms_activity")
+public class BmsActivity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -62,7 +62,7 @@ public class TbActivity implements Serializable {
     @TableField("`status`")
     private Boolean status;
 
-    public TbActivity() {
+    public BmsActivity() {
     }
 
 }

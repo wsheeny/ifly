@@ -3,8 +3,8 @@ package com.wyc.amor.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wyc.amor.common.api.ApiResult;
-import com.wyc.amor.model.entity.TbPost;
-import com.wyc.amor.model.entity.TbTag;
+import com.wyc.amor.model.entity.BmsPost;
+import com.wyc.amor.model.entity.BmsTag;
 import com.wyc.amor.service.IBmsTagService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -32,9 +32,9 @@ public class BmsTagController extends BaseController {
 
     @GetMapping("/all")
     @ApiOperation(value = "标签列表")
-    public ApiResult<Page<TbTag>> list(@RequestParam(value = "pageNum", defaultValue = "0") Integer pageNum,
-                                       @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
-        Page<TbTag> page = bmsTagService.page(new Page<>(pageNum, pageSize), null);
+    public ApiResult<Page<BmsTag>> list(@RequestParam(value = "pageNum", defaultValue = "0") Integer pageNum,
+                                        @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
+        Page<BmsTag> page = bmsTagService.page(new Page<>(pageNum, pageSize), null);
         return ApiResult.success(page);
     }
 
@@ -48,16 +48,16 @@ public class BmsTagController extends BaseController {
 
         Map<String, Object> map = new HashMap<>(16);
 
-        LambdaQueryWrapper<TbTag> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(TbTag::getName, tagName);
-        TbTag one = bmsTagService.getOne(wrapper);
+        LambdaQueryWrapper<BmsTag> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(BmsTag::getName, tagName);
+        BmsTag one = bmsTagService.getOne(wrapper);
         Assert.notNull(one, "话题不存在，或已被管理员删除");
-        Page<TbPost> topics = bmsTagService.selectTopicsByTagId(new Page<>(page, size), one.getId());
+        Page<BmsPost> topics = bmsTagService.selectTopicsByTagId(new Page<>(page, size), one.getId());
         // 其他热门标签
-        Page<TbTag> hotTags = bmsTagService.page(new Page<>(1, 10),
-                new LambdaQueryWrapper<TbTag>()
-                        .notIn(TbTag::getName, tagName)
-                        .orderByDesc(TbTag::getTopicCount));
+        Page<BmsTag> hotTags = bmsTagService.page(new Page<>(1, 10),
+                new LambdaQueryWrapper<BmsTag>()
+                        .notIn(BmsTag::getName, tagName)
+                        .orderByDesc(BmsTag::getTopicCount));
 
         map.put("topics", topics);
         map.put("hotTags", hotTags);

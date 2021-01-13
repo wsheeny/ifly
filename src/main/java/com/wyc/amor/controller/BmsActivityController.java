@@ -3,7 +3,7 @@ package com.wyc.amor.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wyc.amor.common.api.ApiResult;
-import com.wyc.amor.model.entity.TbActivity;
+import com.wyc.amor.model.entity.BmsActivity;
 import com.wyc.amor.service.IBmsActivityService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -30,15 +30,15 @@ public class BmsActivityController extends BaseController {
 
     @GetMapping("/all")
     @ApiOperation(value = "获取活动列表", notes = "可分页，根据参数查询")
-    public ApiResult<Page<TbActivity>> list(TbActivity event,
-                                            @ApiParam(name = "page", value = "页码，默认1")
+    public ApiResult<Page<BmsActivity>> list(BmsActivity event,
+                                             @ApiParam(name = "page", value = "页码，默认1")
                                             @RequestParam(value = "page", defaultValue = "1", required = false) Integer page,
-                                            @ApiParam(name = "size", value = "每页查询数量，默认10")
+                                             @ApiParam(name = "size", value = "每页查询数量，默认10")
                                             @RequestParam(value = "size", defaultValue = "10", required = false) Integer size) {
-        Page<TbActivity> page1 = bmsActivityService.page(
+        Page<BmsActivity> page1 = bmsActivityService.page(
                 new Page<>(page, size),
-                new LambdaQueryWrapper<>(event).orderByDesc(TbActivity::getStatus)
-                        .orderByAsc(TbActivity::getTime));
+                new LambdaQueryWrapper<>(event).orderByDesc(BmsActivity::getStatus)
+                        .orderByAsc(BmsActivity::getTime));
         return ApiResult.success(page1);
     }
 

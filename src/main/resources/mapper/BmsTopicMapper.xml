@@ -23,7 +23,7 @@
         t.view,t.collects,t.top,t.essence,
         t.create_time ,t.modify_time ,
         u.username,u.alias, u.avatar
-        FROM tb_post t
+        FROM bms_post t
         LEFT JOIN ums_user u
         ON t.user_id = u.id
         <where>
@@ -63,15 +63,15 @@
                u.username,
                u.alias,
                u.avatar
-        FROM tb_post t
+        FROM bms_post t
                  LEFT JOIN ums_user u
                            ON t.user_id = u.id
         WHERE t.section_id = #{column.id}
         order by t.view desc, t.create_time desc
     </select>
-    <select id="selectRecommend" resultType="com.wyc.amor.model.entity.TbPost">
+    <select id="selectRecommend" resultType="com.wyc.amor.model.entity.BmsPost">
         select *
-        from tb_post t
+        from bms_post t
         where t.id != #{id}
         order by rand(), t.view
         limit 10
@@ -90,7 +90,7 @@
         u.username,
         u.alias,
         u.avatar
-        FROM tb_post t
+        FROM bms_post t
         LEFT JOIN ums_user u
         ON t.user_id = u.id
         <where>

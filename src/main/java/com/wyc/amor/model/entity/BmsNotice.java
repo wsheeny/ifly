@@ -18,10 +18,10 @@ import java.util.Date;
 @Data
 @Builder
 @Accessors(chain = true)
-@TableName("tb_notice")
+@TableName("bms_notice")
 @NoArgsConstructor
 @AllArgsConstructor
-public class TbNotice implements Serializable {
+public class BmsNotice implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

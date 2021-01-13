@@ -1,7 +1,7 @@
 package com.wyc.amor.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.wyc.amor.model.entity.TbNotice;
+import com.wyc.amor.model.entity.BmsNotice;
 import org.mapstruct.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -12,5 +12,5 @@ import org.springframework.stereotype.Repository;
  */
 @Mapper
 @Repository
-public interface BmsNoticeMapper extends BaseMapper<TbNotice> {
+public interface BmsNoticeMapper extends BaseMapper<BmsNotice> {
 }

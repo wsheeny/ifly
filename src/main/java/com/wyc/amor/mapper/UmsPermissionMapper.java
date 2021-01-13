@@ -1,7 +1,7 @@
 package com.wyc.amor.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.wyc.amor.model.entity.ums.UmsPermission;
+import com.wyc.amor.model.entity.UmsPermission;
 import org.apache.ibatis.annotations.Param;
 import org.mapstruct.Mapper;
 import org.springframework.stereotype.Repository;

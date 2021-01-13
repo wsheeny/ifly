@@ -4,26 +4,33 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 
 /**
- * 敏感词
+ * 标签实体类
  *
  * @author Knox
  */
 @Data
-@TableName("tb_sensitive_word")
+@Builder
+@TableName("bms_tag")
 @Accessors(chain = true)
-public class TbSensitiveWord implements Serializable {
+public class BmsTag implements Serializable {
+    private static final long serialVersionUID = 3257790983905872243L;
 
-    private static final long serialVersionUID = -1150568252594574515L;
-
-    @TableId(value = "id", type = IdType.ASSIGN_ID)
+    @TableId(type = IdType.ASSIGN_ID)
     private String id;
 
-    @TableField("word")
-    private String word;
+    @TableField("name")
+    private String name;
+    /**
+     * 当前标签下的话题个数
+     */
+    @TableField("topic_count")
+    @Builder.Default
+    private Integer topicCount = 1;
 }

@@ -4,8 +4,8 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wyc.amor.mapper.BmsTagMapper;
-import com.wyc.amor.model.entity.TbPost;
-import com.wyc.amor.model.entity.TbTag;
+import com.wyc.amor.model.entity.BmsPost;
+import com.wyc.amor.model.entity.BmsTag;
 import com.wyc.amor.service.IBmsPostService;
 import com.wyc.amor.service.IBmsTagService;
 import com.wyc.amor.service.IBmsTopicTagService;
@@ -22,7 +22,7 @@ import java.util.Set;
  * @author Knox 2020/11/7
  */
 @Service
-public class IBmsTagServiceImpl extends ServiceImpl<BmsTagMapper, TbTag> implements IBmsTagService {
+public class IBmsTagServiceImpl extends ServiceImpl<BmsTagMapper, BmsTag> implements IBmsTagService {
 
     @Autowired
     private IBmsTopicTagService IBmsTopicTagService;
@@ -31,12 +31,12 @@ public class IBmsTagServiceImpl extends ServiceImpl<BmsTagMapper, TbTag> impleme
     private IBmsPostService IBmsPostService;
 
     @Override
-    public List<TbTag> insertTags(List<String> tagNames) {
-        List<TbTag> tagList = new ArrayList<>();
+    public List<BmsTag> insertTags(List<String> tagNames) {
+        List<BmsTag> tagList = new ArrayList<>();
         for (String tagName : tagNames) {
-            TbTag tag = this.baseMapper.selectOne(new LambdaQueryWrapper<TbTag>().eq(TbTag::getName, tagName));
+            BmsTag tag = this.baseMapper.selectOne(new LambdaQueryWrapper<BmsTag>().eq(BmsTag::getName, tagName));
             if (tag == null) {
-                tag = TbTag.builder().name(tagName).build();
+                tag = BmsTag.builder().name(tagName).build();
                 this.baseMapper.insert(tag);
             } else {
                 tag.setTopicCount(tag.getTopicCount() + 1);
@@ -48,12 +48,12 @@ public class IBmsTagServiceImpl extends ServiceImpl<BmsTagMapper, TbTag> impleme
     }
 
     @Override
-    public Page<TbPost> selectTopicsByTagId(Page<TbPost> topicPage, String id) {
+    public Page<BmsPost> selectTopicsByTagId(Page<BmsPost> topicPage, String id) {
 
         // 获取关联的话题ID
         Set<String> ids = IBmsTopicTagService.selectTopicIdsByTagId(id);
-        LambdaQueryWrapper<TbPost> wrapper = new LambdaQueryWrapper<>();
-        wrapper.in(TbPost::getId, ids);
+        LambdaQueryWrapper<BmsPost> wrapper = new LambdaQueryWrapper<>();
+        wrapper.in(BmsPost::getId, ids);
 
         return IBmsPostService.page(topicPage, wrapper);
     }

@@ -1,7 +1,7 @@
 package com.wyc.amor.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.wyc.amor.model.entity.ums.UmsRole;
+import com.wyc.amor.model.entity.UmsRole;
 
 /**
  * 角色 接口

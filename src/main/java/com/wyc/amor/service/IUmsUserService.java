@@ -3,7 +3,7 @@ package com.wyc.amor.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.wyc.amor.model.dto.LoginDTO;
 import com.wyc.amor.model.dto.RegisterDTO;
-import com.wyc.amor.model.entity.ums.UmsUser;
+import com.wyc.amor.model.entity.UmsUser;
 import com.wyc.amor.model.vo.ProfileVO;
 
 /**

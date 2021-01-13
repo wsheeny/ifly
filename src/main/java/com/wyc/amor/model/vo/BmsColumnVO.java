@@ -1,6 +1,6 @@
 package com.wyc.amor.model.vo;
 
-import com.wyc.amor.model.entity.TbColumn;
+import com.wyc.amor.model.entity.BmsColumn;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -12,7 +12,7 @@ import lombok.EqualsAndHashCode;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class TbColumnVO extends TbColumn {
+public class BmsColumnVO extends BmsColumn {
 
     /**
      * 话题统计

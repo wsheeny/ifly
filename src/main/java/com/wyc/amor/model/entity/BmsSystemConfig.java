@@ -20,8 +20,8 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
-@TableName("tb_system_config")
-public class TbSystemConfig implements Serializable {
+@TableName("bms_system_config")
+public class BmsSystemConfig implements Serializable {
 
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;

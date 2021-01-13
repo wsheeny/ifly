@@ -1,7 +1,7 @@
 package com.wyc.amor.config.security.config;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.wyc.amor.model.entity.ums.UmsUser;
+import com.wyc.amor.model.entity.UmsUser;
 import com.wyc.amor.service.IUmsUserService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

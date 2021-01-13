@@ -13,12 +13,12 @@ import java.io.Serializable;
  * 广告
  *
  * @author Knox
- * @create 2020/10/20
+ * @since 2020/10/20
  */
 @Data
-@TableName("tb_promotion")
+@TableName("bms_promotion")
 @Accessors(chain = true)
-public class TbPromotion implements Serializable {
+public class BmsPromotion implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -46,7 +46,7 @@ public class TbPromotion implements Serializable {
     @TableField("`description`")
     private String description;
 
-    public TbPromotion() {
+    public BmsPromotion() {
     }
 
 }

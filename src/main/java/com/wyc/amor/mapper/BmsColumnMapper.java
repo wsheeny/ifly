@@ -3,8 +3,8 @@ package com.wyc.amor.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.wyc.amor.model.entity.TbColumn;
-import com.wyc.amor.model.vo.TbColumnVO;
+import com.wyc.amor.model.entity.BmsColumn;
+import com.wyc.amor.model.vo.BmsColumnVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
  */
 @Mapper
 @Repository
-public interface BmsColumnMapper extends BaseMapper<TbColumn> {
+public interface BmsColumnMapper extends BaseMapper<BmsColumn> {
 
     /**
      * 查询专栏列表
@@ -22,5 +22,5 @@ public interface BmsColumnMapper extends BaseMapper<TbColumn> {
      * @param page
      * @return
      */
-    Page<TbColumnVO> selectPageVo(IPage<TbColumnVO> page);
+    Page<BmsColumnVO> selectPageVo(IPage<BmsColumnVO> page);
 }

@@ -1,7 +1,7 @@
 package com.wyc.amor.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.wyc.amor.model.entity.TbDaily;
+import com.wyc.amor.model.entity.BmsDaily;
 import org.mapstruct.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -12,5 +12,5 @@ import org.springframework.stereotype.Repository;
  */
 @Mapper
 @Repository
-public interface BmsDailyMapper extends BaseMapper<TbDaily> {
+public interface BmsDailyMapper extends BaseMapper<BmsDaily> {
 }

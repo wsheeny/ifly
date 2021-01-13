@@ -1,7 +1,7 @@
 package com.wyc.amor.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.wyc.amor.model.entity.TbSystemConfig;
+import com.wyc.amor.model.entity.BmsSystemConfig;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -10,6 +10,6 @@ import org.springframework.stereotype.Repository;
  */
 @Mapper
 @Repository
-public interface BmsSystemConfigMapper extends BaseMapper<TbSystemConfig> {
+public interface BmsSystemConfigMapper extends BaseMapper<BmsSystemConfig> {
 
 }

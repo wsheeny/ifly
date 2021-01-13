@@ -1,6 +1,6 @@
 package com.wyc.amor.model.vo;
 
-import com.wyc.amor.model.entity.TbTag;
+import com.wyc.amor.model.entity.BmsTag;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -63,7 +63,7 @@ public class PostVO implements Serializable {
     /**
      * 话题关联标签
      */
-    private List<TbTag> tags;
+    private List<BmsTag> tags;
     /**
      * 浏览量
      */

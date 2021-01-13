@@ -24,6 +24,16 @@ spring:
         max-idle: 8
         min-idle: 0
 
+jwt:
+  # Bearer Token
+  tokenHead: 'Bearer '
+  # Authorization
+  tokenHeader: 'Authorization'
+  # Token失效时间 :60*60*24*7
+  expiration: 604800
+  # 私钥
+  secret: '2CF24FE663DBB493E56BA4E31BE6FD03'
+
 
 secure:
   ignored:
@@ -42,7 +52,7 @@ secure:
       - /ums/user/register
       - /ums/user/login
       - /ums/user/info
-      - /ums/user/logout
+      - /logout
       - /ums/user/active
       - /minio/upload
       - /notice/**

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.wyc.amor.mapper.BmsTipMapper">
-    <select id="getRandomTip" resultType="com.wyc.amor.model.entity.TbTip">
+    <select id="getRandomTip" resultType="com.wyc.amor.model.entity.BmsTip">
         select *
-        from tb_tip
+        from bms_tip
         where type = #{type}
         order by rand()
         limit 1

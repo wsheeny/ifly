@@ -15,9 +15,9 @@ import java.util.Date;
  * @author Knox
  */
 @Data
-@TableName("tb_collect")
+@TableName("bms_collect")
 @Accessors(chain = true)
-public class TbCollect implements Serializable {
+public class BmsCollect implements Serializable {
 
     private static final long serialVersionUID = 7610730966340643542L;
 

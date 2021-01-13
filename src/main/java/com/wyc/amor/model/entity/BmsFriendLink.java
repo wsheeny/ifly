@@ -13,12 +13,12 @@ import java.io.Serializable;
  * 友情链接
  *
  * @author Knox
- * @create 2020/10/20
+ * @since 2020/10/20
  */
 @Data
-@TableName("tb_friend_link")
+@TableName("bms_friend_link")
 @Accessors(chain = true)
-public class TbFriendLink implements Serializable {
+public class BmsFriendLink implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -53,7 +53,7 @@ public class TbFriendLink implements Serializable {
     private Boolean state;
 
 
-    public TbFriendLink() {
+    public BmsFriendLink() {
 
     }
 

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.wyc.amor.mapper.UmsPermissionMapper">
     <!--用户权限列表-->
-    <select id="selectList" resultType="com.wyc.amor.model.entity.ums.UmsPermission">
+    <select id="selectList" resultType="com.wyc.amor.model.entity.UmsPermission">
         SELECT p.*
         FROM ums_user u,
              ums_role_permission rp,

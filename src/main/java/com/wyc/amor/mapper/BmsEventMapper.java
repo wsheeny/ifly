@@ -1,7 +1,7 @@
 package com.wyc.amor.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.wyc.amor.model.entity.TbActivity;
+import com.wyc.amor.model.entity.BmsActivity;
 import org.mapstruct.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -10,5 +10,5 @@ import org.springframework.stereotype.Repository;
  */
 @Mapper
 @Repository
-public interface BmsEventMapper extends BaseMapper<TbActivity> {
+public interface BmsEventMapper extends BaseMapper<BmsActivity> {
 }

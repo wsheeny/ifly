@@ -14,8 +14,8 @@ import java.io.Serializable;
  * @author Knox 2020/11/20
  */
 @Data
-@TableName("tb_follow")
-public class TbFollow implements Serializable {
+@TableName("bms_follow")
+public class BmsFollow implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -37,7 +37,7 @@ public class TbFollow implements Serializable {
     @TableField("follower_id")
     private String followerId;
 
-    public TbFollow() {
+    public BmsFollow() {
     }
 
 }

@@ -1,6 +1,6 @@
 package com.wyc.amor.config.security.config;
 
-import com.wyc.amor.model.entity.ums.UmsUser;
+import com.wyc.amor.model.entity.UmsUser;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 

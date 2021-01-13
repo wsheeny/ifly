@@ -4,9 +4,9 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wyc.amor.common.api.ApiResult;
 import com.wyc.amor.common.exception.ApiAsserts;
-import com.wyc.amor.model.entity.TbColumn;
+import com.wyc.amor.model.entity.BmsColumn;
 import com.wyc.amor.model.vo.PostVO;
-import com.wyc.amor.model.vo.TbColumnVO;
+import com.wyc.amor.model.vo.BmsColumnVO;
 import com.wyc.amor.service.IBmsColumnService;
 import com.wyc.amor.service.IBmsPostService;
 import io.swagger.annotations.Api;
@@ -37,10 +37,10 @@ public class BmsColumnController extends BaseController {
 
     @GetMapping("/all")
     @ApiOperation(value = "专栏列表")
-    public ApiResult<Page<TbColumnVO>> list(/*@RequestBody Column column,*/
+    public ApiResult<Page<BmsColumnVO>> list(/*@RequestBody Column column,*/
             @ApiParam(value = "page", name = "页码", required = true) @RequestParam("page") Integer page,
             @ApiParam(value = "size", name = "每页数据", required = true) @RequestParam("size") Integer size) {
-        Page<TbColumnVO> columnVO = columnService.getList(new Page<>(page, size));
+        Page<BmsColumnVO> columnVO = columnService.getList(new Page<>(page, size));
         return ApiResult.success(columnVO);
     }
 
@@ -50,7 +50,7 @@ public class BmsColumnController extends BaseController {
     public ApiResult<Page<PostVO>> list(@PathVariable("title") String title,
                                         @ApiParam(value = "page", name = "页码", required = true) @RequestParam("page") Integer page,
                                         @ApiParam(value = "size", name = "每页数据", required = true) @RequestParam("size") Integer size) {
-        TbColumn one = columnService.getOne(new LambdaQueryWrapper<TbColumn>().eq(TbColumn::getTitle, title));
+        BmsColumn one = columnService.getOne(new LambdaQueryWrapper<BmsColumn>().eq(BmsColumn::getTitle, title));
         if (ObjectUtils.isEmpty(one)) {
             ApiAsserts.fail("专栏不存在");
         }

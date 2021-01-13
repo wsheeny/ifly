@@ -15,10 +15,10 @@ import com.wyc.amor.mapper.BmsTopicMapper;
 import com.wyc.amor.mapper.UserMapper;
 import com.wyc.amor.model.dto.LoginDTO;
 import com.wyc.amor.model.dto.RegisterDTO;
-import com.wyc.amor.model.entity.TbColumn;
-import com.wyc.amor.model.entity.TbFollow;
-import com.wyc.amor.model.entity.TbPost;
-import com.wyc.amor.model.entity.ums.UmsUser;
+import com.wyc.amor.model.entity.BmsColumn;
+import com.wyc.amor.model.entity.BmsFollow;
+import com.wyc.amor.model.entity.BmsPost;
+import com.wyc.amor.model.entity.UmsUser;
 import com.wyc.amor.model.vo.ProfileVO;
 import com.wyc.amor.service.IUmsUserService;
 import lombok.extern.slf4j.Slf4j;
@@ -142,17 +142,17 @@ public class IUmsUserServiceImpl extends ServiceImpl<UserMapper, UmsUser> implem
         UmsUser user = baseMapper.selectById(id);
         BeanUtils.copyProperties(user, profile);
         // 用户文章数
-        int count = bmsTopicMapper.selectCount(new LambdaQueryWrapper<TbPost>().eq(TbPost::getUserId, id));
+        int count = bmsTopicMapper.selectCount(new LambdaQueryWrapper<BmsPost>().eq(BmsPost::getUserId, id));
         profile.setTopicCount(count);
 
         // 粉丝数
-        int followers = bmsFollowMapper.selectCount((new LambdaQueryWrapper<TbFollow>().eq(TbFollow::getParentId, id)));
+        int followers = bmsFollowMapper.selectCount((new LambdaQueryWrapper<BmsFollow>().eq(BmsFollow::getParentId, id)));
         profile.setFollowerCount(followers);
         // 关注数
-        int follows = bmsFollowMapper.selectCount((new LambdaQueryWrapper<TbFollow>().eq(TbFollow::getFollowerId, id)));
+        int follows = bmsFollowMapper.selectCount((new LambdaQueryWrapper<BmsFollow>().eq(BmsFollow::getFollowerId, id)));
         profile.setFollowCount(follows);
         // 专栏数
-        Integer integer = bmsColumnMapper.selectCount(new LambdaQueryWrapper<TbColumn>().eq(TbColumn::getUserId, id));
+        Integer integer = bmsColumnMapper.selectCount(new LambdaQueryWrapper<BmsColumn>().eq(BmsColumn::getUserId, id));
         profile.setColumns(integer);
 
         return profile;

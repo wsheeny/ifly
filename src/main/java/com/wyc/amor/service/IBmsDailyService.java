@@ -1,12 +1,12 @@
 package com.wyc.amor.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.wyc.amor.model.entity.TbDaily;
+import com.wyc.amor.model.entity.BmsDaily;
 
 /**
  * 日常
  *
  * @author Knox 2020/11/17
  */
-public interface IBmsDailyService extends IService<TbDaily> {
+public interface IBmsDailyService extends IService<BmsDaily> {
 }

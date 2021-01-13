@@ -2,7 +2,7 @@ package com.wyc.amor.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.wyc.amor.common.api.ApiResult;
-import com.wyc.amor.model.entity.TbNotice;
+import com.wyc.amor.model.entity.BmsNotice;
 import com.wyc.amor.service.IBmsNoticeService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -28,8 +28,8 @@ public class BmsNoticeController extends BaseController {
 
     @GetMapping("/show")
     @ApiOperation(value = "获取站点通告")
-    public ApiResult<TbNotice> getNotice() {
-        List<TbNotice> list = bmsNoticeService.list(new LambdaQueryWrapper<TbNotice>().eq(TbNotice::isShow, true));
+    public ApiResult<BmsNotice> getNotice() {
+        List<BmsNotice> list = bmsNoticeService.list(new LambdaQueryWrapper<BmsNotice>().eq(BmsNotice::isShow, true));
         return ApiResult.success(list.get(list.size() - 1));
     }
 }

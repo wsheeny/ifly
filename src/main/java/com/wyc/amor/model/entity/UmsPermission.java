@@ -1,4 +1,4 @@
-package com.wyc.amor.model.entity.ums;
+package com.wyc.amor.model.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;

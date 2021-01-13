@@ -1,7 +1,7 @@
 package com.wyc.amor.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.wyc.amor.model.entity.ums.UmsPermission;
+import com.wyc.amor.model.entity.UmsPermission;
 
 import java.util.List;
 

@@ -12,8 +12,8 @@ import java.io.Serializable;
  * @author Knox 2020/11/5
  */
 @Data
-@TableName("tb_tip")
-public class TbTip implements Serializable {
+@TableName("bms_tip")
+public class BmsTip implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -38,7 +38,7 @@ public class TbTip implements Serializable {
      */
     private boolean type;
 
-    public TbTip() {
+    public BmsTip() {
     }
 
 }

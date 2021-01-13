@@ -1,8 +1,8 @@
 package com.wyc.amor.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.wyc.amor.model.entity.TbTag;
-import com.wyc.amor.model.entity.TbTopicTag;
+import com.wyc.amor.model.entity.BmsTag;
+import com.wyc.amor.model.entity.BmsTopicTag;
 
 import java.util.List;
 import java.util.Set;
@@ -12,7 +12,7 @@ import java.util.Set;
  *
  * @author Knox 2020/11/7
  */
-public interface IBmsTopicTagService extends IService<TbTopicTag> {
+public interface IBmsTopicTagService extends IService<BmsTopicTag> {
 
     /**
      * 获取Topic Tag 关联记录
@@ -20,7 +20,7 @@ public interface IBmsTopicTagService extends IService<TbTopicTag> {
      * @param topicId TopicId
      * @return
      */
-    List<TbTopicTag> selectByTopicId(String topicId);
+    List<BmsTopicTag> selectByTopicId(String topicId);
 
     /**
      * 获取标签换脸话题ID集合
@@ -37,5 +37,5 @@ public interface IBmsTopicTagService extends IService<TbTopicTag> {
      * @param tags
      * @return
      */
-    void createTopicTag(String id, List<TbTag> tags);
+    void createTopicTag(String id, List<BmsTag> tags);
 }

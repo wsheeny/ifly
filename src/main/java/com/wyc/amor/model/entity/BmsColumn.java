@@ -19,10 +19,10 @@ import java.io.Serializable;
  */
 @Data
 @Builder
-@TableName("tb_section")
+@TableName("bms_section")
 @NoArgsConstructor
 @AllArgsConstructor
-public class TbColumn implements Serializable {
+public class BmsColumn implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

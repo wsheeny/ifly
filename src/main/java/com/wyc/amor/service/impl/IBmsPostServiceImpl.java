@@ -10,11 +10,11 @@ import com.wyc.amor.mapper.BmsTagMapper;
 import com.wyc.amor.mapper.BmsTopicMapper;
 import com.wyc.amor.mapper.UserMapper;
 import com.wyc.amor.model.dto.CreateTopicDTO;
-import com.wyc.amor.model.entity.TbColumn;
-import com.wyc.amor.model.entity.TbPost;
-import com.wyc.amor.model.entity.TbTag;
-import com.wyc.amor.model.entity.TbTopicTag;
-import com.wyc.amor.model.entity.ums.UmsUser;
+import com.wyc.amor.model.entity.BmsColumn;
+import com.wyc.amor.model.entity.BmsPost;
+import com.wyc.amor.model.entity.BmsTag;
+import com.wyc.amor.model.entity.BmsTopicTag;
+import com.wyc.amor.model.entity.UmsUser;
 import com.wyc.amor.model.vo.PostVO;
 import com.wyc.amor.model.vo.ProfileVO;
 import com.wyc.amor.service.IBmsPostService;
@@ -38,7 +38,7 @@ import java.util.stream.Collectors;
  * @author Knox 2020/11/7
  */
 @Service
-public class IBmsPostServiceImpl extends ServiceImpl<BmsTopicMapper, TbPost> implements IBmsPostService {
+public class IBmsPostServiceImpl extends ServiceImpl<BmsTopicMapper, BmsPost> implements IBmsPostService {
 
     @Autowired
     private RedisService redisService;
@@ -65,10 +65,10 @@ public class IBmsPostServiceImpl extends ServiceImpl<BmsTopicMapper, TbPost> imp
         Page<PostVO> iPage = this.baseMapper.selectListAndPage(page, tab);
         // 查询话题的标签
         iPage.getRecords().forEach(topic -> {
-            List<TbTopicTag> topicTags = IBmsTopicTagService.selectByTopicId(topic.getId());
+            List<BmsTopicTag> topicTags = IBmsTopicTagService.selectByTopicId(topic.getId());
             if (!topicTags.isEmpty()) {
-                List<String> tagIds = topicTags.stream().map(TbTopicTag::getTagId).collect(Collectors.toList());
-                List<TbTag> tags = bmsTagMapper.selectBatchIds(tagIds);
+                List<String> tagIds = topicTags.stream().map(BmsTopicTag::getTagId).collect(Collectors.toList());
+                List<BmsTag> tags = bmsTagMapper.selectBatchIds(tagIds);
                 topic.setTags(tags);
             }
         });
@@ -78,7 +78,7 @@ public class IBmsPostServiceImpl extends ServiceImpl<BmsTopicMapper, TbPost> imp
     @Override
     public Map<String, Object> viewTopic(String id) {
         Map<String, Object> map = new HashMap<>(16);
-        TbPost topic = this.baseMapper.selectById(id);
+        BmsPost topic = this.baseMapper.selectById(id);
         Assert.notNull(topic, "当前话题不存在,或已被作者删除");
         // 查询话题详情
         topic.setView(topic.getView() + 1);
@@ -87,13 +87,13 @@ public class IBmsPostServiceImpl extends ServiceImpl<BmsTopicMapper, TbPost> imp
         topic.setContent(EmojiParser.parseToUnicode(topic.getContent()));
         map.put("topic", topic);
         // 标签
-        QueryWrapper<TbTopicTag> wrapper = new QueryWrapper<>();
-        wrapper.lambda().eq(TbTopicTag::getTopicId, topic.getId());
+        QueryWrapper<BmsTopicTag> wrapper = new QueryWrapper<>();
+        wrapper.lambda().eq(BmsTopicTag::getTopicId, topic.getId());
         Set<String> set = new HashSet<>();
-        for (TbTopicTag articleTag : IBmsTopicTagService.list(wrapper)) {
+        for (BmsTopicTag articleTag : IBmsTopicTagService.list(wrapper)) {
             set.add(articleTag.getTagId());
         }
-        List<TbTag> tags = IBmsTagService.listByIds(set);
+        List<BmsTag> tags = IBmsTagService.listByIds(set);
         map.put("tags", tags);
 
         // 作者
@@ -105,14 +105,14 @@ public class IBmsPostServiceImpl extends ServiceImpl<BmsTopicMapper, TbPost> imp
     }
 
     @Override
-    public List<TbPost> selectAuthorOtherTopic(String userId, String topicId) {
-        List<TbPost> topics = (List<TbPost>) redisService.get("otherTopics");
+    public List<BmsPost> selectAuthorOtherTopic(String userId, String topicId) {
+        List<BmsPost> topics = (List<BmsPost>) redisService.get("otherTopics");
 
         if (ObjectUtils.isEmpty(topics)) {
-            QueryWrapper<TbPost> wrapper = new QueryWrapper<>();
-            wrapper.lambda().eq(TbPost::getUserId, userId).orderByDesc(TbPost::getCreateTime);
+            QueryWrapper<BmsPost> wrapper = new QueryWrapper<>();
+            wrapper.lambda().eq(BmsPost::getUserId, userId).orderByDesc(BmsPost::getCreateTime);
             if (topicId != null) {
-                wrapper.lambda().ne(TbPost::getId, topicId);
+                wrapper.lambda().ne(BmsPost::getId, topicId);
             }
             wrapper.last("limit " + 10);
             topics = this.baseMapper.selectList(wrapper);
@@ -123,28 +123,28 @@ public class IBmsPostServiceImpl extends ServiceImpl<BmsTopicMapper, TbPost> imp
     }
 
     @Override
-    public Page<TbPost> selectTopicsByUserId(String userId, Page<TbPost> page) {
-        QueryWrapper<TbPost> wrapper = new QueryWrapper<>();
-        wrapper.lambda().eq(TbPost::getUserId, userId);
-        Page<TbPost> topicPage = this.baseMapper.selectPage(page, wrapper);
+    public Page<BmsPost> selectTopicsByUserId(String userId, Page<BmsPost> page) {
+        QueryWrapper<BmsPost> wrapper = new QueryWrapper<>();
+        wrapper.lambda().eq(BmsPost::getUserId, userId);
+        Page<BmsPost> topicPage = this.baseMapper.selectPage(page, wrapper);
 
 
         return topicPage;
     }
 
     @Override
-    public List<TbPost> getRecommend(String id) {
+    public List<BmsPost> getRecommend(String id) {
         return this.baseMapper.selectRecommend(id);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public TbPost create(CreateTopicDTO dto, UmsUser user) {
-        TbPost topic1 = this.baseMapper.selectOne(new LambdaQueryWrapper<TbPost>().eq(TbPost::getTitle, dto.getTitle()));
+    public BmsPost create(CreateTopicDTO dto, UmsUser user) {
+        BmsPost topic1 = this.baseMapper.selectOne(new LambdaQueryWrapper<BmsPost>().eq(BmsPost::getTitle, dto.getTitle()));
         Assert.isNull(topic1, "话题已存在，请修改");
 
         // 封装
-        TbPost topic = TbPost.builder()
+        BmsPost topic = BmsPost.builder()
                 .userId(user.getId())
                 .title(dto.getTitle())
                 .content(EmojiParser.parseToAliases(dto.getContent()))
@@ -159,7 +159,7 @@ public class IBmsPostServiceImpl extends ServiceImpl<BmsTopicMapper, TbPost> imp
         // 标签
         if (!ObjectUtils.isEmpty(dto.getTags())) {
             // 保存标签
-            List<TbTag> tags = IBmsTagService.insertTags(dto.getTags());
+            List<BmsTag> tags = IBmsTagService.insertTags(dto.getTags());
             // 处理标签与话题的关联
             IBmsTopicTagService.createTopicTag(topic.getId(), tags);
         }
@@ -169,7 +169,7 @@ public class IBmsPostServiceImpl extends ServiceImpl<BmsTopicMapper, TbPost> imp
     }
 
     @Override
-    public Page<PostVO> selectByColumn(Page<PostVO> page, TbColumn column) {
+    public Page<PostVO> selectByColumn(Page<PostVO> page, BmsColumn column) {
         return this.baseMapper.selectByColumn(page, column);
     }
 

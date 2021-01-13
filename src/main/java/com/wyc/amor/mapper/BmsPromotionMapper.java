@@ -1,7 +1,7 @@
 package com.wyc.amor.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.wyc.amor.model.entity.TbPromotion;
+import com.wyc.amor.model.entity.BmsPromotion;
 import org.mapstruct.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -12,5 +12,5 @@ import org.springframework.stereotype.Repository;
  */
 @Mapper
 @Repository
-public interface BmsPromotionMapper extends BaseMapper<TbPromotion> {
+public interface BmsPromotionMapper extends BaseMapper<BmsPromotion> {
 }

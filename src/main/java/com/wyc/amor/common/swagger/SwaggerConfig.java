@@ -34,15 +34,12 @@ public class SwaggerConfig {
                 .build();
     }
 
-    /**
-     * 该套 API 说明，包含作者、简介、版本、host、服务URL
-     */
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("BuefyAdmin接口文档")
-                .description("admin-api")
-                .version("1.0")
-                .contact(new Contact("王一宸", "", "1020317774@qq.com"))
+                .title("Amor API")
+                .description("前端联调RESTFul接口")
+                .version("v1.0")
+                .contact(new Contact("Knox", "", "Knox <1020317774@qq.com>"))
                 .build();
     }
 

@@ -1,4 +1,4 @@
-package com.wyc.amor.model.entity.ums;
+package com.wyc.amor.model.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -10,22 +10,22 @@ import lombok.experimental.Accessors;
 import java.io.Serializable;
 
 /**
- * 角色
+ * 话题-标签中间表
  *
  * @author Knox
  */
 @Data
-@TableName("ums_role")
+@TableName("bms_topic_tag")
 @Accessors(chain = true)
-public class UmsRole implements Serializable {
-    private static final long serialVersionUID = 7824693669858106664L;
+public class BmsTopicTag implements Serializable {
+    private static final long serialVersionUID = -5028599844989220715L;
 
-    @TableId(value = "id", type = IdType.AUTO)
+    @TableId(type = IdType.AUTO)
     private Integer id;
 
-    @TableField("name")
-    private String name;
+    @TableField("tag_id")
+    private String tagId;
 
-    @TableField("remark")
-    private String remark;
+    @TableField("topic_id")
+    private String topicId;
 }

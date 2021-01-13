@@ -8,20 +8,25 @@ import com.wyc.amor.config.redis.RedisService;
 import com.wyc.amor.model.dto.ActiveDTO;
 import com.wyc.amor.model.dto.LoginDTO;
 import com.wyc.amor.model.dto.RegisterDTO;
-import com.wyc.amor.model.entity.TbPost;
-import com.wyc.amor.model.entity.ums.UmsUser;
+import com.wyc.amor.model.entity.BmsPost;
+import com.wyc.amor.model.entity.UmsUser;
 import com.wyc.amor.service.IBmsPostService;
 import com.wyc.amor.service.IUmsUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.util.HashMap;
@@ -71,15 +76,19 @@ public class UmsUserController extends BaseController {
     }
 
     @ApiOperation(value = "获取登录数据")
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/info", method = RequestMethod.GET)
     public ApiResult<UmsUser> getUser(Principal principal) {
         UmsUser user = iUmsUserService.getUserByUsername(principal.getName());
         return ApiResult.success(user);
     }
 
-    @PostMapping("/logout")
-    public ApiResult<String> logout() {
-        SecurityContextHolder.clearContext();
+    @RequestMapping(value = "/logout")
+    public ApiResult<String> logout(HttpServletRequest request, HttpServletResponse response) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) {
+            new SecurityContextLogoutHandler().logout(request, response, auth);
+        }
         return ApiResult.success("注销成功");
     }
 
@@ -99,8 +108,8 @@ public class UmsUserController extends BaseController {
         Map<String, Object> map = new HashMap<>(16);
         UmsUser user = iUmsUserService.getUserByUsername(username);
         Assert.notNull(user, "用户不存在");
-        Page<TbPost> page = iBmsPostService.page(new Page<>(pageNo, size),
-                new LambdaQueryWrapper<TbPost>().eq(TbPost::getUserId, user.getId()));
+        Page<BmsPost> page = iBmsPostService.page(new Page<>(pageNo, size),
+                new LambdaQueryWrapper<BmsPost>().eq(BmsPost::getUserId, user.getId()));
         map.put("user", user);
         map.put("topics", page);
         return ApiResult.success(map);

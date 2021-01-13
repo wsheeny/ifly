@@ -2,8 +2,8 @@ package com.wyc.amor.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.wyc.amor.model.entity.TbColumn;
-import com.wyc.amor.model.entity.TbPost;
+import com.wyc.amor.model.entity.BmsColumn;
+import com.wyc.amor.model.entity.BmsPost;
 import com.wyc.amor.model.vo.PostVO;
 import org.apache.ibatis.annotations.Param;
 import org.mapstruct.Mapper;
@@ -18,7 +18,7 @@ import java.util.List;
  */
 @Mapper
 @Repository
-public interface BmsTopicMapper extends BaseMapper<TbPost> {
+public interface BmsTopicMapper extends BaseMapper<BmsPost> {
     /**
      * 分页查询首页话题列表
      * <p>
@@ -36,7 +36,7 @@ public interface BmsTopicMapper extends BaseMapper<TbPost> {
      * @param id
      * @return
      */
-    List<TbPost> selectRecommend(@Param("id") String id);
+    List<BmsPost> selectRecommend(@Param("id") String id);
 
     /**
      * 专栏检索
@@ -45,7 +45,7 @@ public interface BmsTopicMapper extends BaseMapper<TbPost> {
      * @param column
      * @return
      */
-    Page<PostVO> selectByColumn(@Param("page") Page<PostVO> page, @Param("column") TbColumn column);
+    Page<PostVO> selectByColumn(@Param("page") Page<PostVO> page, @Param("column") BmsColumn column);
 
     /**
      * 全文检索

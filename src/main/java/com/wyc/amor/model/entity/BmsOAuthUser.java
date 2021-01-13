@@ -13,8 +13,8 @@ import java.util.Date;
  * @author Knox
  */
 @Data
-@TableName("tb_oauth_user")
-public class TbOAuthUser implements Serializable {
+@TableName("bms_oauth_user")
+public class BmsOAuthUser implements Serializable {
 
     @TableId(type = IdType.ASSIGN_ID)
     private Integer id;

@@ -1,7 +1,7 @@
 package com.wyc.amor.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.wyc.amor.model.entity.TbTopicTag;
+import com.wyc.amor.model.entity.BmsTopicTag;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,7 @@ import java.util.Set;
  */
 @Service
 @Repository
-public interface BmsTopicTagMapper extends BaseMapper<TbTopicTag> {
+public interface BmsTopicTagMapper extends BaseMapper<BmsTopicTag> {
 
     /**
      * 根据标签获取话题ID集合

@@ -4,10 +4,11 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.vdurmont.emoji.EmojiParser;
 import com.wyc.amor.common.api.ApiResult;
 import com.wyc.amor.model.dto.CreateTopicDTO;
-import com.wyc.amor.model.entity.TbPost;
-import com.wyc.amor.model.entity.ums.UmsUser;
+import com.wyc.amor.model.entity.BmsPost;
+import com.wyc.amor.model.entity.UmsUser;
 import com.wyc.amor.model.vo.PostVO;
 import com.wyc.amor.service.IBmsPostService;
+import com.wyc.amor.service.IUmsUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -17,23 +18,27 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 /**
- * 推文处理器
+ * 贴子处理器
  *
  * @author knox
  * @since 2021-01-13
  */
 @RestController
 @RequestMapping("/post")
-@Api(tags = "PostController", description = "推文处理器")
+@Api(tags = "PostController", description = "贴子处理器")
 public class BmsPostController extends BaseController {
 
     @Resource
     private IBmsPostService iBmsPostService;
+
+    @Resource
+    private IUmsUserService umsUserService;
 
     @GetMapping("/list")
     @ApiOperation(value = "获取话题列表", notes = "分页查询，默认每页10条数据")
@@ -47,66 +52,51 @@ public class BmsPostController extends BaseController {
     }
 
     @PreAuthorize("isAuthenticated()")
-    @ApiOperation(value = "save", nickname = "发布推文")
+    @ApiOperation(value = "create", nickname = "发布推文")
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public ApiResult<TbPost> create(@RequestBody CreateTopicDTO dto) {
-        UmsUser user = null;
+    public ApiResult<BmsPost> create(@RequestBody CreateTopicDTO dto, Principal principal) {
+        UmsUser user = umsUserService.getUserByUsername(principal.getName());
         Assert.isTrue(user.getActive(), "你的帐号还没有激活，请去个人设置页面激活帐号");
-        TbPost topic = iBmsPostService.create(dto, user);
+        BmsPost topic = iBmsPostService.create(dto, user);
         return ApiResult.success(topic);
     }
 
-    /**
-     * 删除
-     *
-     * @param id 话题ID
-     * @return
-     */
     @PreAuthorize("isAuthenticated()")
-    @ApiOperation(value = "删除")
     @DeleteMapping("/delete/{id}")
-    public ApiResult delete(@PathVariable("id") String id) {
-        UmsUser umsUser = null;
-        TbPost byId = iBmsPostService.getById(id);
+    @ApiOperation(value = "删除")
+    public ApiResult<String> delete(@PathVariable("id") String id, Principal principal) {
+        UmsUser umsUser = umsUserService.getUserByUsername(principal.getName());
+        ;
+        BmsPost byId = iBmsPostService.getById(id);
         Assert.notNull(byId, "来晚一步，话题已不存在");
         Assert.isTrue(byId.getUserId().equals(umsUser.getId()), "你为什么可以删除别人的话题？？？");
         iBmsPostService.removeById(id);
         return ApiResult.success("删除成功");
     }
 
-    /**
-     * 修改主题
-     */
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/update")
     @ApiOperation(value = "话题更新")
-    public ApiResult update(@Valid @RequestBody TbPost topic) {
-        UmsUser umsUser = null;
-        Assert.isTrue(umsUser.getId().equals(topic.getUserId()), "非本人无权修改");
-        topic.setModifyTime(new Date());
-        topic.setContent(EmojiParser.parseToAliases(topic.getContent()));
-        iBmsPostService.updateById(topic);
-        return ApiResult.success(topic);
+    public ApiResult<BmsPost> update(@Valid @RequestBody BmsPost post, Principal principal) {
+        UmsUser umsUser = umsUserService.getUserByUsername(principal.getName());
+        Assert.isTrue(umsUser.getId().equals(post.getUserId()), "非本人无权修改");
+        post.setModifyTime(new Date());
+        post.setContent(EmojiParser.parseToAliases(post.getContent()));
+        iBmsPostService.updateById(post);
+        return ApiResult.success(post);
     }
 
-
-    /**
-     * 浏览指定话题
-     */
     @GetMapping()
     @ApiOperation(value = "获取指定话题,议题", notes = "输入话题ID获取")
-    public ApiResult view(@ApiParam(value = "id", name = "话题ID", required = true) @RequestParam("id") String id) {
+    public ApiResult<Map<String, Object>> view(@ApiParam(value = "id", name = "话题ID", required = true) @RequestParam("id") String id) {
         Map<String, Object> map = iBmsPostService.viewTopic(id);
         return ApiResult.success(map);
     }
 
-    /**
-     * 详情页推荐
-     */
     @ApiOperation(value = "获取详情页推荐")
     @GetMapping("/recommend")
-    public ApiResult getRecommend(@RequestParam("topicId") String id) {
-        List<TbPost> topics = iBmsPostService.getRecommend(id);
+    public ApiResult<List<BmsPost>> getRecommend(@RequestParam("topicId") String id) {
+        List<BmsPost> topics = iBmsPostService.getRecommend(id);
         return ApiResult.success(topics);
     }
 

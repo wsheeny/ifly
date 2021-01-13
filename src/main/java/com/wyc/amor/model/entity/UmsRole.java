@@ -10,22 +10,22 @@ import lombok.experimental.Accessors;
 import java.io.Serializable;
 
 /**
- * 话题-标签中间表
+ * 角色
  *
  * @author Knox
  */
 @Data
-@TableName("tb_topic_tag")
+@TableName("ums_role")
 @Accessors(chain = true)
-public class TbTopicTag implements Serializable {
-    private static final long serialVersionUID = -5028599844989220715L;
+public class UmsRole implements Serializable {
+    private static final long serialVersionUID = 7824693669858106664L;
 
-    @TableId(type = IdType.AUTO)
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    @TableField("tag_id")
-    private String tagId;
+    @TableField("name")
+    private String name;
 
-    @TableField("topic_id")
-    private String topicId;
+    @TableField("remark")
+    private String remark;
 }

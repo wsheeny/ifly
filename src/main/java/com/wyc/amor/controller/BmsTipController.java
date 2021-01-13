@@ -1,7 +1,7 @@
 package com.wyc.amor.controller;
 
 import com.wyc.amor.common.api.ApiResult;
-import com.wyc.amor.model.entity.TbTip;
+import com.wyc.amor.model.entity.BmsTip;
 import com.wyc.amor.service.IBmsTipService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -28,8 +28,8 @@ public class BmsTipController extends BaseController {
 
     @GetMapping("/today")
     @ApiOperation(value = "获取每日赠言", notes = "Type默认为1，一般情况使用默认值", httpMethod = "GET")
-    public ApiResult<TbTip> getRandomTip(@ApiParam("type类型，默认使用1") @RequestParam(value = "type", defaultValue = "1") Integer type) {
-        TbTip tip = bmsTipService.getRandomTip(type);
+    public ApiResult<BmsTip> getRandomTip(@ApiParam("type类型，默认使用1") @RequestParam(value = "type", defaultValue = "1") Integer type) {
+        BmsTip tip = bmsTipService.getRandomTip(type);
         return ApiResult.success(tip);
     }
 }

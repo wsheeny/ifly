@@ -1,7 +1,7 @@
 package com.wyc.amor.controller;
 
 import com.wyc.amor.common.api.ApiResult;
-import com.wyc.amor.model.entity.TbFriendLink;
+import com.wyc.amor.model.entity.BmsFriendLink;
 import com.wyc.amor.service.IBmsFriendLinkService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -27,7 +27,7 @@ public class BmsFriendLinkController extends BaseController {
 
     @GetMapping("/all")
     @ApiOperation(value = "获取友链集合")
-    public ApiResult<List<TbFriendLink>> getLinks() {
+    public ApiResult<List<BmsFriendLink>> getLinks() {
         return ApiResult.success(bmsFriendLinkService.list());
     }
 }

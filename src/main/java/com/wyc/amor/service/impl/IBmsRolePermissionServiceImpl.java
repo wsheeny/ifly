@@ -3,7 +3,7 @@ package com.wyc.amor.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wyc.amor.mapper.UmsRolePermissionMapper;
-import com.wyc.amor.model.entity.ums.UmsRolePermission;
+import com.wyc.amor.model.entity.UmsRolePermission;
 import com.wyc.amor.service.IBmsRolePermissionService;
 import org.springframework.stereotype.Service;
 

@@ -3,7 +3,7 @@ package com.wyc.amor.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wyc.amor.config.redis.RedisService;
 import com.wyc.amor.mapper.BmsTipMapper;
-import com.wyc.amor.model.entity.TbTip;
+import com.wyc.amor.model.entity.BmsTip;
 import com.wyc.amor.service.IBmsTipService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ import org.springframework.util.ObjectUtils;
  */
 @Slf4j
 @Service
-public class IBmsTipServiceImpl extends ServiceImpl<BmsTipMapper, TbTip> implements IBmsTipService {
+public class IBmsTipServiceImpl extends ServiceImpl<BmsTipMapper, BmsTip> implements IBmsTipService {
 
     @Autowired
     private RedisService redisService;
@@ -29,10 +29,10 @@ public class IBmsTipServiceImpl extends ServiceImpl<BmsTipMapper, TbTip> impleme
      * @return
      */
     @Override
-    public TbTip getRandomTip(Integer type) {
-        TbTip todayTip = null;
+    public BmsTip getRandomTip(Integer type) {
+        BmsTip todayTip = null;
         try {
-            todayTip = (TbTip) redisService.get("today_tip");
+            todayTip = (BmsTip) redisService.get("today_tip");
             if (ObjectUtils.isEmpty(todayTip)) {
                 todayTip = this.baseMapper.getRandomTip(type);
                 redisService.set("today_tip", todayTip, 24 * 60 * 60);

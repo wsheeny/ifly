@@ -22,11 +22,11 @@ import java.util.Date;
  */
 @Data
 @Builder
-@TableName("tb_post")
+@TableName("bms_post")
 @AllArgsConstructor
 @NoArgsConstructor
 @Document(indexName = "topic", shards = 1, replicas = 1)
-public class TbPost implements Serializable {
+public class BmsPost implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
