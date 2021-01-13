@@ -1,6 +1,6 @@
 package com.wyc.rhapsody.backend.controller;
 
-import com.wyc.rhapsody.backend.common.R;
+import com.wyc.rhapsody.backend.common.api.ApiResult;
 import com.wyc.rhapsody.backend.model.entity.TbDaily;
 import com.wyc.rhapsody.backend.service.DailyService;
 import io.swagger.annotations.Api;
@@ -24,32 +24,32 @@ public class DailyController extends BaseController {
     private DailyService dailyService;
 
     @GetMapping("/all")
-    public R list() {
+    public ApiResult list() {
         List<TbDaily> list = dailyService.list();
-        return R.ok().data(list);
+        return ApiResult.success(list);
     }
 
 
     @PostMapping("/add")
-    public R save(@RequestBody TbDaily daily) {
+    public ApiResult save(@RequestBody TbDaily daily) {
         Assert.notNull(daily, "参数不正确");
         dailyService.saveOrUpdate(daily);
-        return R.ok();
+        return ApiResult.success(daily);
     }
 
 
     @GetMapping("/find/{id}")
-    public R find(@PathVariable("id") Integer id) {
+    public ApiResult find(@PathVariable("id") Integer id) {
         TbDaily byId = dailyService.getById(id);
         Assert.notNull(byId, "数据不存在");
-        return R.ok().data(byId);
+        return ApiResult.success(byId);
     }
 
     @DeleteMapping("/delete/{id}")
-    public R delete(@PathVariable("id") Integer id) {
+    public ApiResult delete(@PathVariable("id") Integer id) {
         TbDaily byId = dailyService.getById(id);
         Assert.notNull(byId, "来晚一步，数据已不存在");
         dailyService.removeById(id);
-        return R.ok();
+        return ApiResult.success("删除成功");
     }
 }

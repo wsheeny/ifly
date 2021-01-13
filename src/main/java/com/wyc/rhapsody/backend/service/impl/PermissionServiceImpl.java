@@ -3,8 +3,8 @@ package com.wyc.rhapsody.backend.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wyc.rhapsody.backend.mapper.PermissionMapper;
-import com.wyc.rhapsody.backend.model.entity.TbPermission;
-import com.wyc.rhapsody.backend.model.entity.TbRolePermission;
+import com.wyc.rhapsody.backend.model.entity.ums.UmsPermission;
+import com.wyc.rhapsody.backend.model.entity.ums.UmsRolePermission;
 import com.wyc.rhapsody.backend.service.PermissionService;
 import com.wyc.rhapsody.backend.service.RolePermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,20 +19,20 @@ import java.util.stream.Collectors;
  * @author Knox 2020/11/7
  */
 @Service
-public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, TbPermission> implements PermissionService {
+public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, UmsPermission> implements PermissionService {
 
     @Autowired
     private RolePermissionService rolePermissionService;
 
     @Override
-    public List<TbPermission> getByRoleId(Integer roleId) {
-        List<TbRolePermission> rolePermissions = rolePermissionService.selectByRoleId(roleId);
+    public List<UmsPermission> getByRoleId(Integer roleId) {
+        List<UmsRolePermission> rolePermissions = rolePermissionService.selectByRoleId(roleId);
         List<Integer> permissionIds = rolePermissions.stream()
-                .map(TbRolePermission::getPermissionId)
+                .map(UmsRolePermission::getPermissionId)
                 .collect(Collectors
                         .toList());
-        QueryWrapper<TbPermission> wrapper = new QueryWrapper<>();
-        wrapper.lambda().in(TbPermission::getId, permissionIds);
+        QueryWrapper<UmsPermission> wrapper = new QueryWrapper<>();
+        wrapper.lambda().in(UmsPermission::getId, permissionIds);
         return this.baseMapper.selectList(wrapper);
     }
 }

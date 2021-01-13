@@ -1,6 +1,6 @@
 package com.wyc.rhapsody.backend.controller;
 
-import com.wyc.rhapsody.backend.common.R;
+import com.wyc.rhapsody.backend.common.api.ApiResult;
 import com.wyc.rhapsody.backend.model.entity.TbPromotion;
 import com.wyc.rhapsody.backend.service.PromotionService;
 import io.swagger.annotations.Api;
@@ -30,9 +30,9 @@ public class PromotionController {
      * @return
      */
     @GetMapping("/all")
-    public R list() {
+    public ApiResult<List<TbPromotion>> list() {
         List<TbPromotion> list = promotionService.list();
-        return R.ok().data(list);
+        return ApiResult.success(list);
     }
 
 }

@@ -1,13 +1,12 @@
 package com.wyc.rhapsody.backend.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.wyc.rhapsody.backend.common.MyHttpCode;
-import com.wyc.rhapsody.backend.common.R;
-import com.wyc.rhapsody.backend.exception.MyException;
+import com.wyc.rhapsody.backend.common.api.ApiResult;
+import com.wyc.rhapsody.backend.common.exception.Asserts;
 import com.wyc.rhapsody.backend.model.entity.TbFollow;
-import com.wyc.rhapsody.backend.model.entity.TbUser;
+import com.wyc.rhapsody.backend.model.entity.ums.UmsUser;
 import com.wyc.rhapsody.backend.service.FollowService;
-import com.wyc.rhapsody.backend.service.UserService;
+import com.wyc.rhapsody.backend.service.IUmsUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -35,7 +34,7 @@ public class FollowController extends BaseController {
     private FollowService followService;
 
     @Autowired
-    private UserService userService;
+    private IUmsUserService IUmsUserService;
 
     /**
      * 关注
@@ -44,25 +43,24 @@ public class FollowController extends BaseController {
      * @return
      */
     @GetMapping("/do/{userId}")
-    public R handleFollow(@PathVariable("userId") String parentId) {
-        TbUser tbUser = getMyUserDetails().getUser();
-        if (parentId.equals(tbUser.getId())) {
-            throw new MyException().code(MyHttpCode.HAS_FOLLOW).message("您脸皮太厚了，怎么可以关注自己呢😮");
+    public ApiResult handleFollow(@PathVariable("userId") String parentId) {
+        UmsUser umsUser = null;
+        if (parentId.equals(umsUser.getId())) {
+            Asserts.fail("您脸皮太厚了，怎么可以关注自己呢😮");
         }
-
         TbFollow one = followService.getOne(
                 new LambdaQueryWrapper<TbFollow>()
                         .eq(TbFollow::getParentId, parentId)
-                        .eq(TbFollow::getFollowerId, tbUser.getId()));
+                        .eq(TbFollow::getFollowerId, umsUser.getId()));
         if (!ObjectUtils.isEmpty(one)) {
-            throw new MyException().code(MyHttpCode.HAS_FOLLOW).message("您已关注过了");
+            Asserts.fail("已关注");
         }
 
         TbFollow follow = new TbFollow();
         follow.setParentId(parentId);
-        follow.setFollowerId(tbUser.getId());
+        follow.setFollowerId(umsUser.getId());
         followService.save(follow);
-        return R.ok().message("关注成功");
+        return ApiResult.success("关注成功");
     }
 
     /**
@@ -72,20 +70,20 @@ public class FollowController extends BaseController {
      * @return
      */
     @GetMapping("/undo/{userId}")
-    public R handleUnFollow(@PathVariable("userId") String parentId) {
-        TbUser tbUser = getMyUserDetails().getUser();
+    public ApiResult handleUnFollow(@PathVariable("userId") String parentId) {
+        UmsUser umsUser = null;
         TbFollow one = followService.getOne(
                 new LambdaQueryWrapper<TbFollow>()
                         .eq(TbFollow::getParentId, parentId)
-                        .eq(TbFollow::getFollowerId, tbUser.getId()));
+                        .eq(TbFollow::getFollowerId, umsUser.getId()));
         if (ObjectUtils.isEmpty(one)) {
-            throw new MyException().code(MyHttpCode.UN_FOLLOW).message("当前用户未关注，无需取关");
+            Asserts.fail("未关注！");
         }
 
         followService.remove(new LambdaQueryWrapper<TbFollow>().eq(TbFollow::getParentId, parentId)
-                .eq(TbFollow::getFollowerId, tbUser.getId()));
+                .eq(TbFollow::getFollowerId, umsUser.getId()));
 
-        return R.ok().message("取关成功");
+        return ApiResult.success("取关成功");
     }
 
     /**
@@ -94,19 +92,19 @@ public class FollowController extends BaseController {
     @ApiOperation(value = "验证是否关注", notes = "")
     @ApiImplicitParam(value = "topicUserId", name = "当前浏览话题作者ID", required = true, paramType = "path")
     @GetMapping("/validate/{topicUserId}")
-    public R isFollow(@PathVariable("topicUserId") String topicUserId) {
-        TbUser tbUser = getMyUserDetails().getUser();
+    public ApiResult isFollow(@PathVariable("topicUserId") String topicUserId) {
+        UmsUser umsUser = null;
         Map<String, Object> map = new HashMap<>(16);
         map.put("hasFollow", false);
-        if (!ObjectUtils.isEmpty(tbUser)) {
+        if (!ObjectUtils.isEmpty(umsUser)) {
             TbFollow one = followService.getOne(new LambdaQueryWrapper<TbFollow>()
                     .eq(TbFollow::getParentId, topicUserId)
-                    .eq(TbFollow::getFollowerId, tbUser.getId()));
+                    .eq(TbFollow::getFollowerId, umsUser.getId()));
             if (!ObjectUtils.isEmpty(one)) {
                 map.put("hasFollow", true);
             }
         }
-        return R.ok().data(map);
+        return ApiResult.success(map);
     }
 
     /**
@@ -116,15 +114,15 @@ public class FollowController extends BaseController {
      */
     @GetMapping("/myfans")
     @ApiOperation(value = "获取我的分类列表", notes = "")
-    public R followerList(@ApiParam(value = "username", name = "用户名", required = true)
-                          @RequestParam("username") String username) {
+    public ApiResult followerList(@ApiParam(value = "username", name = "用户名", required = true)
+                                  @RequestParam("username") String username) {
 
-        TbUser user = userService.getOne(new LambdaQueryWrapper<TbUser>().eq(TbUser::getUsername, username));
+        UmsUser user = IUmsUserService.getOne(new LambdaQueryWrapper<UmsUser>().eq(UmsUser::getUsername, username));
         Assert.notNull(user, "用户不存在");
 
         List<TbFollow> list = followService.list(new LambdaQueryWrapper<TbFollow>().eq(TbFollow::getParentId, user.getId()));
 
-        return R.ok().data(list);
+        return ApiResult.success(list);
     }
 
     /**
@@ -135,12 +133,12 @@ public class FollowController extends BaseController {
     @GetMapping("/{username}/myfollow")
     @ApiOperation(value = "获取我的关注列表", notes = "")
     @ApiImplicitParam(name = "username", value = "用户username", required = true, paramType = "path")
-    public R followList(@PathVariable("username") String username) {
-        TbUser user = userService.getUserByUsername(username);
+    public ApiResult followList(@PathVariable("username") String username) {
+        UmsUser user = IUmsUserService.getUserByUsername(username);
         Assert.notNull(user, "用户不存在");
 
         List<TbFollow> list = followService.list(new LambdaQueryWrapper<TbFollow>().eq(TbFollow::getFollowerId, user.getId()));
 
-        return R.ok().data(list);
+        return ApiResult.success(list);
     }
 }

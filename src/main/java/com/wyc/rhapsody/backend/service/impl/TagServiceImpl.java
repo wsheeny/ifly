@@ -4,10 +4,10 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wyc.rhapsody.backend.mapper.TagMapper;
+import com.wyc.rhapsody.backend.model.entity.TbPost;
 import com.wyc.rhapsody.backend.model.entity.TbTag;
-import com.wyc.rhapsody.backend.model.entity.TbTopic;
+import com.wyc.rhapsody.backend.service.IPostService;
 import com.wyc.rhapsody.backend.service.TagService;
-import com.wyc.rhapsody.backend.service.TopicService;
 import com.wyc.rhapsody.backend.service.TopicTagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,7 +28,7 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, TbTag> implements Tag
     private TopicTagService topicTagService;
 
     @Autowired
-    private TopicService topicService;
+    private IPostService IPostService;
 
     @Override
     public List<TbTag> insertTags(List<String> tagNames) {
@@ -48,14 +48,14 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, TbTag> implements Tag
     }
 
     @Override
-    public Page<TbTopic> selectTopicsByTagId(Page<TbTopic> topicPage, String id) {
+    public Page<TbPost> selectTopicsByTagId(Page<TbPost> topicPage, String id) {
 
         // 获取关联的话题ID
         Set<String> ids = topicTagService.selectTopicIdsByTagId(id);
-        LambdaQueryWrapper<TbTopic> wrapper = new LambdaQueryWrapper<>();
-        wrapper.in(TbTopic::getId, ids);
+        LambdaQueryWrapper<TbPost> wrapper = new LambdaQueryWrapper<>();
+        wrapper.in(TbPost::getId, ids);
 
-        return topicService.page(topicPage, wrapper);
+        return IPostService.page(topicPage, wrapper);
     }
 
 }

@@ -1,7 +1,7 @@
 package com.wyc.rhapsody.backend.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.wyc.rhapsody.backend.common.R;
+import com.wyc.rhapsody.backend.common.api.ApiResult;
 import com.wyc.rhapsody.backend.model.entity.TbNotice;
 import com.wyc.rhapsody.backend.service.NoticeService;
 import io.swagger.annotations.Api;
@@ -28,8 +28,8 @@ public class NoticeController extends BaseController {
 
     @GetMapping("/show")
     @ApiOperation(value = "获取站点通告")
-    public R getNotice() {
+    public ApiResult<TbNotice> getNotice() {
         List<TbNotice> list = noticeService.list(new LambdaQueryWrapper<TbNotice>().eq(TbNotice::isShow, true));
-        return R.ok().data(list.get(list.size() - 1));
+        return ApiResult.success(list.get(list.size() - 1));
     }
 }

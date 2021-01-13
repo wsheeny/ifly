@@ -1,6 +1,6 @@
 package com.wyc.rhapsody.backend.controller;
 
-import com.wyc.rhapsody.backend.common.R;
+import com.wyc.rhapsody.backend.common.api.ApiResult;
 import com.wyc.rhapsody.backend.model.entity.TbTip;
 import com.wyc.rhapsody.backend.service.TipService;
 import io.swagger.annotations.Api;
@@ -33,8 +33,8 @@ public class TipController extends BaseController {
      */
     @ApiOperation(value = "获取每日赠言", notes = "Type默认为1，一般情况使用默认值", httpMethod = "GET")
     @GetMapping("/today")
-    public R getRandomTip(@ApiParam("type类型，默认使用1") @RequestParam(value = "type", defaultValue = "1") Integer type) {
+    public ApiResult<TbTip> getRandomTip(@ApiParam("type类型，默认使用1") @RequestParam(value = "type", defaultValue = "1") Integer type) {
         TbTip tip = tipService.getRandomTip(type);
-        return R.ok().data(tip);
+        return ApiResult.success(tip);
     }
 }

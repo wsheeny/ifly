@@ -1,7 +1,7 @@
 package com.wyc.rhapsody.backend.controller;
 
-import com.wyc.rhapsody.backend.common.R;
-import com.wyc.rhapsody.backend.exception.MyException;
+import com.alibaba.fastjson.JSON;
+import com.wyc.rhapsody.backend.common.exception.Asserts;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -25,10 +26,13 @@ import java.util.Objects;
  * @date 2020/11/29
  */
 @Slf4j
-@Api(tags = "上传")
+@Api(tags = "上传", value = "UploadController")
 @RestController
 @RequestMapping("/api/upload")
 public class UploadController extends BaseController {
+
+    public static final String AccessKey = "QeVlxSNnxDnEAkZZsFG2-mEOrl7GzzhGnHhHiFUm";
+    public static final String SecretKey = "btvTk_P4rq4-_NTqhlB9se_A1A4yrmJzygRI0LwX";
 
 
     /**
@@ -39,33 +43,36 @@ public class UploadController extends BaseController {
      */
     @PostMapping("/file")
     @ApiOperation(value = "文件上传", notes = "")
-    public R upload(@RequestParam("file") MultipartFile file) {
+    public Object upload(@RequestParam("my-file") MultipartFile file) {
         if (ObjectUtils.isEmpty(file)) {
-            throw new MyException().code(40000).message("文件为空");
+            Asserts.fail("文件为空");
+        }
+        // 文件名
+        String filename = file.getOriginalFilename();
+        // 文件路径
+        String filePath = "D:\\temp";
+
+        File newFile = new File(filePath, Objects.requireNonNull(filename));
+        if (!newFile.exists()) {
+            log.info("检测到文件保存路径不存在，系统将为你自动创建目录");
+            newFile.mkdirs();
         }
         try {
-            // 文件名
-            String filename = file.getOriginalFilename();
-            // 文件路径
-            String filePath = "D:\\temp";
-
-            File newFile = new File(filePath, Objects.requireNonNull(filename));
-            if (!newFile.exists()) {
-                log.info("检测到文件保存路径不存在，系统将为你自动创建目录");
-                newFile.mkdirs();
-            }
             file.transferTo(newFile);
-            log.info("文件上传成功");
-            Map<String, Object> map = new HashMap<>();
-            map.put("originalURL", "");
-            map.put("url", filePath + "\\" + filename);
-
-            return R.ok().data(map).message("文件上传成功");
         } catch (IOException e) {
             e.printStackTrace();
         }
+        Map<String, Object> map = new HashMap<>(16);
+        Map<String, Object> map2 = new HashMap<>(16);
+        Map<String, Object> map3 = new HashMap<>(16);
+        map3.put("avatar.png", "https://b3logfile.com/file/2020/12/avatar-5ddf504a.png");
+        map2.put("succMap", map3);
+        map2.put("errFiles", new ArrayList<>());
 
-        return R.error().message("文件上传失败").code(50000);
+        map.put("msg", "ok");
+        map.put("code", 200);
+        map.put("data", map2);
+
+        return JSON.toJSON(map);
     }
-
 }

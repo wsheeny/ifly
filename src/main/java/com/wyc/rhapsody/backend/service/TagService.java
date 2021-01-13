@@ -2,8 +2,8 @@ package com.wyc.rhapsody.backend.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.wyc.rhapsody.backend.model.entity.TbPost;
 import com.wyc.rhapsody.backend.model.entity.TbTag;
-import com.wyc.rhapsody.backend.model.entity.TbTopic;
 
 import java.util.List;
 
@@ -28,7 +28,7 @@ public interface TagService extends IService<TbTag> {
      * @param id
      * @return
      */
-    Page<TbTopic> selectTopicsByTagId(Page<TbTopic> topicPage, String id);
+    Page<TbPost> selectTopicsByTagId(Page<TbPost> topicPage, String id);
 
 
 }

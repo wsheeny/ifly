@@ -1,7 +1,7 @@
 package com.wyc.rhapsody.backend.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.wyc.rhapsody.backend.model.entity.TbPermission;
+import com.wyc.rhapsody.backend.model.entity.ums.UmsPermission;
 import org.apache.ibatis.annotations.Param;
 import org.mapstruct.Mapper;
 import org.springframework.stereotype.Repository;
@@ -15,7 +15,7 @@ import java.util.List;
  */
 @Mapper
 @Repository
-public interface PermissionMapper extends BaseMapper<TbPermission> {
+public interface PermissionMapper extends BaseMapper<UmsPermission> {
 
     /**
      * 获取用户权限
@@ -23,6 +23,6 @@ public interface PermissionMapper extends BaseMapper<TbPermission> {
      * @param userId 用户ID
      * @return 权限集合
      */
-    List<TbPermission> selectList(@Param("userId") String userId);
+    List<UmsPermission> selectList(@Param("userId") String userId);
 
 }

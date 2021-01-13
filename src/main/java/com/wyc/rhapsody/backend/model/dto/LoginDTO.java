@@ -21,9 +21,5 @@ public class LoginDTO {
     @Size(min = 6, max = 20, message = "登录密码长度在6-20")
     private String password;
 
-    /**
-     * 记住登录
-     */
     private Boolean rememberMe;
-
 }

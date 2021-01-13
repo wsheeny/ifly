@@ -22,12 +22,11 @@ import java.util.Objects;
 @Component
 public class FileUtil {
 
-    private final Logger log = LoggerFactory.getLogger(FileUtil.class);
-
     /**
      * 自定义上传路径
      */
     public static final String UPLOAD_PATH = "D:\\";
+    private final Logger log = LoggerFactory.getLogger(FileUtil.class);
 
     /**
      * 上传文件

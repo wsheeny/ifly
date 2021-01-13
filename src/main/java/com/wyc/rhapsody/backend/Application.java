@@ -7,7 +7,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
 
 /**
- * Rhapsody-Backend
+ * 后台接口
+ * <p>
+ * 1.前台API
+ * 2.后台前端API
  *
  * @author knox
  */

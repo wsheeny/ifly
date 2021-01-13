@@ -14,19 +14,19 @@ import javax.validation.constraints.NotEmpty;
 @Data
 public class RegisterDTO {
 
-    @NotEmpty(message = "用户不能为空")
+    @NotEmpty(message = "请输入账号")
     @Length(min = 2, max = 15, message = "长度在2-15")
     private String name;
 
-    @NotEmpty(message = "密码不能为空")
+    @NotEmpty(message = "请输入密码")
     @Length(min = 6, max = 20, message = "长度在6-20")
     private String pass;
 
-    @NotEmpty(message = "密码不能为空")
+    @NotEmpty(message = "请再次输入密码")
     @Length(min = 6, max = 20, message = "长度在6-20")
     private String checkPass;
 
-    @NotEmpty(message = "邮箱不可以为空")
+    @NotEmpty(message = "请输入电子邮箱")
     @Email(message = "邮箱格式不正确")
     private String email;
 }

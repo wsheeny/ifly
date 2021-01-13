@@ -1,12 +1,15 @@
 package com.wyc.rhapsody.backend.controller;
 
-import com.wyc.rhapsody.backend.common.R;
+import com.wyc.rhapsody.backend.common.api.ApiResult;
+import com.wyc.rhapsody.backend.model.entity.TbFriendLink;
 import com.wyc.rhapsody.backend.service.FriendLinkService;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * 友链
@@ -27,7 +30,7 @@ public class FriendLinkController extends BaseController {
      * @return
      */
     @GetMapping("/all")
-    public R getLinks() {
-        return R.ok().data(friendLinkService.list());
+    public ApiResult<List<TbFriendLink>> getLinks() {
+        return ApiResult.success(friendLinkService.list());
     }
 }

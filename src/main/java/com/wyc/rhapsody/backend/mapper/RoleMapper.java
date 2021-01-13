@@ -1,7 +1,7 @@
 package com.wyc.rhapsody.backend.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.wyc.rhapsody.backend.model.entity.TbRole;
+import com.wyc.rhapsody.backend.model.entity.ums.UmsRole;
 import org.mapstruct.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -12,5 +12,5 @@ import org.springframework.stereotype.Repository;
  */
 @Mapper
 @Repository
-public interface RoleMapper extends BaseMapper<TbRole> {
+public interface RoleMapper extends BaseMapper<UmsRole> {
 }

@@ -1,6 +1,5 @@
 package com.wyc.rhapsody.backend.controller;
 
-import com.wyc.rhapsody.backend.common.R;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,8 +14,4 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/ranking")
 public class RankingController extends BaseController {
 
-
-    public R list() {
-        return R.ok();
-    }
 }
