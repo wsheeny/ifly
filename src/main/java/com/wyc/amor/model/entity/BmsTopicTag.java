@@ -15,7 +15,7 @@ import java.io.Serializable;
  * @author Knox
  */
 @Data
-@TableName("bms_topic_tag")
+@TableName("bms_post_tag")
 @Accessors(chain = true)
 public class BmsTopicTag implements Serializable {
     private static final long serialVersionUID = -5028599844989220715L;

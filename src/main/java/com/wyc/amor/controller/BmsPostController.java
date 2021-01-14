@@ -71,7 +71,7 @@ public class BmsPostController extends BaseController {
         Assert.notNull(byId, "来晚一步，话题已不存在");
         Assert.isTrue(byId.getUserId().equals(umsUser.getId()), "你为什么可以删除别人的话题？？？");
         iBmsPostService.removeById(id);
-        return ApiResult.success("删除成功");
+        return ApiResult.success(null,"删除成功");
     }
 
     @PreAuthorize("isAuthenticated()")

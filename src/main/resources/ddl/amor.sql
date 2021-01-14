@@ -47,7 +47,7 @@ CREATE TABLE `bms_collect`  (
 -- ----------------------------
 -- Table structure for bms_daily
 -- ----------------------------
-DROP TABLE IF EXISTS `bms_daily`;
+DROP TABLE IF EXISTS bms_journey;
 CREATE TABLE `bms_daily`  (
   `id` int NOT NULL AUTO_INCREMENT COMMENT '主键',
   `img` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '配图',
@@ -85,10 +85,10 @@ CREATE TABLE `bms_friend_link`  (
 -- ----------------------------
 -- Table structure for bms_notice
 -- ----------------------------
-DROP TABLE IF EXISTS `bms_notice`;
+DROP TABLE IF EXISTS bms_billboard;
 CREATE TABLE `bms_notice`  (
   `id` int NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `content` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '公告',
+  `content` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '公告牌',
   `create_time` datetime NULL DEFAULT NULL COMMENT '公告时间',
   `show` tinyint(1) NULL DEFAULT NULL COMMENT '1：展示中，0：过期',
   PRIMARY KEY (`id`) USING BTREE
@@ -216,10 +216,10 @@ CREATE TABLE `bms_tip`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 24864 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '每日赠言' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Table structure for bms_topic_tag
+-- Table structure for bms_post_tag
 -- ----------------------------
-DROP TABLE IF EXISTS `bms_topic_tag`;
-CREATE TABLE `bms_topic_tag`  (
+DROP TABLE IF EXISTS bms_post_tag;
+CREATE TABLE `bms_post_tag`  (
   `id` int NOT NULL AUTO_INCREMENT COMMENT '主键',
   `tag_id` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '标签ID',
   `topic_id` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '话题ID',

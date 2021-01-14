@@ -87,6 +87,23 @@ public class ApiResult<T> implements Serializable {
     }
 
     /**
+     * 失败返回结果
+     */
+    public static <T> ApiResult<T> failed() {
+        return failed(ApiErrorCode.FAILED);
+    }
+
+    /**
+     * 失败返回结果
+     *
+     * @param message 提示信息
+     * @return {code:枚举ApiErrorCode取,message:自定义,data:null}
+     */
+    public static <T> ApiResult<T> failed(String message) {
+        return new ApiResult<T>(ApiErrorCode.FAILED.getCode(), message, null);
+    }
+
+    /**
      * 失败
      *
      * @param errorCode 错误码
@@ -105,23 +122,6 @@ public class ApiResult<T> implements Serializable {
      */
     public static <T> ApiResult<T> failed(IErrorCode errorCode, String message) {
         return new ApiResult<T>(errorCode.getCode(), message, null);
-    }
-
-    /**
-     * 失败返回结果
-     *
-     * @param message 提示信息
-     * @return {code:枚举ApiErrorCode取,message:自定义,data:null}
-     */
-    public static <T> ApiResult<T> failed(String message) {
-        return new ApiResult<T>(ApiErrorCode.FAILED.getCode(), message, null);
-    }
-
-    /**
-     * 失败返回结果
-     */
-    public static <T> ApiResult<T> failed() {
-        return failed(ApiErrorCode.FAILED);
     }
 
     /**

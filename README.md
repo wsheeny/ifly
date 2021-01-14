@@ -57,7 +57,7 @@
   
 - 首页
   
-  ![首页面](doc/index.png)
+  ![首页面](doc/home.png)
 
 - 活动
   

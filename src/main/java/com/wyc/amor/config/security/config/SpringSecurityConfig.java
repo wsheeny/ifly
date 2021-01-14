@@ -13,17 +13,12 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -42,16 +37,19 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired(required = false)
     private DynamicSecurityService dynamicSecurityService;
 
-    @Autowired
+    @Resource
     private IgnoreUrlsConfig ignoreUrlsConfig;
 
-    @Autowired
+    @Resource
     private RestAccessDeniedHandler restAccessDeniedHandler;
 
-    @Autowired
+    @Resource
     private RestAuthenticationEntryPoint restAuthenticationEntryPoint;
 
-    @Autowired
+    @Resource
+    private RestLogoutSuccessHandler restLogoutSuccessHandler;
+
+    @Resource
     private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
 
     /**
@@ -98,12 +96,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout()
                 .logoutUrl("/logout")
-                .logoutSuccessHandler(new LogoutSuccessHandler() {
-                    @Override
-                    public void onLogoutSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
-                        System.out.println("注销成功");
-                    }
-                });
+                .logoutSuccessHandler(restLogoutSuccessHandler);
 
         // 禁用缓存
         httpSecurity.headers().cacheControl();

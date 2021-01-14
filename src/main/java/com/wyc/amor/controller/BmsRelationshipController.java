@@ -55,7 +55,7 @@ public class BmsRelationshipController extends BaseController {
         follow.setParentId(parentId);
         follow.setFollowerId(umsUser.getId());
         bmsFollowService.save(follow);
-        return ApiResult.success("关注成功");
+        return ApiResult.success(null, "关注成功");
     }
 
     @GetMapping("/unsubscribe/{userId}")
@@ -71,13 +71,13 @@ public class BmsRelationshipController extends BaseController {
         }
         bmsFollowService.remove(new LambdaQueryWrapper<BmsFollow>().eq(BmsFollow::getParentId, parentId)
                 .eq(BmsFollow::getFollowerId, umsUser.getId()));
-        return ApiResult.success("取关成功");
+        return ApiResult.success(null, "取关成功");
     }
 
     @GetMapping("/fans")
     @ApiOperation(value = "获取我的粉丝")
     public ApiResult<List<BmsFollow>> followerList(@ApiParam(value = "username", name = "用户名", required = true)
-                                                  @RequestParam("username") String username) {
+                                                   @RequestParam("username") String username) {
         UmsUser user = umsUserService.getOne(new LambdaQueryWrapper<UmsUser>().eq(UmsUser::getUsername, username));
         if (ObjectUtils.isEmpty(user)) {
             ApiAsserts.fail("用户不存在");
@@ -89,7 +89,7 @@ public class BmsRelationshipController extends BaseController {
     @GetMapping("/followers")
     @ApiOperation(value = "获取我的关注")
     public ApiResult<List<BmsFollow>> followList(@ApiParam(value = "username", name = "用户名", required = true)
-                                                @RequestParam("username") String username) {
+                                                 @RequestParam("username") String username) {
         UmsUser user = umsUserService.getUserByUsername(username);
         if (ObjectUtils.isEmpty(user)) {
             ApiAsserts.fail("用户不存在");
