@@ -17,16 +17,11 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.util.HashMap;
@@ -83,15 +78,6 @@ public class UmsUserController extends BaseController {
         return ApiResult.success(user);
     }
 
-    @RequestMapping(value = "/logout")
-    public ApiResult<String> logout(HttpServletRequest request, HttpServletResponse response) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth != null) {
-            new SecurityContextLogoutHandler().logout(request, response, auth);
-        }
-        return ApiResult.success("注销成功");
-    }
-
     @PostMapping("/update")
     @ApiOperation(value = "修改账户资料")
     public ApiResult<UmsUser> updateUser(@RequestBody UmsUser umsUser) {
@@ -115,7 +101,7 @@ public class UmsUserController extends BaseController {
         return ApiResult.success(map);
     }
 
-    @PostMapping("/active")
+    @RequestMapping(value = "/active", method = RequestMethod.POST)
     @ApiOperation(value = "账号激活")
     public ApiResult<Object> active(@RequestBody @Valid ActiveDTO activeDTO) {
         UmsUser user = iUmsUserService.getUserByUsername(activeDTO.getUser());
@@ -123,11 +109,14 @@ public class UmsUserController extends BaseController {
             ApiAsserts.fail("用户不存在");
         }
         String activeCode = (String) redisService.get("activeCode[" + activeDTO.getUser() + "]");
+        if (user.getActive() && ObjectUtils.isEmpty(activeCode)) {
+            return ApiResult.success(null, "账号已激活");
+        }
         Assert.isTrue(activeCode.equals(activeDTO.getCode()), "激活码错误");
         user.setActive(true);
         if (iUmsUserService.updateById(user)) {
             redisService.del("activeCode[" + activeDTO.getUser() + "]");
-            return ApiResult.success("恭喜你，账号激活成功!");
+            return ApiResult.success(null, "恭喜你，账号激活成功!");
         }
         return ApiResult.failed("账号激活失败！");
     }
