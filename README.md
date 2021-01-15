@@ -1,7 +1,8 @@
 <div align="center">
     <h2>Amor</h2>
     <p>
-        一套前后端分离的极简社区系统，采用RESTFul风格构建。
+        一套前后端分离的极简社区系统，采用RESTFul风格构建。   
+        <a href="https://github.com/1020317774/amor.git">前端地址</a>
     </p>
     <p>
         <a href="https://github.com/1020317774/amor/stargazers"><img alt="GitHub release" src="https://img.shields.io/github/release/1020317774/rhapsody-web-admin?style=flat-square"></a>
