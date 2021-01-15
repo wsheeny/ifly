@@ -2,7 +2,7 @@
     <h2>Amor</h2>
     <p>
         一套前后端分离的极简社区系统，采用RESTFul风格构建。<br/>     
-        前端地址
+        前端地址: 
         <a href="https://github.com/1020317774/amor-vue-front">amor-vue-front</a>
     </p>
     <p>
