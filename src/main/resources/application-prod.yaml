@@ -1,0 +1,24 @@
+server:
+  port: 8088
+
+web:
+  domain: http://localhost
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: admin
+    url: jdbc:mysql://localhost:3306/aurora?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=GMT%2B8
+    type: com.zaxxer.hikari.HikariDataSource
+
+mybatis-plus:
+  type-aliases-package: com.knox.aurora.model
+  mapper-locations: classpath*:/mapper/**/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+
+logging:
+  level:
+    root: info
+    com.knox.aurora: info
