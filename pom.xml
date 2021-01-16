@@ -20,7 +20,7 @@
         <mybatis-plus.version>3.4.1</mybatis-plus.version>
         <!--指定elastic版本，防止冲突-->
         <elasticsearch.version>7.10.0</elasticsearch.version>
-        <swagger.version>2.9.2</swagger.version>
+        <swagger.version>3.0.0</swagger.version>
         <hutool.version>5.5.7</hutool.version>
         <jwt.version>0.9.1</jwt.version>
         <javax.mail.version>1.4.7</javax.mail.version>
