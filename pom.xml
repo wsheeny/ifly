@@ -21,7 +21,7 @@
         <!--指定elastic版本，防止冲突-->
         <elasticsearch.version>7.10.0</elasticsearch.version>
         <swagger.version>2.9.2</swagger.version>
-        <hutool.version>5.4.4</hutool.version>
+        <hutool.version>5.5.7</hutool.version>
         <jwt.version>0.9.1</jwt.version>
         <javax.mail.version>1.4.7</javax.mail.version>
         <fastjson.version>1.2.75</fastjson.version>
