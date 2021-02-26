@@ -45,6 +45,10 @@ public class PostVO implements Serializable {
      */
     private String title;
     /**
+     * Html文本
+     */
+    private String html;
+    /**
      * 评论统计
      */
     private Integer comments;

@@ -26,7 +26,7 @@ import java.util.Objects;
  * @date 2020/11/29
  */
 @Slf4j
-@Api(tags = "上传", value = "UploadController")
+@Api(tags = "BmsUploadController", description = "上传")
 @RestController
 @RequestMapping("/upload")
 public class BmsUploadController extends BaseController {

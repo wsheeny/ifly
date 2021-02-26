@@ -50,7 +50,13 @@ public class BmsPost implements Serializable {
     @NotBlank(message = "内容不可以为空")
     @TableField("`content`")
     private String content;
-
+    /**
+     * Html文本
+     */
+    @Field(analyzer = "ik_max_word", type = FieldType.Text)
+    @NotBlank(message = "内容不可以为空")
+    @TableField("`html`")
+    private String html;
     /**
      * 作者ID
      */

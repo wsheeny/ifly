@@ -1,7 +1,6 @@
 package com.knox.aurora.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.vdurmont.emoji.EmojiParser;
 import com.knox.aurora.common.api.ApiResult;
 import com.knox.aurora.model.dto.CreateTopicDTO;
 import com.knox.aurora.model.entity.BmsPost;
@@ -9,6 +8,7 @@ import com.knox.aurora.model.entity.UmsUser;
 import com.knox.aurora.model.vo.PostVO;
 import com.knox.aurora.service.IBmsPostService;
 import com.knox.aurora.service.IUmsUserService;
+import com.vdurmont.emoji.EmojiParser;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -20,6 +20,7 @@ import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -42,13 +43,14 @@ public class BmsPostController extends BaseController {
 
     @GetMapping("/list")
     @ApiOperation(value = "获取话题列表", notes = "分页查询，默认每页10条数据")
-    public ApiResult<Page<PostVO>> list(
-            @ApiParam("类别，如latest(最新)，hot(热门)，essence(加精)，top(置顶)， 默认查询latest")
-            @RequestParam(value = "tab", defaultValue = "latest") String tab,
+    public ApiResult<Map<String, Object>> list(
             @ApiParam("页码，默认值1") @RequestParam(value = "pageNo", defaultValue = "1") Integer pageNo,
             @ApiParam("每页展示数据量，默认10") @RequestParam(value = "size", defaultValue = "10") Integer pageSize) {
-        Page<PostVO> list = iBmsPostService.getList(new Page<>(pageNo, pageSize), tab);
-        return ApiResult.success(list);
+        Map<String, Object> objectMap = new HashMap<>(16);
+        Page<PostVO> list = iBmsPostService.getList(new Page<>(pageNo, pageSize));
+        objectMap.put("all", list);
+        objectMap.put("focus", list);
+        return ApiResult.success(objectMap);
     }
 
     @PreAuthorize("isAuthenticated()")
@@ -71,7 +73,7 @@ public class BmsPostController extends BaseController {
         Assert.notNull(byId, "来晚一步，话题已不存在");
         Assert.isTrue(byId.getUserId().equals(umsUser.getId()), "你为什么可以删除别人的话题？？？");
         iBmsPostService.removeById(id);
-        return ApiResult.success(null,"删除成功");
+        return ApiResult.success(null, "删除成功");
     }
 
     @PreAuthorize("isAuthenticated()")

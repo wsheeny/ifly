@@ -1,7 +1,7 @@
 package com.knox.aurora.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.knox.aurora.model.entity.BmsBillboard;
+import com.knox.aurora.model.entity.BmsBulletin;
 import org.mapstruct.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -12,5 +12,5 @@ import org.springframework.stereotype.Repository;
  */
 @Mapper
 @Repository
-public interface BmsBillboardMapper extends BaseMapper<BmsBillboard> {
+public interface BmsBillboardMapper extends BaseMapper<BmsBulletin> {
 }

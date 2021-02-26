@@ -55,7 +55,7 @@ secure:
       - /logout
       - /ums/user/active
       - /minio/upload
-      - /notice/**
+      - /bulletin/**
       - /post/list
       - /tip/today
       - /friend/link/**

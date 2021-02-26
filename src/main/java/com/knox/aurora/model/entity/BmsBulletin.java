@@ -11,17 +11,17 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 公告牌
+ * 站内公告
  *
  * @author Knox 2020/11/19
  */
 @Data
 @Builder
 @Accessors(chain = true)
-@TableName("bms_billboard")
+@TableName("bms_bulletin")
 @NoArgsConstructor
 @AllArgsConstructor
-public class BmsBillboard implements Serializable {
+public class BmsBulletin implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

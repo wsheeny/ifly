@@ -3,14 +3,14 @@
 <h2>Aurora：极光社区</h2>
 <p>一套前后端分离的极简社区系统，采用RESTFul风格构建。<p/>     
 <p>
-前端地址:<a href="https://github.com/1020317774/aurora-vue">Aurora-vue</a>
+前端地址:<a href="https://github.com/haoyu21/aurora-vue">Aurora-vue</a>
 </p>
 
 <p>
 <img alt="Author" src="https://img.shields.io/badge/Author-Knox-red?style=flat-square">
-<img alt="GitHub license" src="https://img.shields.io/github/license/1020317774/aurora?style=flat-square">
-<img alt="GitHub release" src="https://img.shields.io/github/release/1020317774/aurora?style=flat-square">
-<img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/1020317774/aurora?style=flat-square">
+<img alt="GitHub license" src="https://img.shields.io/github/license/haoyu21/aurora?style=flat-square">
+<img alt="GitHub release" src="https://img.shields.io/github/release/haoyu21/aurora?style=flat-square">
+<img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/haoyu21/aurora?style=flat-square">
 </p>
 
 <p>
@@ -53,47 +53,7 @@
 
 - 访问[`http://127.0.0.1:8000`](http://127.0.0.1:10000)
 
-## 版本预览
-- 登录   
-  
-  ![](doc/login.png)
-
-- 注册
-  
-  ![](doc/register.png)
-
-- 会话
-  ![](doc/token.png)
-  
-- 首页
-  
-  ![](doc/home.png)
-
-- 活动
-  
-  ![](doc/huodong.png)
-
-- 旅行
-
-  ![](doc/journey.png)
-
-- 专栏
-
-  ![](doc/zhuanlan.png)
-  
-  ![](doc/zhuanlan2.png)
-
-
-- 摸鱼-仿掘金
-  
-  ![](doc/yuanzhuo.png)
-
-- 详情
-  
-  ![](doc/wenzhangxiangqing.png)
-
-
-- swagger
+- API文档[`http://127.0.0.1:8000/swagger-ui.html`](http://127.0.0.1:8000/swagger-ui.html)
   
   ![](doc/swagger.png)
 

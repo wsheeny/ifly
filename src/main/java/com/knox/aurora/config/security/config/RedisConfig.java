@@ -1,4 +1,4 @@
-package com.knox.aurora.config.security.config;// package com.knox.aurora.config.security.config;
+// package com.knox.aurora.config.security.config;
 //
 // import com.tiny.commons.config.BaseRedisConfig;
 // import org.springframework.cache.annotation.EnableCaching;

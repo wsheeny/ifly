@@ -31,6 +31,13 @@ public interface BmsTopicMapper extends BaseMapper<BmsPost> {
     Page<PostVO> selectListAndPage(@Param("page") Page<PostVO> page, @Param("tab") String tab);
 
     /**
+     * 首页全部查询<分页>
+     * @param page 分页
+     * @return
+     */
+    Page<PostVO> selectAll(@Param("page") Page<PostVO> page);
+
+    /**
      * 获取详情页推荐
      *
      * @param id
@@ -55,4 +62,5 @@ public interface BmsTopicMapper extends BaseMapper<BmsPost> {
      * @return
      */
     Page<PostVO> searchByKey(@Param("page") Page<PostVO> page, @Param("keyword") String keyword);
+
 }

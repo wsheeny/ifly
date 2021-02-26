@@ -54,18 +54,19 @@ public class IBmsPostServiceImpl extends ServiceImpl<BmsTopicMapper, BmsPost> im
 
     @Autowired
     @Lazy
-    private IBmsTagService IBmsTagService;
+    private IBmsTagService tagService;
 
     @Autowired
-    private IBmsTopicTagService IBmsTopicTagService;
+    private IBmsTopicTagService topicTagService;
 
     @Override
-    public Page<PostVO> getList(Page<PostVO> page, String tab) {
+    public Page<PostVO> getList(Page<PostVO> page) {
         // 查询话题
-        Page<PostVO> iPage = this.baseMapper.selectListAndPage(page, tab);
+        // Page<PostVO> iPage = this.baseMapper.selectListAndPage(page, tab);
+        Page<PostVO> iPage = this.baseMapper.selectAll(page);
         // 查询话题的标签
         iPage.getRecords().forEach(topic -> {
-            List<BmsTopicTag> topicTags = IBmsTopicTagService.selectByTopicId(topic.getId());
+            List<BmsTopicTag> topicTags = topicTagService.selectByTopicId(topic.getId());
             if (!topicTags.isEmpty()) {
                 List<String> tagIds = topicTags.stream().map(BmsTopicTag::getTagId).collect(Collectors.toList());
                 List<BmsTag> tags = bmsTagMapper.selectBatchIds(tagIds);
@@ -90,10 +91,10 @@ public class IBmsPostServiceImpl extends ServiceImpl<BmsTopicMapper, BmsPost> im
         QueryWrapper<BmsTopicTag> wrapper = new QueryWrapper<>();
         wrapper.lambda().eq(BmsTopicTag::getTopicId, topic.getId());
         Set<String> set = new HashSet<>();
-        for (BmsTopicTag articleTag : IBmsTopicTagService.list(wrapper)) {
+        for (BmsTopicTag articleTag : topicTagService.list(wrapper)) {
             set.add(articleTag.getTagId());
         }
-        List<BmsTag> tags = IBmsTagService.listByIds(set);
+        List<BmsTag> tags = tagService.listByIds(set);
         map.put("tags", tags);
 
         // 作者
@@ -159,9 +160,9 @@ public class IBmsPostServiceImpl extends ServiceImpl<BmsTopicMapper, BmsPost> im
         // 标签
         if (!ObjectUtils.isEmpty(dto.getTags())) {
             // 保存标签
-            List<BmsTag> tags = IBmsTagService.insertTags(dto.getTags());
+            List<BmsTag> tags = tagService.insertTags(dto.getTags());
             // 处理标签与话题的关联
-            IBmsTopicTagService.createTopicTag(topic.getId(), tags);
+            topicTagService.createTopicTag(topic.getId(), tags);
         }
         // TODO: 2020/12/7 es索引
         redisService.del("getTopicListAndPage");

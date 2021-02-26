@@ -12,7 +12,7 @@
     <artifactId>aurora</artifactId>
     <version>1.0.RELEASE</version>
     <name>aurora</name>
-    <url>https://github.com/1020317774/aurora</url>
+    <url>https://github.com/haoyu21/aurora</url>
     <description>An intelligent community.</description>
 
     <developers>
@@ -20,7 +20,7 @@
             <name>Knox</name>
             <email>1020317774@qq.com</email>
             <organization>Knox</organization>
-            <organizationUrl>https://github.com/1020317774</organizationUrl>
+            <organizationUrl>https://github.com/haoyu21</organizationUrl>
         </developer>
     </developers>
 

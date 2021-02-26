@@ -9,7 +9,7 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
- * 全局定制SpringBoot Mvc特性
+ * 全局定制Mvc特性
  *
  * @author Knox
  */
@@ -17,7 +17,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class GlobalWebMvcConfigurer implements WebMvcConfigurer {
 
     /**
-     * 跨域
+     * 跨域 <CORS>
      */
     @Override
     public void addCorsMappings(CorsRegistry registry) {
