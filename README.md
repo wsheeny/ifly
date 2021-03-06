@@ -1,9 +1,11 @@
 <div align="center">
 
-<h2>Aurora：极光社区</h2>
+<h2>极光社区</h2>
 <p>一套前后端分离的极简社区系统，采用RESTFul风格构建。<p/>     
 <p>
-前端地址:<a href="https://github.com/haoyu21/aurora-vue">Aurora-vue</a>
+前端地址:<a href="https://github.com/haoyu21/aurora-vue">aurora-vue</a> 
+ | 
+后台运营系统:<a href="https://github.com/haoyu21/aurora-back">aurora-back</a>
 </p>
 
 <p>
