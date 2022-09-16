@@ -1,18 +1,14 @@
 <div align="center">
 
-<h2>极光社区</h2>
-<p>一套前后端分离的极简社区系统，采用RESTFul风格构建。<p/>     
-<p>
-前端地址:<a href="https://github.com/haoyu21/aurora-vue">aurora-vue</a> 
- | 
-后台运营系统:<a href="https://github.com/haoyu21/aurora-back">aurora-back</a>
-</p>
+<h2>IFLY</h2>
+<p>一套前后端分离的社区系统，采用RESTFul风格构建。<p/>     
+
 
 <p>
-<img alt="Author" src="https://img.shields.io/badge/Author-Knox-red?style=flat-square">
-<img alt="GitHub license" src="https://img.shields.io/github/license/haoyu21/aurora?style=flat-square">
-<img alt="GitHub release" src="https://img.shields.io/github/release/haoyu21/aurora?style=flat-square">
-<img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/haoyu21/aurora?style=flat-square">
+<img alt="Author" src="https://img.shields.io/badge/Author-IFLY-red?style=flat-square">
+<img alt="GitHub license" src="https://img.shields.io/github/license/yufeicoding/ifly?style=flat-square">
+<img alt="GitHub release" src="https://img.shields.io/github/release/yufeicoding/ifly?style=flat-square">
+<img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/yufeicoding/ifly?style=flat-square">
 </p>
 
 <p>
@@ -63,4 +59,4 @@
 
 ## 许可
 
-Copyright 2020-present. Knox. Code released under [the Apache license](LICENSE).
+Copyright 2020-present. IFLY. Code released under [the Apache license](LICENSE).
