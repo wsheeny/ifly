@@ -30,7 +30,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <mybatis-plus.version>3.4.2</mybatis-plus.version>
         <hutool.version>5.5.7</hutool.version>
-        <fastjson.version>1.2.75</fastjson.version>
+        <fastjson.version>2.0.24</fastjson.version>
         <elasticsearch.version>7.10.0</elasticsearch.version>
         <jwt.version>0.9.1</jwt.version>
         <justauth.version>1.15.9</justauth.version>
